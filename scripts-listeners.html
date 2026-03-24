@@ -1,0 +1,147 @@
+<script>
+
+let METADATA = {% include metadata/works.json %};
+let COMPOSERS = {% include metadata/composers.json %};
+let GENRE_INDEX;
+
+const GENRE_LABELS = {
+  mass: "mass movements",
+  motet: "motets",
+  "secular work": "secular works"
+};
+
+
+//////////////////////////////
+//
+// DOMContentLoaded event -- run after webpage has finished loading.
+//
+
+document.addEventListener("DOMContentLoaded", function () {
+	fillMostRecentList(METADATA);
+	displayTopComposers(METADATA);
+  GENRE_INDEX = buildGenreIndex(METADATA);
+	setupUserSearchEnterKey();
+});
+
+
+
+//////////////////////////////
+//
+// setupUserSearchEnterKey -- Allow the Enter key to move you to the repertoire page.
+//
+
+function setupUserSearchEnterKey() {
+	let searchElement = document.querySelector("#input");
+	if (searchElement) {
+		searchElement.addEventListener("keydown", function(event) {
+			if (event.key == 'Enter') {
+				UserSearch();
+			}
+		});
+	}
+}
+
+//////////////////////////////
+//
+// Live search (DOMContentLoaded-safe)
+//
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  const searchInput = document.querySelector("#input");
+  const suggestionPanel = document.querySelector("#search-suggestions");
+
+  if (!searchInput || !suggestionPanel) {
+    console.warn("Search input or suggestion panel not found.");
+    return;
+  }
+
+  const TOTAL_LIMIT = 4;
+
+  searchInput.addEventListener("input", function () {
+    const q = normalizeSearchString(this.value.trim());
+
+    if (q.length < 2) {
+      suggestionPanel.classList.add("hidden");
+      suggestionPanel.innerHTML = "";
+      return;
+    }
+
+    // --- Genre matches (from works.json)
+    const genreMatches = getGenreMatches(q);
+
+    // --- Composer matches
+    const composerMatches = COMPOSERS.filter(c =>
+      c.Composer &&
+      normalizeSearchString(c.Composer).includes(q)
+    );
+
+    // --- Work matches
+    const tokens = q.split(/\s+/).filter(Boolean);
+
+    const workMatches = METADATA.filter(entry => {
+      const haystack = normalizeSearchString(
+        [
+          entry.Composer,
+          entry.Title,
+          entry.Subtitle,
+          entry.Genre,
+          entry["First Source"]
+        ]
+          .filter(Boolean)
+          .join(" ")
+      );
+
+      // every token must appear somewhere
+      return tokens.every(token => haystack.includes(token));
+    });
+
+    // --- Merge in priority order, then cap to 4 total
+    const suggestions = [
+      ...genreMatches.map(renderGenreSuggestion),
+      ...composerMatches.map(renderComposerSuggestion),
+      ...workMatches.map(renderSuggestion)
+    ].slice(0, 4);
+
+    if (!suggestions.length) {
+      suggestionPanel.classList.add("hidden");
+      suggestionPanel.innerHTML = "";
+      return;
+    }
+
+    suggestionPanel.innerHTML =
+      suggestions.join("") + renderSeeMoreRow(q);
+
+    suggestionPanel.classList.remove("hidden");
+  });
+
+  // Hide suggestions when clicking outside search
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".apple-search")) {
+      suggestionPanel.classList.add("hidden");
+    }
+  });
+
+});
+
+document.addEventListener("click", function (e) {
+  const composerRow = e.target.closest(".composer-suggestion");
+  if (!composerRow) return;
+
+  const composerId = composerRow.dataset.id;
+  if (!composerId) return;
+
+  window.location.href = `/repertoire/?c=${encodeURIComponent(composerId)}`;
+});
+
+document.addEventListener("click", function (e) {
+  const genreRow = e.target.closest(".genre-suggestion");
+  if (!genreRow) return;
+
+  const genre = genreRow.dataset.genre;
+  if (!genre) return;
+
+  window.location.href = `/repertoire/?g=${encodeURIComponent(genre)}`;
+});
+
+</script>

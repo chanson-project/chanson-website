@@ -1,0 +1,1315 @@
+
+{% include_relative scripts-listeners.html %}
+
+<script>
+
+{% include scripts/getCgiParameters.js %}
+
+
+//////////////////////////////
+//
+// buildSearchInterface --
+//
+
+function buildSearchInterface(data) {
+  const Dropdowns = document.querySelector("#dropdowns");
+
+  if (!Dropdowns) return;
+
+  // Clear all areas
+  document.getElementById("composer-container").innerHTML = "";
+  document.getElementById("genre-container").innerHTML = "";
+  document.getElementById("year-container").innerHTML = "";
+  document.getElementById("voice-container").innerHTML = "";
+  document.getElementById("mensuration-container").innerHTML = "";
+  document.getElementById("mensuration-selected-container").innerHTML = "";
+
+  // Top dropdowns
+  document.getElementById("composer-container").appendChild(createElementFromHTML(buildComposerSelect(data)));
+  document.getElementById("genre-container").appendChild(createElementFromHTML(buildGenreSelect(data)));
+  document.getElementById("year-container").appendChild(createElementFromHTML(buildYearSelect(data)));
+  document.getElementById("voice-container").appendChild(createElementFromHTML(buildVoiceSelect(data)));
+  document.getElementById("source-container").appendChild(createElementFromHTML(buildSourceSelect(data)));
+
+  const label = document.createElement("label");
+  label.className = "text-checkbox-label";
+
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.id = "text-checkbox";
+  checkbox.onchange = doSearch;
+
+  label.appendChild(checkbox);
+  label.appendChild(document.createTextNode("Texted scores only"));
+
+  const textedContainer = document.getElementById("texted-container");
+	if (textedContainer) {
+	  const wrapper = document.createElement("div");
+	  wrapper.className = "text-checkbox-wrapper";
+	  wrapper.appendChild(label);
+	  textedContainer.appendChild(wrapper);
+	}
+
+  // Bottom row: source + mensuration
+  const row = document.createElement("div");
+  row.className = "dropdown-row";
+
+  const mensWrapper = document.createElement("div");
+  mensWrapper.className = "mensuration-wrapper";
+
+  const dropdownContainer = document.createElement("div");
+	dropdownContainer.className = "custom-dropdown";
+
+	const toggleButton = document.createElement("button");
+	toggleButton.className = "dropdown-toggle";
+	toggleButton.innerHTML =
+  `<span class="toggle-text">Mensuration(s) (earliest source)</span>`;
+	toggleButton.onclick = () => {
+	  dropdownContainer.classList.toggle("open");
+	};
+
+	const dropdownContent = document.createElement("div");
+	dropdownContent.className = "dropdown-content";
+	dropdownContent.id = "mensuration-menu";
+
+	dropdownContainer.appendChild(toggleButton);
+	dropdownContainer.appendChild(dropdownContent);
+	mensWrapper.appendChild(dropdownContainer);
+
+	buildCustomMensurationMenu(dropdownContent);
+
+  const selectedTags = document.createElement("div");
+  selectedTags.id = "selected-mensurations";
+  selectedTags.className = "selected-mensurations";
+  const selectedContainer = document.getElementById("mensuration-selected-container");
+	if (selectedContainer) {
+	  selectedContainer.appendChild(selectedTags);
+	};
+
+  const mensurationContainer = document.getElementById("mensuration-container");
+	if (mensurationContainer) {
+	  mensurationContainer.appendChild(mensWrapper);
+	}
+
+}
+
+
+//////////////////////////////
+//
+// displayBrowseTable --
+//
+
+function displayBrowseTable(data, selector) {
+	if (!selector) {
+		selector = "#list";
+	}
+	let element = document.querySelector(selector);
+	if (!element) {
+		console.error(`Error: cannot find ${selector} element to display work table`);
+		return;
+	}
+	let headings = [INDEX_composer, INDEX_title, INDEX_genre, INDEX_voice, INDEX_firstsource, INDEX_firstsourcedate];
+	let contents = "";
+	contents += "<table class='general'>\n";
+	contents += "<thead>\n";
+	contents += makeTableHeader(headings);
+	contents += "</thead>\n";
+	contents += "<tbody>\n";
+	contents += makeTableBody(headings, data);
+	contents += "</tbody>\n";
+	contents += "</table>\n";
+	element.innerHTML = contents;
+}
+
+
+
+//////////////////////////////
+//
+// makeTableHeader -- Generate HTML content for browse table header.
+//
+
+function makeTableHeader(headings) {
+	let output = `<th>${headings.join("</th><th>")}</th>\n`;
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// makeTableBody -- Generate HTML content for browse table's body.
+//
+
+function makeTableBody(headings, data) {
+	let output = "";
+	for (let i=0; i<data.length; i++) {
+		let entry = data[i];
+		output += "<tr>";
+				for (let i=0; i<headings.length; i++) {
+			let value = "";
+			if (typeof entry[headings[i]] !== "undefined") {
+				value = entry[headings[i]];
+			}
+			let tdClass = headings[i].replace(/\s+/, "-", "g").replace(/[^a-zA-Z0-9_-]/, "", "g").toLowerCase();
+			output += `<td class="${tdClass}">`;
+			if (headings[i] == INDEX_title) {
+				let title = getTitle(entry);
+				let scoreURL = getScoreURL(entry);
+				output += `<a href=${scoreURL}>${title}</a>`;
+			}
+
+			else if (headings[i] == INDEX_firstsource) {
+				let url = getSource(entry);
+				let sourcevalue = value;
+				if (url) {
+					output += `<a target="_blank" href="${url}">${sourcevalue}</a>`;
+				}
+				else {
+					output += `${sourcevalue}`;
+				}
+			}
+			else {
+				output += value;
+			}
+			output += "</td>";
+		}
+		output += "</tr>\n";
+	}
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// getTitle -- Generate Title + Subtitle
+//
+
+function getTitle(entry) {
+	let title = "";
+	if (typeof entry["Title"] !== "undefined") {
+		title = entry["Title"];
+	}
+	let subtitle = "";
+	if (typeof entry["Subtitle"] !== "undefined") {
+		subtitle = entry["Subtitle"];
+	}
+	if (!subtitle.match(/^\s*$/)) {
+		if (!title.match(/^\s*$/)) {
+			return `${title}, <i>${subtitle}</i>`;
+		} else {
+			return `${subtitle}`;
+		}
+	}
+	if (title.match(/^\s*$/)) {
+		return "";
+	} else {
+		return title;
+	}
+}
+
+
+
+//////////////////////////////
+//
+// getScoreURL -- Generate URL
+//
+
+function getScoreURL(entry) {
+	let ID = "";
+	if (typeof entry["ID"] !== "undefined") {
+		ID = entry["ID"];
+		let url = `"/work?id=${ID}"`;
+		return url;
+	}
+	return "";
+}
+
+
+//////////////////////////////
+//
+// getSource -- Generate a source link based on "DIAMM Source Link" or "RISM Source Link".
+//
+
+function getSource(entry) {
+	let diammurl = "";
+	if (typeof entry["DIAMM Source Link"] !== "undefined") {
+		diammurl = entry["DIAMM Source Link"];
+	}
+	if (!diammurl.match(/^https?:\/\/.*diamm\.ac\.uk\//)) {
+		if (diammurl) {
+			console.warn("DIAMM URL is invalid:", diammurl);
+		}
+		diammurl = "";
+	}
+
+	let rismurl = "";
+	if (typeof entry["RISM Source Link"] !== "undefined") {
+		rismurl = entry["RISM Source Link"];
+	}
+	if (!rismurl.match(/^https?:\/\/rism\.online\//)) {
+		if (rismurl) {
+			console.warn("RISM URL is invalid:", rismurl);
+		}
+		rismurl = "";
+	}
+
+	if (!diammurl && !rismurl) {
+		console.error("Cannot find DIAMM or RISM source link in", entry);
+		return "";
+	}
+
+
+	if (diammurl) {
+		let text = "DIAMM";
+		let matches = diammurl.match(/diamm\.ac\.uk\/sources\/(.*?)\//);
+		if (matches) {
+			text += ` ${matches[1]}`;
+		}
+		return diammurl;
+	}
+
+	if (rismurl) {
+		let text = "RISM";
+		let matches = rismurl.match(/opac\.rism\.info\/search\?.*id=(\d+)/);
+		if (matches) {
+			text += ` ${matches[1]}`;
+		}
+		return rismurl;
+	}
+
+	return "";
+}
+
+
+
+//////////////////////////////
+//
+// buildComposerSelect --
+//
+
+function buildComposerSelect(data) {
+	let counter = {};
+	let sum = data.length;
+	for (let i=0; i<sum; i++) {
+		let entry = data[i];
+		let composer = entry[INDEX_composer];
+		if (!composer) {
+			console.error("WARNING: ", entry, " DOES NOT HAVE A COMPOSER");
+			continue;
+		}
+		counter[composer] = (counter[composer] === undefined) ? 1 : counter[composer] + 1;
+	}
+
+	let clist = Object.keys(counter).sort();
+	clist.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+	let composerCount = clist.length;
+	let output = "<select class='composer' onchange='doSearch()'>\n";
+	output += `<option value="">Composers (${composerCount})</option>`;
+	for (let i=0; i<clist.length; i++) {
+		let name = clist[i];
+		let count = counter[clist[i]];
+		output += `<option value="${name}">${name} (${count})</option>`;
+	}
+	output += "</select>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// buildGenreSelect --
+//
+
+function buildGenreSelect(data) {
+	let counter = {};
+	let sum = data.length;
+	for (let i=0; i<sum; i++) {
+		let entry = data[i];
+		let genre = entry[INDEX_genre];
+		if (!genre) {
+			console.error("WARNING: ", entry, " DOES NOT HAVE A GENRE");
+			continue;
+		}
+		counter[genre] = (counter[genre] === undefined) ? 1 : counter[genre] + 1;
+	}
+
+	let glist = Object.keys(counter).sort();
+	let output = "<select class='genre' onchange='doSearch()'>\n";
+	output += `<option value="">Genre</option>`;
+	for (let i=0; i<glist.length; i++) {
+		let name = glist[i];
+		let count = counter[glist[i]];
+		output += `<option value="${name}">${name} (${count})</option>`;
+	}
+	output += "</select>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// buildSourceSelect --
+//
+
+function buildSourceSelect(data) {
+	let counter = {};
+	let sum = data.length;
+	for (let i=0; i<sum; i++) {
+		let entry = data[i];
+		let source = entry[INDEX_firstsource];
+		if (!source) {
+			console.error("WARNING: ", entry, " DOES NOT HAVE A SOURCE");
+			continue;
+		}
+		counter[source] = (counter[source] === undefined) ? 1 : counter[source] + 1;
+	}
+
+	let slist = Object.keys(counter).sort();
+	let sourceCount = slist.length;
+	let output = "<select class='source' onchange='doSearch()'>\n";
+	output += `<option value="">Earliest source (${sourceCount})</option>`;
+	for (let i=0; i<slist.length; i++) {
+		let name = slist[i];
+		let count = counter[slist[i]];
+		output += `<option value='${name}'>${name} (${count})</option>`;
+	}
+	output += "</select>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// buildVoiceSelect --
+//
+
+function buildVoiceSelect(data) {
+	let counter = {};
+	let fileCount = data.length;
+	for (let i=0; i<fileCount; i++) {
+		let entry = data[i];
+		let voice = entry[INDEX_voice];
+		if (!voice) {
+			console.error("WARNING: ", entry, " DOES NOT HAVE A VOICE COUNT");
+			continue;
+		}
+		counter[voice] = (counter[voice] === undefined) ? 1 : counter[voice] + 1;
+	}
+
+	// May need to sort numerically if 10 or more voices in any work:
+	let vlist = Object.keys(counter).sort();
+	let output = "<select class='voice' onchange='doSearch()'>\n";
+	output += `<option value="">Voices</option>`;
+	for (let i=0; i<vlist.length; i++) {
+		let vcount = vlist[i];
+		let text = "voices";
+		if (vcount === "1") {
+			text = "voice";
+		}
+		output += `<option value="${vcount}">${vcount} ${text}</option>`;
+	}
+	output += "</select>\n";
+	return output;
+}
+
+function handleMensurationSelect() {
+  const select = document.getElementById("mensuration-select");
+  const value = select.value;
+  if (!value || selectedMensurations.has(value)) return;
+
+  selectedMensurations.add(value);
+  renderSelectedMensurations();
+  select.value = ""; // reset dropdown
+  doSearch();
+}
+
+function renderSelectedMensurations() {
+  const container = document.getElementById("selected-mensurations");
+  container.innerHTML = "";
+
+  selectedMensurations.forEach(label => {
+    const tag = document.createElement("div");
+    tag.className = "selected-mensuration";
+    tag.innerHTML = `
+      <img src="/images/mensurations/${mensurationSigns[label]}" alt="${label}" title="${label}" style="height: 20px; vertical-align: middle;">
+      <span class="remove-btn" title="Remove">×</span>
+    `;
+
+    tag.querySelector(".remove-btn").onclick = () => {
+	  selectedMensurations.delete(label);
+
+	  // Also un-highlight the icon in the dropdown
+	  const dropdownItems = document.querySelectorAll(".mensuration-item");
+	  dropdownItems.forEach(item => {
+	    if (item.title === label) {
+	      item.classList.remove("selected");
+	    }
+	  });
+
+  renderSelectedMensurations();
+  doSearch();
+};
+
+    container.appendChild(tag);
+  });
+}
+
+function buildCustomMensurationMenu(container) {
+  if (!container) return;
+  container.innerHTML = "";
+
+  Object.entries(mensurationSigns).forEach(([label, filename]) => {
+    const item = document.createElement("div");
+    item.className = "mensuration-item";
+    item.title = label;
+
+    const img = document.createElement("img");
+    img.src = `/images/mensurations/${filename}`;
+    img.alt = label;
+    img.className = "mensuration-img";
+
+    item.appendChild(img);
+
+    item.onclick = () => {
+		  if (selectedMensurations.has(label)) {
+		    selectedMensurations.delete(label);
+		    item.classList.remove("selected");
+		  } else {
+		    selectedMensurations.add(label);
+		    item.classList.add("selected");
+		  }
+
+		  renderSelectedMensurations();
+		  doSearch();
+
+		  // Close the dropdown after selecting
+		  const dropdown = container.closest(".custom-dropdown");
+		  if (dropdown) {
+		    dropdown.classList.remove("open");
+		  }
+		};
+
+    container.appendChild(item);
+  });
+}
+
+//////////////////////////////
+//
+// buildTextSelect --
+//
+
+function buildTextSelect(data) {
+	let counter = {};
+	let fileCount = data.length;
+	for (let i=0; i<fileCount; i++) {
+		let entry = data[i];
+		let text = entry[INDEX_text];
+		if (!text) {
+			// console.error("WARNING: ", entry, " DOES NOT HAVE AN ENTRY AS TO WHETHER IT IS TEXTED");
+			continue;
+		}
+		counter[text] = (counter[text] === undefined) ? 1 : counter[text] + 1;
+	}
+
+	let tlist = Object.keys(counter).sort();
+	let output = "<select class='text' onchange='doSearch()'>\n";
+	output += `<option value="">Texted score?</option>`;
+	// reverse order so "yes" is first, then "no":
+	for (let i=tlist.length - 1; i>=0;  i--) {
+		let state = tlist[i];
+		let text = state;
+		if (state === "yes") {
+			text = "has text";
+		} else if (state === "no") {
+			text = "no text";
+		}
+		output += `<option value="${state}">${text} (${counter[state]})</option>`;
+	}
+	output += "</select>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// buildYearSelect --
+//
+
+function buildYearSelect(data) {
+	let years = {};
+	for (let entry of data) {
+		let parameter = "First Source Exact Date";
+		let year = entry[parameter];
+		let matches = year.match(/(\d{4})/);
+		if (matches) {
+			digits = matches[1];
+		} else {
+			continue;
+		}
+		let circa = year.match(/~/) ? true : false;
+		let tag = (circa ? "~" : "") + digits;
+		if (typeof years[tag] !== "undefined") {
+			years[tag]++;
+		} else {
+			years[tag] = 1;
+		}
+	}
+	let keys = Object.getOwnPropertyNames(years);
+	keys.sort((a, b) => {
+		let yearA = a;
+		let yearB = b;
+		if (typeof yearA === "undefined") {
+			return +1;
+		}
+		if (typeof yearB === "undefined") {
+			return -1;
+		}
+
+		let matches;
+
+		matches = yearA.match(/(\d{4})/);
+		if (matches) {
+			digitsA = matches[1];
+		} else {
+			return 1;
+		}
+		matches = yearB.match(/(\d{4})/);
+		if (matches) {
+			digitsB = matches[1];
+		} else {
+			return -1;
+		}
+
+		if (digitsA != digitsB) {
+			return parseInt(digitsA) - parseInt(digitsB);
+		}
+
+		// years are the same, so sort by circa
+		let circaA = false;
+		let circaB = false;
+		if (yearA.match(/~/)) {
+			circaA = true;
+		}
+		if (yearB.match(/~/)) {
+			circaB = true;
+		}
+		if (circaA) {
+			return +1;
+		}
+		if (circaB) {
+			return -1;
+		}
+		return 0;
+	});
+	let yearCount = keys.length;
+
+	let output = "";
+	output += "<select class='year' onchange='doSearch()'>\n";
+	output += `<option value=''>Year (${yearCount})</options>`;
+	for (let year of keys) {
+		if (!year.match(/~/)) {
+			output += `<option value="${year}">&nbsp;&nbsp;&thinsp;${year} (${years[year]})</option>`;
+		} else {
+			output += `<option value="${year}">${year} (${years[year]})</option>`;
+		}
+	}
+	output += "</select>";
+	return output;
+
+}
+
+
+
+//////////////////////////////
+//
+// doSearch --
+//
+
+function doSearch(data) {
+	if (!Array.isArray(data)) {
+		data = METADATA;
+	}
+
+	let searchInterface = document.querySelector("#search-interface");
+	if (!searchInterface) {
+		console.log("Problem finding search interface");
+		return;
+	}
+
+	let composerField = searchInterface.querySelector("select.composer");
+	if (!composerField) {
+		console.log("Problem finding composer field in search interface");
+		return;
+	}
+	let composerQuery = composerField.value;
+
+	let genreField = searchInterface.querySelector("select.genre");
+	if (!genreField) {
+		console.log("Problem finding composer field in search interface");
+		return;
+	}
+	let genreQuery = genreField.value;
+
+	let sourceField = searchInterface.querySelector("select.source");
+	if (!sourceField) {
+		console.log("Problem finding source field in search interface");
+		return;
+	}
+	let sourceQuery = sourceField.value;
+
+	let voiceField = searchInterface.querySelector("select.voice");
+	if (!voiceField) {
+		console.log("Problem finding voice-count field in search interface");
+		return;
+	}
+	let voiceQuery = voiceField.value;
+
+	let textCheckbox = document.querySelector("#text-checkbox");
+	let textQuery = textCheckbox && textCheckbox.checked ? "yes" : "";
+
+	let yearField = searchInterface.querySelector("select.year");
+	if (!yearField) {
+		console.log("Problem finding year field in search interface");
+		return;
+	}
+	let yearQuery = yearField.value;
+
+	if (composerQuery) {
+		let tempdata = [];
+		for (let i=0; i<data.length; i++) {
+			let entry = data[i];
+			let composer = entry[INDEX_composer];
+			if (composer === composerQuery) {
+				tempdata.push(entry);
+			}
+		}
+		data = tempdata;
+	}
+
+	if (genreQuery) {
+		let tempdata = [];
+		for (let i=0; i<data.length; i++) {
+			let entry = data[i];
+			let genre = entry[INDEX_genre];
+			if (genre === genreQuery) {
+				tempdata.push(entry);
+			}
+		}
+		data = tempdata;
+	}
+
+	if (sourceQuery) {
+		let tempdata = [];
+		for (let i=0; i<data.length; i++) {
+			let entry = data[i];
+			let source = entry[INDEX_firstsource];
+			if (source === sourceQuery) {
+				tempdata.push(entry);
+			}
+		}
+		data = tempdata;
+	}
+
+	if (voiceQuery !== "") {
+		let tempdata = [];
+		for (let i=0; i<data.length; i++) {
+			let entry = data[i];
+			let voice = entry[INDEX_voice];
+			if (voice == voiceQuery) {
+				tempdata.push(entry);
+			}
+		}
+		data = tempdata;
+	}
+
+	if (textCheckbox && textCheckbox.checked) {
+	  data = data.filter(entry => entry[INDEX_text] === "yes");
+	}
+
+	if (yearQuery !== "") {
+		let tempdata = [];
+		for (let i=0; i<data.length; i++) {
+			let entry = data[i];
+			let year = entry[INDEX_firstsourcedate];
+			if (year == yearQuery) {
+				tempdata.push(entry);
+			}
+		}
+		data = tempdata;
+	}
+
+	if (selectedMensurations.size > 0) {
+	  const tempdata = [];
+
+	  for (let i = 0; i < data.length; i++) {
+	    const entry = data[i];
+	    const raw = entry[INDEX_Mensurations];
+
+	    if (!raw) continue;
+
+	    const signsInPiece = raw
+	      .split(";")
+	      .map(sign => sign.trim())
+	      .filter(Boolean);
+
+	    const hasAll = [...selectedMensurations].every(sel =>
+	      signsInPiece.includes(sel)
+	    );
+
+	    if (hasAll) {
+	      tempdata.push(entry);
+	    }
+	  }
+
+	  data = tempdata;
+	}
+
+	displayBrowseTable(data);
+	FreeTextSearch();
+	updateBrowseUrlDisplay();
+}
+
+
+
+//////////////////////////////
+//
+// FreeTextSearch --  Search for any text within the browse table and hide
+//    rows that do not have the searched text.
+//
+
+function FreeTextSearch(query) {
+  const tr = document.querySelectorAll("#list tbody tr");
+  const input = document.querySelector("#input");
+
+  if (query !== undefined) {
+    input.value = query;
+  } else {
+    query = input.value;
+  }
+
+  if (!query) {
+    displaySearchCount(tr.length);
+    showAllBrowseRows();
+    updateBrowseUrlDisplay();
+    return;
+  }
+
+  // --- normalization helpers
+  const normalize = str =>
+    str
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  const tokens = normalize(query)
+    .split(/\s+/)
+    .filter(Boolean);
+
+  let searchCount = 0;
+
+  for (let i = 0; i < tr.length; i++) {
+    const rowData = METADATA[i];
+    if (!rowData) continue;
+
+    // Build a unified searchable string for the row
+    const haystack = normalize([
+      rowData.Composer,
+      rowData.Title,
+      rowData.Subtitle,
+      rowData.Genre,
+      rowData["First Source"],
+      rowData.Linkage,
+      rowData.ID,
+      rowData.Transcriber,
+      rowData["External Project Name"]
+    ].filter(Boolean).join(" "));
+
+    const matched = tokens.every(token => haystack.includes(token));
+
+    tr[i].style.display = matched ? "" : "none";
+    if (matched) searchCount++;
+  }
+
+  displaySearchCount(searchCount);
+  updateBrowseUrlDisplay();
+}
+
+
+
+//////////////////////////////
+//
+// showAllBrowseRows -- Used to display all rows (again) in browse table when
+//    the free-text search is not being used.
+//
+
+function showAllBrowseRows() {
+	let tr = document.querySelectorAll("#list tbody tr");
+	for (let i=0; i<tr.length; i++) {
+		tr[i].style.display = "";
+	}
+}
+
+
+
+//////////////////////////////
+//
+// displaySearchCount --
+//
+
+function displaySearchCount(count) {
+	let output = "";
+	if (count == 1) {
+		output = `[${count} result]`;
+	} else {
+		output = `[${count} results]`;
+	}
+	let searchCountElement = document.querySelector("#search-count");
+	if (searchCountElement) {
+		searchCountElement.innerHTML = output;
+	}
+}
+
+
+//////////////////////////////
+//
+// setComposerSelectMenu -- Used to set the composer from the "c" CGI input parameter.
+// First search for exact match, then for composer ID, then partial matches for multiple
+// or single words (or pieces of words) in the composer's name.  Does not deal with
+// adding or removing accents from characters when comparing text.  If length of input
+// is 3 it is assumed to be a composer ID.
+//
+// Here are examples:
+//
+// Exact match to name in option list:
+//      http://www.1520s-project.org/browse/?c=Willaert,%20Adrian
+// Alias of "composer" for "c":
+//      http://www.1520s-project.org/browse/?composer=Willaert,%20Adrian
+// Reversing name to "first last":
+//      http://www.1520s-project.org/browse/?c=Adrian%20Willaert
+// Using composer ID (case insensitive)
+//      http://www.1520s-project.org/browse/?c=Wil
+// Using partial name (will select the first composer that matches:
+//      http://www.1520s-project.org/browse/?c=Adrian
+//
+
+function setComposerSelectMenu(input) {
+	if (!input) {
+		return;
+	}
+
+	// Convert composer ID to exact name ("last, first"):
+	if (input.length === 3) {
+		for (let i=0; i<COMPOSERS.length; i++) {
+			if (COMPOSERS[i].ID.toLowerCase() === input.toLowerCase()) {
+				input = COMPOSERS[i].Composer;
+				break;
+			}
+		}
+	}
+
+	let composerSelect = document.querySelector("select.composer");
+	if (!composerSelect) {
+		return;
+	}
+
+	let options = composerSelect.querySelectorAll("option");
+
+	// Search for exact composer name match:
+	for (let i=0; i<options.length; i++) {
+		let value = options[i].value;
+		if (value === input) {
+			options[i].selected = true;
+			return;
+		}
+	}
+
+	input = input.replace(/^\s+/, "").replace(/\s+$/, "").replace(/\s+/, " ", "g");
+	if (input.match(/\s/)) {
+		// Search for multiple pieces of composer name (all pieces must match):
+		let pieces = input.split(/\s/);
+		for (let i=0; i<options.length; i++) {
+			let value = options[i].value;
+			let allMatch = true;
+			let regexes = [];
+			for (let j=0; j<pieces.length; j++) {
+				regexes[j] = new RegExp(pieces[j], "i");
+			}
+			for (let j=0; j<pieces.length; j++) {
+				if (!value.match(regexes[j])) {
+					allMatch = false;
+					break;
+				}
+			}
+			if (allMatch) {
+				options[i].selected = true;
+				return;
+			}
+		}
+	} else {
+		// Search for single piece of composer name (all pieces must match,
+		// and only the first match will be used):
+		let regex = new RegExp(input, "i");
+		for (let i=0; i<options.length; i++) {
+			let value = options[i].value;
+			if (value.match(regex)) {
+				options[i].selected = true;
+				return;
+			}
+		}
+	}
+
+}
+
+
+
+//////////////////////////////
+//
+// setVoiceSelectMenu -- Used to set the voice count from the "v" CGI input parameter.
+//
+// Here are examples:
+//
+// Search for three voice works:
+//      http://www.1520s-project.org/browse/?v=3
+// Long form of v parameter:
+//      http://www.1520s-project.org/browse/?voices=3
+// Can be mixed with other CGI search parameters:
+//      http://www.1520s-project.org/browse/?v=3&c=Willaert
+//
+
+function setVoiceSelectMenu(input) {
+	if (!input) {
+		return;
+	}
+
+	input = input.replace(/^\s+/, "").replace(/\s+$/, "");
+
+	let voiceSelect = document.querySelector("select.voice");
+	if (!voiceSelect) {
+		return;
+	}
+
+	let options = voiceSelect.querySelectorAll("option");
+
+	// Search for exact voice-count match:
+	for (let i=0; i<options.length; i++) {
+		let value = options[i].value;
+		if (value === input) {
+			options[i].selected = true;
+			return;
+		}
+	}
+
+	// Cannot find the given voice count.
+}
+
+
+
+//////////////////////////////
+//
+// setGenreSelectMenu -- Used to set the genre from the "g" CGI input parameter.
+//
+// Here are examples:
+//
+// Search for three voice works:
+//      http://www.1520s-project.org/browse/?g=3
+// Long form of g parameter:
+//      http://www.1520s-project.org/browse/?genre=3
+// Can be mixed with other CGI search parameters:
+//      http://www.1520s-project.org/browse/?v=3&c=Willaert&g=motet
+//
+
+function setGenreSelectMenu(input) {
+	if (!input) {
+		return;
+	}
+
+	input = input.replace(/^\s+/, "").replace(/\s+$/, "").replace(/\s+/, " ", "g");
+
+	let genreSelect = document.querySelector("select.genre");
+	if (!genreSelect) {
+		return;
+	}
+
+	let options = genreSelect.querySelectorAll("option");
+
+	// Search for exact best genre match:
+	let regex = new RegExp(input, "i");
+	for (let i=0; i<options.length; i++) {
+		let value = options[i].value;
+		if (value.match(regex)) {
+			options[i].selected = true;
+			return;
+		}
+	}
+
+	// Cannot find the given genre.
+}
+
+
+
+//////////////////////////////
+//
+// setYearSelectMenu -- Used to set the year from the "y" CGI input parameter.
+//
+// Here are examples:
+//
+// Search for works in 1518:
+//      http://www.1520s-project.org/browse/?y=1518
+// Search by approximate year 1518:
+//      http://www.1520s-project.org/browse/?y=~1518
+// Long form of y parameter:
+//      http://www.1520s-project.org/browse/?year=1518
+// Can be mixed with other CGI search parameters:
+//      http://www.1520s-project.org/browse/?v=4&c=Willaert&g=motet&y=1518
+//
+
+function setYearSelectMenu(input) {
+	if (!input) {
+		return;
+	}
+
+	input = input.replace(/^\s+/, "").replace(/\s+$/, "").replace(/\s+/, " ", "g");
+
+	let yearSelect = document.querySelector("select.year");
+	if (!yearSelect) {
+		return;
+	}
+
+	let options = yearSelect.querySelectorAll("option");
+
+	// Search for exact match for year (or approximate year):
+	for (let i=0; i<options.length; i++) {
+		let value = options[i].value;
+		if (value === input) {
+			options[i].selected = true;
+			return;
+		}
+
+	}
+
+	// Cannot find exact given year.
+}
+
+
+
+//////////////////////////////
+//
+// setTextAvailableSelectMenu -- Used to set the text-available select
+//     menu from the CGI "x" parameter.
+//
+// Here are examples:
+//
+// Search for works without text:
+//      http://www.1520s-project.org/browse/?x=no
+// Search for works width text:
+//      http://www.1520s-project.org/browse/?x=yes
+//
+// Any input containing "y" will be presumed to be yes, other
+// values excluding empty text will be presumbed to be no.
+//
+
+function setTextAvailableSelectMenu(input) {
+	if (!input) {
+		return;
+	}
+
+	input = input.match(/y/, "i") ? "yes" : "no";
+
+	let textSelect = document.querySelector("#text-checkbox");
+	if (!textSelect) {
+		return;
+	}
+
+	let options = textSelect.querySelectorAll("option");
+
+	// Search for exact match for year (or approximate year):
+	for (let i=0; i<options.length; i++) {
+		let value = options[i].value;
+		if (value === input) {
+			options[i].selected = true;
+			return;
+		}
+
+	}
+}
+
+
+
+//////////////////////////////
+//
+// setEarliestSourceSelectMenu -- Used to set the earliest source select
+//     menu from the CGI "e" parameter.   The text of the source must
+//     be excact.
+//
+// Here are examples:
+//
+// Search for works without text:
+//      http://www.1520s-project.org/browse/?x=no
+// Search for works width text:
+//      http://www.1520s-project.org/browse/?x=yes
+//
+
+function setEarliestSourceSelectMenu(input) {
+	if (!input) {
+		return;
+	}
+
+	input = input.replace(/^\s+/, "").replace(/\s+$/, "");
+
+	let sourceSelect = document.querySelector("select.source");
+	if (!sourceSelect) {
+		return;
+	}
+
+	let options = sourceSelect.querySelectorAll("option");
+
+	// Search for exact match for earliest source:
+	for (let i=0; i<options.length; i++) {
+		let value = options[i].value;
+		if (value === input) {
+			options[i].selected = true;
+			return;
+		}
+
+	}
+}
+
+
+
+//////////////////////////////
+//
+// updateBrowseUrlDisplay --
+//
+// Order of CGI parameters: qcvxygs
+//
+
+function updateBrowseUrlDisplay() {
+	let url      = `${window.location.origin}${window.location.pathname}`;
+	let freetext = document.querySelector("input#input").value.trim();
+	let composer = document.querySelector("select.composer").value.trim();
+	let voice    = document.querySelector("select.voice").value.trim();
+	let text = document.querySelector("#text-checkbox").checked ? "yes" : "";
+	let year     = document.querySelector("select.year").value.trim();
+	let genre    = document.querySelector("select.genre").value.trim();
+	let source   = document.querySelector("select.source").value.trim();
+
+	let cgi = "";
+
+	if (freetext) {
+		cgi += "q=" + encodeURIComponent(freetext);
+	}
+
+	if (composer) {
+		if (cgi) {
+			cgi += "&";
+		}
+		let cid = COMPOSER2ID[composer];
+		if (cid) {
+			cgi += "c=" + encodeURIComponent(cid);
+		}
+	}
+
+	if (voice) {
+		if (cgi) {
+			cgi += "&";
+		}
+		cgi += "v=" + encodeURIComponent(voice);
+	}
+
+	if (text) {
+		if (cgi) {
+			cgi += "&";
+		}
+		cgi += "x=" + encodeURIComponent(text);
+	}
+
+	if (year) {
+		if (cgi) {
+			cgi += "&";
+		}
+		cgi += "y=" + encodeURIComponent(year);
+	}
+
+	if (genre) {
+		if (cgi) {
+			cgi += "&";
+		}
+		cgi += "g=" + encodeURIComponent(genre);
+	}
+
+	if (source) {
+		if (cgi) {
+			cgi += "&";
+		}
+		cgi += "e=" + encodeURIComponent(source);
+	}
+
+	if (cgi) {
+		url += "?" + cgi;
+	}
+
+	if (url !== window.location.href) {
+		// Update the CGI search parameters in the URL if they have changed:
+		window.history.pushState(null, null, url);
+	}
+}
+
+
+
+//////////////////////////////
+//
+// makeComposer2Id -- Create a lookup table from composer name (last, first)
+//    to Coposer ID (such as "Willaert, Adrian" to "Wil").
+//
+
+function makeComposer2Id(cindex) {
+	let output = {};
+	for (let i=0; i<cindex.length; i++) {
+		let composer = cindex[i].Composer;
+		let id = cindex[i].ID;
+		output[composer] = id;
+	}
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// clearSearchFields -- Clear all search fields on the browse page.
+//     Done by pressing delete/backspace key when not in #input, or
+//     otherwise when #input is empty.
+//
+
+function clearSearchFields() {
+	let freetextElement = document.querySelector("input#input");
+	let composerElement = document.querySelector("select.composer");
+	let voiceElement    = document.querySelector("select.voice");
+	let textElement     = document.querySelector("select.text");
+	let yearElement     = document.querySelector("select.year");
+	let genreElement    = document.querySelector("select.genre");
+	let sourceElement   = document.querySelector("select.source");
+
+	freetextElement.value = "";
+	composerElement.value = "";
+	voiceElement.value    = "";
+	textElement.value     = "";
+	yearElement.value     = "";
+	genreElement.value    = "";
+	sourceElement.value   = "";
+
+	doSearch();
+}
+
+function createElementFromHTML(html) {
+  const template = document.createElement("template");
+  template.innerHTML = html.trim();
+  return template.content.firstChild;
+}
+
+</script>

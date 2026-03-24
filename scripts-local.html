@@ -1,0 +1,582 @@
+{% include_relative scripts-listeners.html %}
+
+<script>
+
+//////////////////////////////
+//
+// fillMostRecentList --
+//
+
+function fillMostRecentList(metadata) {
+	displayMostRecent(metadata);
+	fillInCensusData(metadata);
+}
+
+//////////////////////////////
+//
+// UserSearch --
+//
+
+function UserSearch() {
+	let query = encodeURIComponent(input.value);
+	window.location.href = `/repertoire?q=${query}`;
+}
+
+//////////////////////////////
+//
+// fillInCensusData --
+//
+
+function fillInCensusData(data) {
+	let workCount = 0;
+	let noteCount = 0;
+	let massCount = 0;
+	let motetCount = 0;
+	let secularCount = 0;
+
+	for (let i=0; i<data.length; i++) {
+		let count = data[i]["Note Count"];
+		if (count) {
+			noteCount += parseInt(count);
+		}
+	}
+
+	for (let i=0; i<data.length; i++) {
+		let genre = data[i]["Genre"];
+		workCount++;
+
+		if (genre == "mass"){
+			massCount++;
+		}
+		if (genre == "motet"){
+			motetCount++;
+		}
+		if (genre == "secular work"){
+			secularCount++;
+		}
+	}
+
+  let roundworkCount = Math.floor(workCount / 25) * 25;
+
+	let noteElement = document.querySelector("#note-count");
+	if (noteElement) {
+		noteElement.innerHTML = noteCount;
+	}
+
+	let workElement = document.querySelector("#work-count");
+	if (workElement) {
+		workElement.innerHTML = workCount;
+	}
+
+	let roundworkElement = document.querySelector("#roundwork-count");
+	if (roundworkElement) {
+		if (roundworkCount !== workCount){
+			roundworkElement.innerHTML = `more than ${roundworkCount}`;
+		}
+		else if (roundworkCount == workCount){
+			roundworkElement.innerHTML = `${roundworkCount}`;
+		}
+	}
+
+	let massElement = document.querySelector("#mass-count");
+	if (massElement) {
+		massElement.innerHTML = massCount;
+	}
+
+	let motetElement = document.querySelector("#motet-count");
+	if (motetElement) {
+		motetElement.innerHTML = motetCount;
+	}
+
+	let secularElement = document.querySelector("#secular-count");
+	if (secularElement) {
+		secularElement.innerHTML = secularCount;
+	}
+
+}
+
+
+
+//////////////////////////////
+//
+// formatBigNumber -- avoid using commas to make Europeans happier
+//
+
+function formatBigNumber(number) {
+	return number.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+}
+
+
+
+//////////////////////////////
+//
+// displayMostRecent --  Display the most recently added works.   The
+//    number of works displayed is controled by a data parameter in the
+//    HTML code where the table will be displayed:
+//        <div data-count="10" id="most-recent"></div>
+//    in this case the 10 most recent works will be displayed in the list.
+//
+
+function displayMostRecent(metadata) {
+	metadata.sort(compareByDateAdded);
+
+	let element = document.querySelector("#general");
+	if (!element) {
+		console.error("Cannot find #general.");
+		return;
+	}
+	let count = element.dataset.count;
+	if (count < 1) {
+		count = 10;
+	}
+	if (count > 50) {
+		count = 50;
+	}
+
+	let output = "<table class='general'>";
+	output += "<tr><th>Date Added</th><th>Composer</th><th>Work</th></tr>";
+	for (let i=0; i<count; i++) {
+		let entry = metadata[i];
+		let date = prepareDate(entry["Date Added"]);
+		let composer = prepareComposer(entry.Composer);
+		let title = prepareTitle(entry);
+
+		output += "<tr>";
+		output += `<td>${date}</td>`;
+		output += `<td>${composer}</td>`;
+		output += `<td>${title}</td>`;
+		output += "</tr>";
+	}
+	output += `<tr><td><a href="recently_added">More works added by date</a></td></tr>`;
+	output += "</table>";
+	element.innerHTML = output;
+}
+
+
+
+//////////////////////////////
+//
+// prepareTitle -- Merge title and subtitle fields and apply URL.
+//
+
+function prepareTitle(entry) {
+	let output = entry.Title;
+	if (entry.Subtitle) {
+		output += `, <i>${entry.Subtitle}</i>`;
+	}
+	let id = entry.ID || "";
+	if (id) {
+		output = `<a target="_blank" href="/work?id=${id}">${output}</a>`;
+	}
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// prepareDate -- convert YYYY-M-D to D MMM YYYY
+//
+
+function prepareDate(inputDateString) {
+	if (!inputDateString) {
+		return "";
+	}
+	let parsedDate = new Date(inputDateString.replace(/-/g, "/"));
+	let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	let formattedDate = `${parsedDate.getDate()} ${monthNames[parsedDate.getMonth()]} ${parsedDate.getFullYear()}`;
+	return formattedDate;
+}
+
+
+
+//////////////////////////////
+//
+// prepareComposer -- Make "first last" from "last, first".
+//
+
+function prepareComposer(name) {
+  if (!name) return "";
+
+  // Case 1: "Last, First" → First Last (normal weight first, bold last via CSS)
+  let matches = name.match(/^\s*([^,]+)\s*,\s*([^,]+)\s*$/);
+  if (matches) {
+    return `<span class="first-name">${matches[2]}</span> <span class="last-name">${matches[1]}</span>`;
+  }
+
+  // Case 2: single-name composer → bold
+  return `<span class="last-name">${name}</span>`;
+}
+
+
+
+//////////////////////////////
+//
+// compareByDateAdded -- For sorting metadata entries by "Date Added".
+//
+
+function compareByDateAdded(a, b) {
+  // Handle null or empty dates by placing them at the end
+  if (!a["Date Added"] && !b["Date Added"]) return 0;
+  if (!a["Date Added"]) return 1;
+  if (!b["Date Added"]) return -1;
+
+  // Convert date strings to Date objects for comparison
+  const dateA = new Date(a["Date Added"].replace(/-/g, "/"));
+  const dateB = new Date(b["Date Added"].replace(/-/g, "/"));
+
+  // Compare the dates
+  if (dateA < dateB) return 1;
+  if (dateA > dateB) return -1;
+  return 0;
+}
+
+//////////////////////////////
+//
+// displayTopComposers --
+//
+
+function displayTopComposers() {
+
+	let data = METADATA;
+
+	const isMobile = window.innerWidth < 768;
+	const fontSize = isMobile ? 11 : 14;
+	const headerfontSize = isMobile ? 14 : 16;
+	const labelOffset = isMobile ? -110 : -140;
+
+	let element = document.querySelector("#composer-plot");
+	if (!element) {
+		console.error("ERROR: Cannot find #composer-plot");
+		return;
+	}
+
+	let threshold = 20;
+	let plotInfo = {
+		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+		"background": "#FFFAF1",
+		"config": {
+		  "font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
+
+		  "title": {
+		    "fontSize": headerfontSize,
+		    "fontWeight": 600,
+		    "color": "#1c1c1e",
+		    "anchor": "start",
+		    "offset": 8
+		  },
+
+		  "axis": {
+		    "labelFontSize": fontSize,
+		    "labelColor": "#6A6156",
+		    "titleFontSize": fontSize,
+		    "titleColor": "#6A6156",
+		    "titleFontWeight": 500,
+		    "tickColor": "rgba(0,0,0,0.15)",
+		    "domainColor": "rgba(0,0,0,0.15)",
+		    "grid": false
+		  },
+
+		  "legend": {
+		    "labelFontSize": fontSize,
+		    "labelColor": "#6A6156",
+		    "titleFontSize": fontSize,
+		    "titleColor": "#6A6156"
+		  },
+
+		  "text": {
+		    "fontSize": fontSize,
+		    "fontWeight": 500,
+		    "color": "#6A6156"
+		  }
+		},
+		"width": isMobile ? 240 : 280,
+		"data": {
+			"values": data
+		},
+		"transform": [{
+				"aggregate": [{
+					"op": "count",
+					"field": "Composer",
+					"as": "Count"
+				}],
+				"groupby": ["Composer"]
+			},
+			{
+				"filter": `datum.Count > ${threshold}`
+			},
+			{
+				"calculate": "datum.Composer + ' (' + datum.Count + ')'",
+				"as": "ComposerCount"
+			},
+			{
+        "calculate": " '/repertoire/?c=' + datum.Composer", // Combine the fixed URL and composer name
+        "as": "ComposerURL"
+	    }
+		],
+		"layer": [{
+				"mark": {
+					"type": "bar",
+				},
+				"encoding": {
+					"x": {
+						"field": "Count",
+						"type": "quantitative",
+						"title": "Number of Works",
+						"axis": {
+							"tickMinStep": 5,
+							"labelFontSize": fontSize,
+							"titleFontSize": fontSize
+						}
+					},
+					"y": {
+						"field": "Composer",
+						"type": "nominal",
+						"title": "",
+						"sort": {
+							"field": "Count",
+							"order": "descending"
+						},
+						"axis": {
+							"labels": false,
+							"ticks": false
+						}
+					},
+					"color": {
+				    "field": "Count",
+				    "type": "quantitative",
+				    "scale": {
+				        "scheme": "goldorange"
+				    },
+				    "legend": null
+					}
+				}
+			},
+			{
+				"mark": {
+					  "type": "text",
+					  "align": "left",
+					  "baseline": "middle",
+					  "fontSize": fontSize,
+					  "fontWeight": 500,
+					  "color": "#6A6156"
+					},
+				"encoding": {
+					"x": {
+						"value": labelOffset
+					},
+					"y": {
+						"field": "Composer",
+						"type": "nominal",
+						"title": "",
+						"sort": {
+							"field": "Count",
+							"order": "descending"
+						},
+						"axis": {
+							"labels": false,
+							"ticks": false
+						}
+					},
+					"href": {
+              "field": "ComposerURL", // Add a new field for the URL
+              "type": "nominal"
+          },
+					"text": {
+						"field": "Composer",
+						"type": "nominal"
+					}
+				}
+			}
+		],
+		"height": {
+			"step": 25
+		}
+	};
+
+	let elements = document.querySelectorAll("#composerSelect .button");
+	for (let i=0; i<elements.length; i++) {
+		elements[i].classList.toggle("hidden");
+	}
+
+	requestAnimationFrame(() => {
+	  vegaEmbed('#composer-plot', plotInfo, { actions: false });
+	});
+
+}
+
+function renderSuggestion(entry) {
+  const title = entry.Subtitle
+    ? `${entry.Title}, <i>${entry.Subtitle}</i>`
+    : entry.Title;
+
+  const composer = entry.Composer || "Unknown";
+  const genre = entry.Genre || "";
+  const source = entry["First Source"] || "";
+
+  return `
+    <div class="search-suggestion"
+         onclick="goToWork('${entry.ID}')">
+      <div class="primary">${title}</div>
+      <div class="secondary">
+        ${composer}
+        ${genre ? " · " + genre : ""}
+      </div>
+    </div>
+  `;
+}
+
+function goToWork(id) {
+  window.location.href = `/work?id=${id}`;
+}
+
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".apple-search")) {
+    document.querySelector("#search-suggestions").classList.add("hidden");
+  }
+});
+
+//////////////////////////////
+//
+// renderSeeMoreRow -- link to repertoire page
+//
+
+function renderSeeMoreRow(query) {
+  const encoded = encodeURIComponent(query);
+  return `
+    <div class="search-see-more"
+         onclick="goToRepertoire('${encoded}')">
+      See more results →
+    </div>
+  `;
+}
+
+//////////////////////////////
+//
+// goToRepertoire -- navigate to repertoire page
+//
+
+function goToRepertoire(query) {
+  window.location.href = `/repertoire?q=${query}`;
+}
+
+window.addEventListener("resize", () => {
+	displayTopComposers();
+});
+
+//////////////////////////////
+//
+// renderComposerSuggestion -- composer suggestions for browse
+//
+
+function renderComposerSuggestion(composer) {
+  // Special case: Anonymous
+  if (composer.ID === "Any" || composer.Composer === "Anonymous") {
+    return `
+      <div class="search-suggestion composer-suggestion"
+           data-id="Any">
+        <div class="suggestion-main">See all anonymous works</div>
+      </div>
+    `;
+  }
+
+  // Normal composer case
+  const name = formatComposerName(composer.Composer);
+  const flourish = formatFlourish(composer);
+  const places = formatPlaces(composer);
+
+  const metaParts = [flourish, places].filter(Boolean).join("; ");
+
+  return `
+    <div class="search-suggestion composer-suggestion"
+         data-id="${composer.ID}">
+      <div class="suggestion-main">See all works by ${name}</div>
+      ${metaParts ? `<div class="suggestion-meta">${metaParts}</div>` : ""}
+    </div>
+  `;
+}
+
+function formatComposerName(name) {
+  if (!name) return "";
+
+  // If "Last, First" → "First Last"
+  if (name.includes(",")) {
+    const [last, first] = name.split(",").map(s => s.trim());
+    return `${first} ${last}`;
+  }
+
+  // Otherwise leave unchanged
+  return name;
+}
+
+function formatComposerName(name) {
+  if (!name) return "";
+  if (name.includes(",")) {
+    const [last, first] = name.split(",").map(s => s.trim());
+    return `${first} ${last}`;
+  }
+  return name;
+}
+
+function formatFlourish(composer) {
+  return composer.Flourished ? `<i>fl.</i> ${composer.Flourished}` : "";
+}
+
+function formatPlaces(composer) {
+  return composer["Places Active"]
+    ? `active in ${composer["Places Active"]}`
+    : "";
+}
+
+function buildGenreIndex(metadata) {
+  const map = {};
+
+  metadata.forEach(entry => {
+    if (!entry.Genre) return;
+
+    const raw = entry.Genre.trim().toLowerCase();
+
+    if (!map[raw]) {
+      map[raw] = {
+        raw,
+        count: 0
+      };
+    }
+    map[raw].count++;
+  });
+
+  return map;
+}
+
+function normalizeSearchString(str) {
+  return (str || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function getGenreMatches(query) {
+  return Object.values(GENRE_INDEX)
+    .filter(g => g.raw.includes(query))
+    .map(g => ({
+      key: g.raw,
+      label: GENRE_LABELS[g.raw] || g.raw,
+      count: g.count
+    }));
+}
+
+function renderGenreSuggestion(genre) {
+  return `
+    <div class="search-suggestion genre-suggestion"
+         data-genre="${genre.key}">
+      <div class="suggestion-main">
+        See all ${genre.label}
+      </div>
+      <div class="suggestion-meta">
+        ${genre.count} works
+      </div>
+    </div>
+  `;
+}
+
+</script>

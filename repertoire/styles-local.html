@@ -1,0 +1,456 @@
+<style>
+
+.wrapper {
+  max-width: 1000px;
+}
+
+table.general thead th {
+  background: linear-gradient(
+    to bottom,
+    rgba(0,122,255,0.14),
+    rgba(0,122,255,0.08)
+  );
+  color: #003a8f;
+  border-bottom: 1px solid rgba(0,122,255,0.25);
+}
+
+/* Truncate long text in 5th column with ellipsis */
+table.general td:nth-child(5) {
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#search-interface {
+	margin-bottom: 30px;
+}
+
+#input {
+  width: 250px;
+
+  font-size: 15px;
+  line-height: 1.4;
+
+  padding: 10px 12px 10px 38px;
+
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.18);
+
+  background-color: rgba(255,255,255,0.9);
+
+  background-image: url('/images/searchicon.png');
+  background-position: 12px center;
+  background-repeat: no-repeat;
+
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 4px 12px rgba(0,0,0,0.06);
+
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#input:focus {
+  outline: none;
+  border-color: #007aff;
+  box-shadow:
+    0 0 0 1px rgba(0,122,255,0.5),
+    0 6px 16px rgba(0,122,255,0.15);
+}
+
+select {
+  font-size: 14px;
+  padding: 8px 12px;
+  max-width: 200px;
+
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.18);
+
+  background-color: rgba(255,255,255,0.9);
+
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 4px 12px rgba(0,0,0,0.06);
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-image: url('data:image/svg+xml;utf8,\
+  <svg fill="%236e6e73" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">\
+  <path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+
+  cursor: pointer;
+}
+
+#source-container select {
+  max-width: 175px;
+}
+
+#composer-container select {
+  max-width: 150px;
+}
+
+#year-container select {
+  max-width: 110px;
+}
+
+#voice-container select, 
+#genre-container select {
+  max-width: 90px;
+}
+
+select:hover {
+  border-color: rgba(0,0,0,0.3);
+}
+
+select:focus {
+  outline: none;
+  border-color: #007aff;
+  box-shadow:
+    0 0 0 1px rgba(0,122,255,0.5),
+    0 6px 16px rgba(0,122,255,0.15);
+}
+
+.mensuration-wrapper {
+  display: flex;
+}
+
+.mensuration-options img {
+  height: 28px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.mensuration-options img:hover {
+  transform: scale(1.2);
+}
+
+.selected-mensurations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 10px;
+}
+
+/* Apple-style pill */
+.selected-mensuration {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 5px 12px;
+
+  font-size: 13px;
+  font-weight: 500;
+  color: #1c1c1e;
+
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 2px 6px rgba(0, 0, 0, 0.06);
+
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.1s ease;
+}
+
+.selected-mensuration:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Subtle Apple-style remove button */
+.selected-mensuration .remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 16px;
+  height: 16px;
+
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
+
+  border-radius: 50%;
+  color: #6e6e73;
+  background: rgba(0, 0, 0, 0.06);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.selected-mensuration .remove-btn:hover {
+  background: rgba(255, 59, 48, 0.15);
+  color: #ff3b30;
+}
+
+.mensuration-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 6px 0;
+}
+
+.custom-dropdown {
+  position: relative;
+  display: inline-block; /* or block, depending on your layout */
+  vertical-align: top;   /* aligns nicely if inline */
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  max-width: 275px;
+  height: 40px;
+
+  font-size: 14px;
+  line-height: 1.2;
+
+  padding: 8px 36px 8px 12px;
+
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.18);
+
+  background-color: rgba(255,255,255,0.9);
+
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 4px 12px rgba(0,0,0,0.06);
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  background-image: url('data:image/svg+xml;utf8,\
+<svg fill="%236e6e73" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">\
+<path d="M7 10l5 5 5-5z"/>\
+</svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.dropdown-toggle:hover {
+  border-color: rgba(0,0,0,0.3);
+}
+
+.custom-dropdown.open .dropdown-toggle,
+.dropdown-toggle:focus {
+  outline: none;
+  border-color: #007aff;
+  box-shadow:
+    0 0 0 1px rgba(0,122,255,0.5),
+    0 6px 16px rgba(0,122,255,0.15);
+}
+
+
+.dropdown-toggle .toggle-text {
+  text-align: left;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px); /* directly below the button */
+  left: 0;
+  z-index: 99;
+
+  background-color: #fff;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 10px;
+  max-width: 300px;
+  min-width: 200px;
+
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.custom-dropdown.open .dropdown-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mensuration-item {
+  padding: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.1s ease, border-color 0.2s ease;
+}
+
+.mensuration-item:hover {
+  transform: scale(1.1);
+  border-color: #bbb;
+}
+
+.mensuration-item.selected {
+  border-color: steelblue;
+  background-color: #eef;
+}
+
+.mensuration-img {
+  height: 28px;
+  width: auto;
+}
+
+.mensuration-item.selected {
+  border-color: steelblue;
+  background-color: #eef;
+}
+
+.mensuration-img {
+  height: 28px;
+  width: auto;
+}
+
+#dropdowns {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+#dropdowns select {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+
+.top-line, .bottom-line {
+  display: flex;
+  gap: 12px;
+}
+
+.left-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+
+#search-count {
+  font-size: 13px;
+  color: #6e6e73;         
+  padding-left: 6px;
+}
+
+/* Standard size for all four top dropdowns */
+.select {
+  padding: 6px 10px;
+  font-size: 14px;
+
+  height: 32px;
+  max-width: 250px;
+
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.18);
+
+  background-color: rgba(255,255,255,0.75);
+  /*backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);*/
+
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.6) inset,
+    0 2px 6px rgba(0,0,0,0.06);
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-image: url('data:image/svg+xml;utf8,\
+<svg fill="%236e6e73" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">\
+<path d="M7 10l5 5 5-5z"/>\
+</svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+  padding-right: 34px;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.text-checkbox-wrapper.full-width {
+  flex-basis: 100%;
+  margin-top: 6px;        /* adds space between rows */
+}
+
+.text-checkbox-wrapper {
+  margin: 0;
+  padding-left: 2px;   /* adjust if you want to nudge horizontally */
+}
+
+.text-checkbox-label {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dropdown-row {
+  overflow: visible !important;
+  position: relative; /* ensures absolute children are positioned correctly */
+}
+
+.right-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+  gap: 6px;
+  margin-left: auto;
+}
+
+/* stack dropdowns + checkbox vertically */
+#texted-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+/* Apple-ish checkbox styling */
+.text-checkbox-wrapper {
+  font-size: 13px;
+  color: #6e6e73;
+}
+
+</style>

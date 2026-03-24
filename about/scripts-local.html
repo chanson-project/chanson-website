@@ -1,0 +1,175 @@
+{% include_relative scripts-listeners.html %}
+
+<script>
+
+//////////////////////////////
+//
+// fillInCensusData --
+//
+
+function fillInCensusData(data) {
+  let workCount = 0;
+  let noteCount = 0;
+  let massCount = 0;
+  let motetCount = 0;
+  let secularCount = 0;
+
+  for (let i=0; i<data.length; i++) {
+    let count = data[i]["Note Count"];
+    if (count) {
+      noteCount += parseInt(count);
+    }
+  }
+
+  let roundCount = Math.floor(noteCount / 5000) * 5000;
+
+  for (let i=0; i<data.length; i++) {
+    workCount++;
+  }
+
+  let noteElement = document.querySelector("#note-count");
+  if (noteElement) {
+    noteElement.innerHTML = roundCount;
+  }
+
+  let workElement = document.querySelector("#work-count");
+  if (workElement) {
+    workElement.innerHTML = workCount;
+  }
+}
+
+function displayYearsPlot(data) {
+  let element = document.querySelector("#years-plot");
+  if (!element) {
+    console.error("ERROR: Cannot find #years-plot");
+    return;
+  }
+
+  const isMobile = window.innerWidth < 768;
+  const fontSize = isMobile ? 11 : 13;
+  const headerFontSize = isMobile ? 14 : 16;
+  const labelFrequency = isMobile ? 5 : 2;
+
+  /* ---- Merge duplicate years ---- */
+  const mergedData = {};
+  for (const entry of data) {
+    let year = entry["Date"].replace("~", "");
+    if (!mergedData[year]) {
+      mergedData[year] = {
+        Date: year,
+        "Number of Works": 0
+      };
+    }
+    mergedData[year]["Number of Works"] += parseInt(entry["Number of Works"]);
+  }
+
+  const yearData = prepareYearData(Object.values(mergedData));
+
+  const plotInfo = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+    "background": "#FFFAF1",
+
+    "width": isMobile ? 300 : 725,
+    "height": isMobile ? 240 : 300,
+
+    "data": { "values": yearData },
+
+    "mark": {
+      "type": "bar",
+      "opacity": 0.9
+    },
+
+    "encoding": {
+      "x": {
+        "field": "Date",
+        "type": "ordinal",
+        "title": "Year of First Source",
+        "axis": {
+          "labelFontSize": fontSize,
+          "titleFontSize": fontSize,
+          "labelAngle": isMobile ? -45 : -90,
+          "labelColor": "#6A6156",
+          "titleColor": "#6A6156",
+          "tickColor": "rgba(0,0,0,0.15)",
+          "domainColor": "rgba(0,0,0,0.2)",
+          "labelExpr":
+            "parseInt(datum.label) % " + labelFrequency + " === 0 ? datum.label : ''"
+        }
+      },
+
+      "y": {
+        "field": "Number of Works",
+        "type": "quantitative",
+        "title": "Number of Works",
+        "axis": {
+          "tickMinStep": 5,
+          "labelFontSize": fontSize,
+          "titleFontSize": fontSize,
+          "labelColor": "#6A6156",
+          "titleColor": "#6A6156",
+          "gridColor": "rgba(0,0,0,0.06)",
+          "domain": false
+        }
+      },
+
+      "color": {
+        "field": "Number of Works",
+        "type": "ordinal",
+        "scale": {
+          "scheme": "goldorange"
+        },
+        "legend": null
+      },
+
+      "tooltip": [
+        { "field": "Date", "type": "ordinal", "title": "Year" },
+        { "field": "Number of Works", "type": "quantitative", "title": "Works" }
+      ]
+    },
+
+    "config": {
+      "font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+      "view": { "stroke": "transparent" }
+    }
+  };
+
+  vegaEmbed("#years-plot", plotInfo, { actions: false });
+}
+
+
+//////////////////////////////
+//
+// prepareYearData -- Extract number of concerts for each year, adding
+//     entries for years in which there are no concert notes.  This function
+//     is for use to generate a vega-lite bar chart that functions like a yearly
+//     histogram chart.
+//
+
+function prepareYearData(input) {
+       let min = 100000;
+       let max = -1;
+       let counts = {};
+       for (let i=0; i<input.length; i++) {
+          let year = parseInt(input[i]["Date"]);
+          let count = parseInt(input[i]["Number of Works"]);
+          if (min > year) {
+             min = year;
+          }
+          if (max < year) {
+             max = year;
+          }
+          counts[year] = count;
+       }
+       let output = [];
+       for (let i=min; i<=max; i++) {
+          let obj = {
+             "Date": i,
+             "Number of Works": counts[i] || 0
+          }
+          output.push(obj);
+       }
+    return output;
+}
+
+</script>

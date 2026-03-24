@@ -1,0 +1,188 @@
+<script>
+
+let COMPOSERS             = {% include metadata/composers.json %}
+let COMPOSER2ID           = {};
+let METADATA              = {% include metadata/works.json %};
+let INDEX_id         	    = "ID";
+let INDEX_composer    	  = "Composer";
+let INDEX_title       	  = "Title";
+let INDEX_genre      	    = "Genre";
+let INDEX_voice      	    = "Voices";
+let INDEX_text            = "Texted";
+let INDEX_firstsourcedate = "Source Date";
+let INDEX_firstsource 	  = "First Source";
+let INDEX_RISMlink 	      = "RISM Source Link";
+let INDEX_DIAMMlink	      = "DIAMM source link";
+let INDEX_Mensurations	  = "Mensuration Signs in Earliest Source";
+
+const mensurationSigns = {
+  "Cut-O 3 over 2": "Cut-O-3-over-2.svg",
+  "3": "3.svg",
+  "C": "C.svg",
+  "C2": "C2.svg",
+  "Cut-C": "Cut-C.svg",
+  "Cut-C over 3": "Cut-C-over-3.svg",
+  "Cut-C3": "Cut-C3.svg",
+  "Cut-O": "Cut-O.svg",
+  "Cut-O over 3": "Cut-O-over-3.svg",
+  "Cut-O3": "Cut-O3.svg",
+  "O over 3": "O-over-3.svg",
+  "C over 2": "C-over-2.svg",
+  "O": "O.svg",
+  "O2": "O2.svg",
+  "O3": "O3.svg",
+  "reverse C": "Reverse-C.svg",
+  "reverse Cut-C": "Reverse-Cut-C.svg"
+};
+
+const selectedMensurations = new Set();
+
+//////////////////////////////
+//
+// DOMContentLoaded event handler -- Runs after webpage finishes loading.
+//     Builds the select menus from the METADATA object and displays the
+//     browse table.
+//
+
+document.addEventListener("DOMContentLoaded", function () {
+	buildSearchInterface(METADATA, "#search-interface");
+	displayBrowseTable(METADATA, "#list");
+
+	COMPOSER2ID = makeComposer2Id(COMPOSERS);
+	let cgi = getCgiParameters();
+	let runSearch = false;
+
+	// Set the composer select menu:
+	if (cgi.c) {
+		setComposerSelectMenu(cgi.c);
+		runSearch = true;
+	} else if (cgi.composer) {
+		setComposerSelectMenu(cgi.composer);
+		runSearch = true;
+	}
+
+	// Set the voice-count select menu:
+	if (cgi.v) {
+		setVoiceSelectMenu(cgi.v);
+		runSearch = true;
+	} else if (cgi.voice) {
+		setVoiceSelectMenu(cgi.voice);
+		runSearch = true;
+	} else if (cgi.voice) {
+		setVoiceSelectMenu(cgi.voices);
+		runSearch = true;
+	}
+
+	// Set the text-available select menu:
+	if (cgi.x) {
+		setTextAvailableSelectMenu(cgi.x);
+		runSearch = true;
+	} else if (cgi.text) {
+		setTextAvailableSelectMenu(cgi.text);
+		runSearch = true;
+	}
+
+	// Set the genre select menu:
+	if (cgi.g) {
+		setGenreSelectMenu(cgi.g);
+		runSearch = true;
+	} else if (cgi.genre) {
+		setGenreSelectMenu(cgi.genre);
+		runSearch = true;
+	}
+
+	// Set the year select menu:
+	if (cgi.y) {
+		setYearSelectMenu(cgi.y);
+		runSearch = true;
+	} else if (cgi.genre) {
+		setYearSelectMenu(cgi.year);
+		runSearch = true;
+	}
+
+	// Set the earliest source select menu:
+	if (cgi.e) {
+		setEarliestSourceSelectMenu(cgi.e);
+		runSearch = true;
+	} else if (cgi.earliest) {
+		setEarliestSourceSelectMenu(cgi.earliest);
+		runSearch = true;
+	} else if (cgi.s) {
+		setEarliestSourceSelectMenu(cgi.s);
+		runSearch = true;
+	} else if (cgi.source) {
+		setEarliestSourceSelectMenu(cgi.source);
+		runSearch = true;
+	}
+
+	// Run a search based on the select menu settings:
+	if (runSearch) {
+		doSearch();
+	}
+
+	// Check for a free-text search to run on the search-results table:
+	if (cgi.q) {
+		FreeTextSearch(cgi.q);
+	} else if (cgi.query) {
+		FreeTextSearch(cgi.query);
+	} else if (cgi.search) {
+		FreeTextSearch(cgi.search);
+	}
+
+	// Move the cursor to the search box when the page is loaded:
+	let searchElement = document.querySelector("#input");
+	if (searchElement) {
+		searchElement.focus();
+	}
+
+});
+
+
+
+//////////////////////////////
+//
+// keydown event listener == clear select menus if delete/backspace
+//    pressed (or press backspace/delete when freetext search is empty
+//    when in #input).
+//
+
+document.addEventListener('keydown', function(event) {
+	if ((event.key !== "Delete") && (event.key !== "Backspace")) {
+		// Only checking delete/backspace keys for now.
+		return;
+	}
+	let activeElement = document.activeElement;
+	if (activeElement.id === "input") {
+		let value = activeElement.value;
+		if (value) {
+			// Do nothing unless contents of #input is empty.
+			return;
+		}
+		clearSearchFields();
+	} else {
+		clearSearchFields();
+	}
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    const menu = document.getElementById("mensuration-menu");
+    if (menu) {
+      const dropdown = menu.closest(".custom-dropdown");
+      if (dropdown) {
+        dropdown.classList.remove("open");
+      }
+    }
+  }
+});
+
+document.addEventListener("click", function(event) {
+  const openDropdowns = document.querySelectorAll(".custom-dropdown.open");
+  openDropdowns.forEach(dropdown => {
+    if (!dropdown.contains(event.target)) {
+      dropdown.classList.remove("open");
+    }
+  });
+});
+
+</script>
