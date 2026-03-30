@@ -1,41 +1,12 @@
 <script>
 
-let COMPOSERS             = {% include metadata/composers.json %}
-let COMPOSER2ID           = {};
-let METADATA              = {% include metadata/works.json %};
+let METADATA              = {};
 let INDEX_id         	    = "ID";
-let INDEX_composer    	  = "Composer";
+let INDEX_filename    	  = "File Name";
 let INDEX_title       	  = "Title";
-let INDEX_genre      	    = "Genre";
-let INDEX_voice      	    = "Voices";
-let INDEX_text            = "Texted";
-let INDEX_firstsourcedate = "Source Date";
-let INDEX_firstsource 	  = "First Source";
-let INDEX_RISMlink 	      = "RISM Source Link";
-let INDEX_DIAMMlink	      = "DIAMM source link";
-let INDEX_Mensurations	  = "Mensuration Signs in Earliest Source";
-
-const mensurationSigns = {
-  "Cut-O 3 over 2": "Cut-O-3-over-2.svg",
-  "3": "3.svg",
-  "C": "C.svg",
-  "C2": "C2.svg",
-  "Cut-C": "Cut-C.svg",
-  "Cut-C over 3": "Cut-C-over-3.svg",
-  "Cut-C3": "Cut-C3.svg",
-  "Cut-O": "Cut-O.svg",
-  "Cut-O over 3": "Cut-O-over-3.svg",
-  "Cut-O3": "Cut-O3.svg",
-  "O over 3": "O-over-3.svg",
-  "C over 2": "C-over-2.svg",
-  "O": "O.svg",
-  "O2": "O2.svg",
-  "O3": "O3.svg",
-  "reverse C": "Reverse-C.svg",
-  "reverse Cut-C": "Reverse-Cut-C.svg"
-};
-
-const selectedMensurations = new Set();
+let INDEX_pages      	    = "Pages";
+let INDEX_composer      	    = "!!!COM";
+let INDEX_lyricist           = "!!!LYR";
 
 //////////////////////////////
 //
@@ -45,42 +16,16 @@ const selectedMensurations = new Set();
 //
 
 document.addEventListener("DOMContentLoaded", function () {
+	downloadMetadata(continueListener);
+
+},
+
+function continueListener() {
 	buildSearchInterface(METADATA, "#search-interface");
 	displayBrowseTable(METADATA, "#list");
 
-	COMPOSER2ID = makeComposer2Id(COMPOSERS);
 	let cgi = getCgiParameters();
 	let runSearch = false;
-
-	// Set the composer select menu:
-	if (cgi.c) {
-		setComposerSelectMenu(cgi.c);
-		runSearch = true;
-	} else if (cgi.composer) {
-		setComposerSelectMenu(cgi.composer);
-		runSearch = true;
-	}
-
-	// Set the voice-count select menu:
-	if (cgi.v) {
-		setVoiceSelectMenu(cgi.v);
-		runSearch = true;
-	} else if (cgi.voice) {
-		setVoiceSelectMenu(cgi.voice);
-		runSearch = true;
-	} else if (cgi.voice) {
-		setVoiceSelectMenu(cgi.voices);
-		runSearch = true;
-	}
-
-	// Set the text-available select menu:
-	if (cgi.x) {
-		setTextAvailableSelectMenu(cgi.x);
-		runSearch = true;
-	} else if (cgi.text) {
-		setTextAvailableSelectMenu(cgi.text);
-		runSearch = true;
-	}
 
 	// Set the genre select menu:
 	if (cgi.g) {
