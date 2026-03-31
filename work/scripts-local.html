@@ -14,7 +14,7 @@ function displayWork(id) {
 		id = DATA1520.workid;
 	}
 	if (!id) {
-		id = "Jac2001";
+		id = "BC001";
 	}
 	DATA1520.workid = id;
 
@@ -28,8 +28,11 @@ function displayWork(id) {
 	let hnpOptions = JSON.parse(JSON.stringify(DATA1520.hnp_options));
 
 	if (!DATA1520.INITIALIZED) {
-		let url = DATA1520.lookup.works[id]["Humdrum URL"];
-		hnpOptions.url = url;
+        if (id.substring(0,2) == "BC") {
+            hnpOptions.url = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main/bc100/kern/" + DATA1520.lookup.works[id]["File Name"] + "?token=GHSAT0AAAAAADTNABUF347Z7JEVR3VTD6AM2OLKAVA";
+        } else if (id.substring(0,2) == "EG") {
+            hnpOptions.url = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main/eg104/kern/" + DATA1520.lookup.works[id]["File Name"] + "?token=GHSAT0AAAAAADTNABUF347Z7JEVR3VTD6AM2OLKAVA";
+        }
 		hnpOptions.postFunction = function() {
 			// callback function to run after SVG score has been displayed.
 			removeWait();

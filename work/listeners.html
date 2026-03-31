@@ -16,8 +16,6 @@ document.body.classList.add("wait");  // display a wait cursor while preparing p
 let DATA1520 = {}; // global object to store information about work. Type "DATA1520" on the console to view.
 DATA1520.metadata                 = {};
 DATA1520.metadata.works           = {% include metadata/works.json %};
-DATA1520.metadata.composers       = {% include metadata/composers.json %};
-DATA1520.metadata.modern_editions = {% include metadata/modern_editions.json %};
 DATA1520.lookup                   = {};
 DATA1520.filter                   = "";
 DATA1520.timemap                  = [];  // Mapping between notes in SVG and timeline for audio
@@ -34,29 +32,8 @@ DATA1520.hnp_options = {
 	autoResize: "true",
 };
 DATA1520.cgi = getCgiParameters();
-DATA1520.workid = DATA1520.cgi.id || "Jac2001";
+DATA1520.workid = DATA1520.cgi.id || "BC001";
 
-
-// Mensuration signs for display
-const mensurationSigns = {
-  "Cut-O 3 over 2": "Cut-O-3-over-2.svg",
-  "3": "3.svg",
-  "C": "C.svg",
-  "C2": "C2.svg",
-  "Cut-C": "Cut-C.svg",
-  "Cut-C over 3": "Cut-C-over-3.svg",
-  "Cut-C3": "Cut-C3.svg",
-  "Cut-O": "Cut-O.svg",
-  "Cut-O over 3": "Cut-O-over-3.svg",
-  "Cut-O3": "Cut-O3.svg",
-  "O over 3": "O-over-3.svg",
-  "C over 2": "C-over-2.svg",
-  "O": "O.svg",
-  "O2": "O2.svg",
-  "O3": "O3.svg",
-  "reverse C": "Reverse-C.svg",
-  "reverse Cut-C": "Reverse-Cut-C.svg"
-};
 
 //////////////////////////////
 //
@@ -71,11 +48,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 	// Create lookup tables for metadata:
 	DATA1520.lookup.works           = createLookup(DATA1520.metadata.works);
-	DATA1520.lookup.composers       = createLookup(DATA1520.metadata.composers);
-	DATA1520.lookup.modern_editions = createLookup(DATA1520.metadata.modern_editions);
 
 	displayWork(DATA1520.workid);
-	initializeAudio(DATA1520.workid);
+	//initializeAudio(DATA1520.workid);
 });
 
 
@@ -88,10 +63,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 //
 
 document.addEventListener("DOMContentLoaded", function () {
-    let id = DATA1520.cgi.id || "Jac2001";
+    let id = DATA1520.cgi.id || "BC001";
 
     // 1. Update the <title>
-    document.title = `${id} | The 1520s Project`;
+    document.title = `${id} | The Chanson Project`;
 
 });
 
@@ -229,89 +204,89 @@ window.addEventListener("click", function(event) {
 // initializeAudio -- Prepare audio for the current work.
 //
 
-function initializeAudio(id) {
-	DATA1520.audio = document.querySelector("audio#audio");
-	let audio = DATA1520.audio;
-
-	if (!audio) {
-		console.error("Error: Cannot find audio#audio on webpage.");
-		return;
-	}
-
-	// audio.innerHTML = `<source src="${DATA1520.dataurl}/${DATA1520.workid}.mp3" type="audio/mpeg" preload="metadata" />`;
-	// Set the audio infomation explicitly:
-	let audioUrl = `${DATA1520.dataurl}/${DATA1520.workid}.mp3`;
-	audio.preload = "auto";
-	audio.src = audioUrl;
-	audio.load();
-
-	audio.addEventListener('loadedmetadata', function() {
-		console.log("Metadata for audio loaded. Duration:", audio.duration);
-		console.log("Audio readyState:", audio.readyState);
-		console.log("Audio seekable length: ", audio.seekable.length);
-		console.log('Audio source:', audio.src);
-		printSeekableAudioInfo();
-	});
-
-
-	audio.addEventListener('progress', function() {
-		// printSeekableAudioInfo();
-	});
-
-
-	audio.addEventListener('canplay', function() {
-		// console.log("Audio can play.");
-		// printSeekableAudioInfo();
-	});
-
-
-	audio.addEventListener('canplaythrough', function() {
-		// console.log("Audio can play through.");
-		// printSeekableAudioInfo();
-	});
-
-
-	audio.addEventListener('error', function() {
-		console.error(`Error loading the audio file ${audioUrl}`);
-	});
-
-
-	audio.addEventListener('loadeddata', function() {
-		console.log(`Audio data loaded: ${audioUrl}`);
-	});
-
-	audio.addEventListener('stalled', function() {
-		console.warn("Audio loading stalled, reloading...");
-		audio.load();  // Force a reload if loading stalls
-	});
-
-	audio.addEventListener('waiting', function() {
-		console.warn("Audio is waiting for data, might not be seekable...");
-	});
-
-	audio.addEventListener("play", playAudioCallback);
-	audio.addEventListener("playing", playAudioCallback);
-	audio.addEventListener("pause", pauseAudioCallback);
-
-
-	let url = `${DATA1520.dataurl}/${DATA1520.workid}-timemap.json`;
-	console.warn("TIMEMAP URL", url);
-	fetch(url)
-	.then(response => {
-		if (!response.ok) {
-			throw new Error('Network response was not ok');
-		}
-		return response.json();
-	})
-	.then(data => {
-		DATA1520.timemap = data;
-		console.warn("TIMEMAP", DATA1520.timemap);
-	})
-	.catch(error => {
-		console.error('There was a problem with the fetch operation:', error);
-	});
-
-}
+// function initializeAudio(id) {
+// 	DATA1520.audio = document.querySelector("audio#audio");
+// 	let audio = DATA1520.audio;
+//
+// 	if (!audio) {
+// 		console.error("Error: Cannot find audio#audio on webpage.");
+// 		return;
+// 	}
+//
+// 	// audio.innerHTML = `<source src="${DATA1520.dataurl}/${DATA1520.workid}.mp3" type="audio/mpeg" preload="metadata" />`;
+// 	// Set the audio infomation explicitly:
+// 	let audioUrl = `${DATA1520.dataurl}/${DATA1520.workid}.mp3`;
+// 	audio.preload = "auto";
+// 	audio.src = audioUrl;
+// 	audio.load();
+//
+// 	audio.addEventListener('loadedmetadata', function() {
+// 		console.log("Metadata for audio loaded. Duration:", audio.duration);
+// 		console.log("Audio readyState:", audio.readyState);
+// 		console.log("Audio seekable length: ", audio.seekable.length);
+// 		console.log('Audio source:', audio.src);
+// 		printSeekableAudioInfo();
+// 	});
+//
+//
+// 	audio.addEventListener('progress', function() {
+// 		// printSeekableAudioInfo();
+// 	});
+//
+//
+// 	audio.addEventListener('canplay', function() {
+// 		// console.log("Audio can play.");
+// 		// printSeekableAudioInfo();
+// 	});
+//
+//
+// 	audio.addEventListener('canplaythrough', function() {
+// 		// console.log("Audio can play through.");
+// 		// printSeekableAudioInfo();
+// 	});
+//
+//
+// 	audio.addEventListener('error', function() {
+// 		console.error(`Error loading the audio file ${audioUrl}`);
+// 	});
+//
+//
+// 	audio.addEventListener('loadeddata', function() {
+// 		console.log(`Audio data loaded: ${audioUrl}`);
+// 	});
+//
+// 	audio.addEventListener('stalled', function() {
+// 		console.warn("Audio loading stalled, reloading...");
+// 		audio.load();  // Force a reload if loading stalls
+// 	});
+//
+// 	audio.addEventListener('waiting', function() {
+// 		console.warn("Audio is waiting for data, might not be seekable...");
+// 	});
+//
+// 	audio.addEventListener("play", playAudioCallback);
+// 	audio.addEventListener("playing", playAudioCallback);
+// 	audio.addEventListener("pause", pauseAudioCallback);
+//
+//
+// 	let url = `${DATA1520.dataurl}/${DATA1520.workid}-timemap.json`;
+// 	console.warn("TIMEMAP URL", url);
+// 	fetch(url)
+// 	.then(response => {
+// 		if (!response.ok) {
+// 			throw new Error('Network response was not ok');
+// 		}
+// 		return response.json();
+// 	})
+// 	.then(data => {
+// 		DATA1520.timemap = data;
+// 		console.warn("TIMEMAP", DATA1520.timemap);
+// 	})
+// 	.catch(error => {
+// 		console.error('There was a problem with the fetch operation:', error);
+// 	});
+//
+// }
 
 
 
