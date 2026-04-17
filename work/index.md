@@ -54,4 +54,5 @@ layout: work
 
 {% include_relative listeners.html %}
 {% include_relative scripts-local.html %}
+{% include_relative scripts-player.html %}
 {% include styles/svgdefs.html %}

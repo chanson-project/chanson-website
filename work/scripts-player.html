@@ -1,0 +1,284 @@
+<script>
+
+//////////////////////////////
+//
+// KernPlayer -- Browser MIDI playback for **kern Humdrum data.
+//   Adapted from humplay.cpp by Craig Stuart Sapp (2000).
+//
+//   Hooks into the existing #audiobutton-play / #audiobutton-pause buttons.
+//   Call KernPlayer.load(kernText) after kern data is fetched.
+//
+
+const KernPlayer = (function () {
+
+  // ── Pitch conversion ───────────────────────────────────────────────────────
+
+  const SEMITONE = { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, b: 11 };
+
+  function tokenToMidi(token) {
+    if (!token || token.includes('r')) return -1;
+    const m = token.match(/([a-gA-G]+)/);
+    if (!m) return -1;
+    const s      = m[1];
+    const isLow  = s[0] === s[0].toUpperCase() && s[0].toLowerCase() !== s[0];
+    const letter = s[0].toLowerCase();
+    if (!(letter in SEMITONE)) return -1;
+    const octave = isLow ? 3 - (s.length - 1) : 4 + (s.length - 1);
+    let   midi   = (octave + 1) * 12 + SEMITONE[letter];
+    midi += (token.match(/#/g) || []).length;
+    midi -= (token.match(/-/g) || []).length;
+    return midi;
+  }
+
+  // ── Duration conversion (whole notes) ─────────────────────────────────────
+
+  function tokenToDuration(token) {
+    const m = token.match(/^(\d+)/);
+    if (!m) return 0;
+    const n = parseInt(m[1]);
+    if (n === 0) return 2.0;   // breve
+    let dur = 1.0 / n;
+    let dot = dur / 2;
+    for (const ch of token) {
+      if (ch === '.') { dur += dot; dot /= 2; }
+    }
+    return dur;
+  }
+
+  // ── Parse kern → event list ────────────────────────────────────────────────
+
+  function parseKern(kernText) {
+    const events = [];
+    let beat  = 0;
+    let tempo = 120;
+
+    for (const raw of kernText.split('\n')) {
+      const line = raw.trim();
+      if (!line || line.startsWith('!!') || line.startsWith('!')) continue;
+
+      if (line.startsWith('*')) {
+        const mm = line.match(/\*MM([\d.]+)/);
+        if (mm) tempo = parseFloat(mm[1]);
+        continue;
+      }
+      if (line.startsWith('=')) continue;
+
+      const fields  = line.split('\t');
+      let   advance = 0;
+
+      for (let ti = 0; ti < fields.length; ti++) {
+        const field = fields[ti];
+        if (!field || field === '.') continue;
+        for (const token of field.split(' ')) {
+          if (!token || token === '.') continue;
+          if (token.includes('_') || token.includes(']')) continue; // tied continuation
+          const dur   = tokenToDuration(token);
+          if (dur > advance) advance = dur;
+          const pitch = tokenToMidi(token);
+          if (pitch >= 0) events.push({ beat, pitch, dur, track: ti });
+        }
+      }
+
+      if (advance > 0) beat += advance;
+    }
+
+    events.sort((a, b) => a.beat - b.beat);
+    return { events, tempo, totalBeats: beat };
+  }
+
+  // ── Web Audio synthesis ────────────────────────────────────────────────────
+
+  let ac = null;
+
+  function getAC() {
+    if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
+    if (ac.state === 'suspended') ac.resume();
+    return ac;
+  }
+
+  function scheduleNote(pitch, durSec, velocity, when) {
+    const ctx  = getAC();
+    const freq = 440 * Math.pow(2, (pitch - 69) / 12);
+    const vol  = (velocity / 127) * 0.15;
+
+    [['triangle', 1.0], ['sine', 0.25]].forEach(([type, mul]) => {
+      const osc = ctx.createOscillator();
+      const env = ctx.createGain();
+      osc.connect(env);
+      env.connect(ctx.destination);
+      osc.type             = type;
+      osc.frequency.value  = freq;
+
+      const atk = 0.008;
+      const dec = 0.12;
+      const sus = 0.45;
+      const rel = Math.min(0.2, durSec * 0.35);
+      const end = when + durSec;
+
+      env.gain.setValueAtTime(0, when);
+      env.gain.linearRampToValueAtTime(vol * mul,       when + atk);
+      env.gain.linearRampToValueAtTime(vol * mul * sus, when + atk + dec);
+      env.gain.setValueAtTime(         vol * mul * sus, end - rel);
+      env.gain.linearRampToValueAtTime(0,               end + 0.05);
+
+      osc.start(when);
+      osc.stop(end + 0.1);
+    });
+  }
+
+  // ── Transport ──────────────────────────────────────────────────────────────
+
+  let parsed      = null;
+  let userTempo   = null;
+  let transpose   = 0;
+  let isPlaying   = false;
+  let pauseBeat   = 0;
+  let acStart     = 0;
+  let schedIdx    = 0;
+  let rafId       = null;
+
+  const AHEAD = 0.25; // seconds to schedule ahead
+
+  function bpm()            { return userTempo !== null ? userTempo : (parsed ? parsed.tempo : 120); }
+  function beatsToSec(b)    { return b * 60 / bpm(); }
+  function currentBeat()    { return isPlaying ? pauseBeat + (getAC().currentTime - acStart) * bpm() / 60 : pauseBeat; }
+
+  function idxAtBeat(beat) {
+    if (!parsed) return 0;
+    for (let i = 0; i < parsed.events.length; i++) {
+      if (parsed.events[i].beat >= beat - 1e-6) return i;
+    }
+    return parsed.events.length;
+  }
+
+  function tick() {
+    if (!isPlaying || !parsed) return;
+    const ctx      = getAC();
+    const horizon  = currentBeat() + AHEAD * bpm() / 60;
+
+    while (schedIdx < parsed.events.length && parsed.events[schedIdx].beat <= horizon) {
+      const ev    = parsed.events[schedIdx++];
+      const pitch = ev.pitch + transpose;
+      if (pitch >= 0 && pitch <= 127) {
+        const when   = acStart + beatsToSec(ev.beat - pauseBeat);
+        const durSec = beatsToSec(ev.dur) * 0.88;
+        if (when >= ctx.currentTime - 0.01) {
+          scheduleNote(pitch, durSec, 64, Math.max(when, ctx.currentTime));
+        }
+      }
+    }
+
+    updateProgress(currentBeat());
+
+    if (currentBeat() >= parsed.totalBeats) { stop(); return; }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // ── Public API ─────────────────────────────────────────────────────────────
+
+  function load(kernText) {
+    stop();
+    parsed    = parseKern(kernText);
+    userTempo = null;
+    initUI();
+  }
+
+  function play() {
+    if (!parsed || isPlaying) return;
+    acStart   = getAC().currentTime;
+    schedIdx  = idxAtBeat(pauseBeat);
+    isPlaying = true;
+    syncButtons(true);
+    tick();
+  }
+
+  function pause() {
+    if (!isPlaying) return;
+    pauseBeat = currentBeat();
+    isPlaying = false;
+    cancelAnimationFrame(rafId);
+    syncButtons(false);
+  }
+
+  function stop() {
+    isPlaying = false;
+    pauseBeat = 0;
+    cancelAnimationFrame(rafId);
+    syncButtons(false);
+    updateProgress(0);
+  }
+
+  function setTempo(val) {
+    const wasPlaying = isPlaying;
+    if (wasPlaying) { pauseBeat = currentBeat(); isPlaying = false; cancelAnimationFrame(rafId); }
+    userTempo = val;
+    if (wasPlaying) { acStart = getAC().currentTime; schedIdx = idxAtBeat(pauseBeat); isPlaying = true; tick(); }
+  }
+
+  function setTranspose(n) { transpose = n; }
+
+  // ── UI integration ─────────────────────────────────────────────────────────
+
+  function initUI() {
+    // Wire existing play/pause buttons to MIDI player
+    const playBtn  = document.getElementById('audiobutton-play');
+    const pauseBtn = document.getElementById('audiobutton-pause');
+
+    if (playBtn) {
+      playBtn.onclick = function () {
+        play();
+        playBtn.classList.add('hidden');
+        if (pauseBtn) pauseBtn.classList.remove('hidden');
+      };
+    }
+    if (pauseBtn) {
+      pauseBtn.onclick = function () {
+        pause();
+        pauseBtn.classList.add('hidden');
+        if (playBtn) playBtn.classList.remove('hidden');
+      };
+    }
+
+    // Add progress bar + tempo control if not already present
+    if (!document.getElementById('kp-progress')) {
+      const container = document.getElementById('audiobutton-container');
+      if (container) {
+        const tempo = Math.round(parsed ? parsed.tempo : 120);
+        const extra = document.createElement('div');
+        extra.id = 'kp-extras';
+        extra.innerHTML = `
+          <div class="kp-progress" id="kp-progress">
+            <div class="kp-progress-fill" id="kp-progress-fill"></div>
+          </div>
+          <label class="kp-tempo-wrap">
+            <span class="kp-tempo-label">&#9833;</span>
+            <input id="kp-tempo" class="kp-tempo-input" type="number" min="20" max="400" value="${tempo}">
+            <span class="kp-tempo-label">bpm</span>
+          </label>
+        `;
+        container.parentNode.insertBefore(extra, container.nextSibling);
+        document.getElementById('kp-tempo').onchange = function () {
+          setTempo(parseInt(this.value) || tempo);
+        };
+      }
+    }
+  }
+
+  function syncButtons(playing) {
+    const playBtn  = document.getElementById('audiobutton-play');
+    const pauseBtn = document.getElementById('audiobutton-pause');
+    if (playBtn)  playBtn.classList.toggle('hidden',  playing);
+    if (pauseBtn) pauseBtn.classList.toggle('hidden', !playing);
+  }
+
+  function updateProgress(beat) {
+    const fill = document.getElementById('kp-progress-fill');
+    if (!fill || !parsed || !parsed.totalBeats) return;
+    fill.style.width = Math.min(100, (beat / parsed.totalBeats) * 100) + '%';
+  }
+
+  return { load, play, pause, stop, setTempo, setTranspose };
+
+})();
+
+</script>

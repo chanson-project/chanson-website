@@ -52,6 +52,7 @@ function displayWork(id) {
 			.then(function(kern) {
 				document.getElementById("my-score").textContent = kern;
 				displayHumdrum(hnpOptions);
+				KernPlayer.load(kern);
 			});
 	} else {
 		displayHumdrum(hnpOptions);
