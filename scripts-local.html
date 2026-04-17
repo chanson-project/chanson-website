@@ -251,7 +251,7 @@ function displayTopComposers() {
 		return;
 	}
 
-	let threshold = 20;
+	let threshold = 3;
 	let plotInfo = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 		"background": "#FFFAF1",
@@ -295,6 +295,10 @@ function displayTopComposers() {
 			"values": data
 		},
 		"transform": [{
+				"calculate": "datum['!!!COM']",
+				"as": "Composer"
+			},
+			{
 				"aggregate": [{
 					"op": "count",
 					"field": "Composer",
