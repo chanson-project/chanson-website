@@ -71,7 +71,7 @@ const KernPlayer = (function () {
         if (!field || field === '.') continue;
         for (const token of field.split(' ')) {
           if (!token || token === '.') continue;
-          if (token.includes('_') || token.includes(']')) continue; // tied continuation
+          if (token.includes('_') || token.includes(']') || token.includes(')') || token.includes('(') || token.includes('[')) continue; // tied continuation
           const dur   = tokenToDuration(token);
           if (dur > advance) advance = dur;
           const pitch = tokenToMidi(token);
@@ -211,7 +211,7 @@ const KernPlayer = (function () {
   function setTempo(val) {
     const wasPlaying = isPlaying;
     if (wasPlaying) { pauseBeat = currentBeat(); isPlaying = false; cancelAnimationFrame(rafId); }
-    userTempo = val;
+    userTempo = val / 10;
     if (wasPlaying) { acStart = getAC().currentTime; schedIdx = idxAtBeat(pauseBeat); isPlaying = true; tick(); }
   }
 
