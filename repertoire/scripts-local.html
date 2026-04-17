@@ -219,7 +219,7 @@ function getScoreURL(entry) {
 	let ID = "";
 	if (typeof entry["ID"] !== "undefined") {
 		ID = entry["ID"];
-		let url = `"/work?id=${ID}"`;
+		let url = `"/work/?id=${ID}"`;
 		return url;
 	}
 	return "";
