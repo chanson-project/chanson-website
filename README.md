@@ -1,6 +1,7 @@
-# The 1520s Project website
+# The Chanson Project website
 
-Source files for The 1520s Project website
+Source files for The Chanson Project website  
+Originally forked from the 1520s Project website (https://github.com/benory/1520s-project-website).
 
 Files/directories:
 - _includes == Liquid include files

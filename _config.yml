@@ -18,12 +18,12 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: The 1520s Project
-email: the1520sProject@gmail.com
+title: Chanson Project
+email: TBC
 description: ""
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  benory/1520s-project-scores
+github_username:  chanson-project/chanson-encoding
 
 # Build settings
 theme: minima

@@ -192,15 +192,6 @@
 
               {%- assign counter = counter | plus: 1 -%}
 
-              {%- if counter == 2 -%}
-                <!-- Insert the dropdown after the second link -->
-                <div class="dropdown">
-                  <a class="page-link dropdown-trigger" href="#">resources</a>
-                  <div class="dropdown-content">
-                    <a class="page-link" href="/Josquin/">Josquin attributions</a>
-                  </div>
-                </div>
-              {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
         </div>
