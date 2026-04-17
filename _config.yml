@@ -32,7 +32,6 @@ plugins:
   - jekyll-seo-tag
 
 the1520sProject_data_url: https://data.1520s-project.org
-github_token: ""
 
 # Exclude from processing.
 # The following items will not be processed, by default.
