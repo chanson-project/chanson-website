@@ -30,17 +30,10 @@ order: 3
       <div id="dropdowns">
         <div class="top-line">
           <div id="composer-container"></div>
-          <div id="year-container"></div>
-          <div id="genre-container"></div>
-          <div id="voice-container"></div>
-        </div>
-        <div class="bottom-line">
-          <div id="source-container"></div>
-          <div id="mensuration-container"></div>
+          <div id="origin-container"></div>
         </div>
       </div>
       <div id="texted-container"></div>
-      <div id="mensuration-selected-container"></div>
     </div>
   </div>
 </div>

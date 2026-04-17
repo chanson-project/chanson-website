@@ -13,23 +13,13 @@
 
 function buildSearchInterface(data) {
   const Dropdowns = document.querySelector("#dropdowns");
-
   if (!Dropdowns) return;
 
-  // Clear all areas
   document.getElementById("composer-container").innerHTML = "";
-  document.getElementById("genre-container").innerHTML = "";
-  document.getElementById("year-container").innerHTML = "";
-  document.getElementById("voice-container").innerHTML = "";
-  document.getElementById("mensuration-container").innerHTML = "";
-  document.getElementById("mensuration-selected-container").innerHTML = "";
+  document.getElementById("origin-container").innerHTML = "";
 
-  // Top dropdowns
   document.getElementById("composer-container").appendChild(createElementFromHTML(buildComposerSelect(data)));
-  document.getElementById("genre-container").appendChild(createElementFromHTML(buildGenreSelect(data)));
-  document.getElementById("year-container").appendChild(createElementFromHTML(buildYearSelect(data)));
-  document.getElementById("voice-container").appendChild(createElementFromHTML(buildVoiceSelect(data)));
-  document.getElementById("source-container").appendChild(createElementFromHTML(buildSourceSelect(data)));
+  document.getElementById("origin-container").appendChild(createElementFromHTML(buildOriginSelect(data)));
 
   const label = document.createElement("label");
   label.className = "text-checkbox-label";
@@ -43,54 +33,12 @@ function buildSearchInterface(data) {
   label.appendChild(document.createTextNode("Texted scores only"));
 
   const textedContainer = document.getElementById("texted-container");
-	if (textedContainer) {
-	  const wrapper = document.createElement("div");
-	  wrapper.className = "text-checkbox-wrapper";
-	  wrapper.appendChild(label);
-	  textedContainer.appendChild(wrapper);
-	}
-
-  // Bottom row: source + mensuration
-  const row = document.createElement("div");
-  row.className = "dropdown-row";
-
-  const mensWrapper = document.createElement("div");
-  mensWrapper.className = "mensuration-wrapper";
-
-  const dropdownContainer = document.createElement("div");
-	dropdownContainer.className = "custom-dropdown";
-
-	const toggleButton = document.createElement("button");
-	toggleButton.className = "dropdown-toggle";
-	toggleButton.innerHTML =
-  `<span class="toggle-text">Mensuration(s) (earliest source)</span>`;
-	toggleButton.onclick = () => {
-	  dropdownContainer.classList.toggle("open");
-	};
-
-	const dropdownContent = document.createElement("div");
-	dropdownContent.className = "dropdown-content";
-	dropdownContent.id = "mensuration-menu";
-
-	dropdownContainer.appendChild(toggleButton);
-	dropdownContainer.appendChild(dropdownContent);
-	mensWrapper.appendChild(dropdownContainer);
-
-	buildCustomMensurationMenu(dropdownContent);
-
-  const selectedTags = document.createElement("div");
-  selectedTags.id = "selected-mensurations";
-  selectedTags.className = "selected-mensurations";
-  const selectedContainer = document.getElementById("mensuration-selected-container");
-	if (selectedContainer) {
-	  selectedContainer.appendChild(selectedTags);
-	};
-
-  const mensurationContainer = document.getElementById("mensuration-container");
-	if (mensurationContainer) {
-	  mensurationContainer.appendChild(mensWrapper);
-	}
-
+  if (textedContainer) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "text-checkbox-wrapper";
+    wrapper.appendChild(label);
+    textedContainer.appendChild(wrapper);
+  }
 }
 
 
@@ -108,7 +56,7 @@ function displayBrowseTable(data, selector) {
 		console.error(`Error: cannot find ${selector} element to display work table`);
 		return;
 	}
-	let headings = [INDEX_composer, INDEX_title, INDEX_genre, INDEX_voice, INDEX_firstsource, INDEX_firstsourcedate];
+	let headings = [INDEX_composer, INDEX_title, INDEX_pages, INDEX_origin];
 	let contents = "";
 	contents += "<table class='general'>\n";
 	contents += "<thead>\n";
@@ -128,8 +76,16 @@ function displayBrowseTable(data, selector) {
 // makeTableHeader -- Generate HTML content for browse table header.
 //
 
+const HEADING_LABELS = {
+	"!!!COM": "Composer",
+	"Title":  "Title",
+	"Pages":  "Pages",
+	"Origin": "Origin",
+};
+
 function makeTableHeader(headings) {
-	let output = `<th>${headings.join("</th><th>")}</th>\n`;
+	let labels = headings.map(h => HEADING_LABELS[h] || h);
+	let output = `<th>${labels.join("</th><th>")}</th>\n`;
 	return output;
 }
 
@@ -158,16 +114,6 @@ function makeTableBody(headings, data) {
 				output += `<a href=${scoreURL}>${title}</a>`;
 			}
 
-			else if (headings[i] == INDEX_firstsource) {
-				let url = getSource(entry);
-				let sourcevalue = value;
-				if (url) {
-					output += `<a target="_blank" href="${url}">${sourcevalue}</a>`;
-				}
-				else {
-					output += `${sourcevalue}`;
-				}
-			}
 			else {
 				output += value;
 			}
@@ -322,26 +268,20 @@ function buildComposerSelect(data) {
 // buildGenreSelect --
 //
 
-function buildGenreSelect(data) {
+function buildOriginSelect(data) {
 	let counter = {};
-	let sum = data.length;
-	for (let i=0; i<sum; i++) {
-		let entry = data[i];
-		let genre = entry[INDEX_genre];
-		if (!genre) {
-			console.error("WARNING: ", entry, " DOES NOT HAVE A GENRE");
-			continue;
-		}
-		counter[genre] = (counter[genre] === undefined) ? 1 : counter[genre] + 1;
+	for (let i=0; i<data.length; i++) {
+		let origin = data[i][INDEX_origin];
+		if (!origin) continue;
+		counter[origin] = (counter[origin] === undefined) ? 1 : counter[origin] + 1;
 	}
-
-	let glist = Object.keys(counter).sort();
-	let output = "<select class='genre' onchange='doSearch()'>\n";
-	output += `<option value="">Genre</option>`;
-	for (let i=0; i<glist.length; i++) {
-		let name = glist[i];
-		let count = counter[glist[i]];
-		output += `<option value="${name}">${name} (${count})</option>`;
+	let olist = Object.keys(counter).sort();
+	let originCount = olist.length;
+	let output = "<select class='origin' onchange='doSearch()'>\n";
+	output += `<option value="">Origin (${originCount})</option>`;
+	for (let i=0; i<olist.length; i++) {
+		let name = olist[i];
+		output += `<option value="${name}">${name} (${counter[name]})</option>`;
 	}
 	output += "</select>\n";
 	return output;
@@ -354,31 +294,7 @@ function buildGenreSelect(data) {
 // buildSourceSelect --
 //
 
-function buildSourceSelect(data) {
-	let counter = {};
-	let sum = data.length;
-	for (let i=0; i<sum; i++) {
-		let entry = data[i];
-		let source = entry[INDEX_firstsource];
-		if (!source) {
-			console.error("WARNING: ", entry, " DOES NOT HAVE A SOURCE");
-			continue;
-		}
-		counter[source] = (counter[source] === undefined) ? 1 : counter[source] + 1;
-	}
-
-	let slist = Object.keys(counter).sort();
-	let sourceCount = slist.length;
-	let output = "<select class='source' onchange='doSearch()'>\n";
-	output += `<option value="">Earliest source (${sourceCount})</option>`;
-	for (let i=0; i<slist.length; i++) {
-		let name = slist[i];
-		let count = counter[slist[i]];
-		output += `<option value='${name}'>${name} (${count})</option>`;
-	}
-	output += "</select>\n";
-	return output;
-}
+function buildSourceSelect(data) { return ""; }
 
 
 
@@ -387,34 +303,7 @@ function buildSourceSelect(data) {
 // buildVoiceSelect --
 //
 
-function buildVoiceSelect(data) {
-	let counter = {};
-	let fileCount = data.length;
-	for (let i=0; i<fileCount; i++) {
-		let entry = data[i];
-		let voice = entry[INDEX_voice];
-		if (!voice) {
-			console.error("WARNING: ", entry, " DOES NOT HAVE A VOICE COUNT");
-			continue;
-		}
-		counter[voice] = (counter[voice] === undefined) ? 1 : counter[voice] + 1;
-	}
-
-	// May need to sort numerically if 10 or more voices in any work:
-	let vlist = Object.keys(counter).sort();
-	let output = "<select class='voice' onchange='doSearch()'>\n";
-	output += `<option value="">Voices</option>`;
-	for (let i=0; i<vlist.length; i++) {
-		let vcount = vlist[i];
-		let text = "voices";
-		if (vcount === "1") {
-			text = "voice";
-		}
-		output += `<option value="${vcount}">${vcount} ${text}</option>`;
-	}
-	output += "</select>\n";
-	return output;
-}
+function buildVoiceSelect(data) { return ""; }
 
 function handleMensurationSelect() {
   const select = document.getElementById("mensuration-select");
@@ -540,88 +429,7 @@ function buildTextSelect(data) {
 // buildYearSelect --
 //
 
-function buildYearSelect(data) {
-	let years = {};
-	for (let entry of data) {
-		let parameter = "First Source Exact Date";
-		let year = entry[parameter];
-		let matches = year.match(/(\d{4})/);
-		if (matches) {
-			digits = matches[1];
-		} else {
-			continue;
-		}
-		let circa = year.match(/~/) ? true : false;
-		let tag = (circa ? "~" : "") + digits;
-		if (typeof years[tag] !== "undefined") {
-			years[tag]++;
-		} else {
-			years[tag] = 1;
-		}
-	}
-	let keys = Object.getOwnPropertyNames(years);
-	keys.sort((a, b) => {
-		let yearA = a;
-		let yearB = b;
-		if (typeof yearA === "undefined") {
-			return +1;
-		}
-		if (typeof yearB === "undefined") {
-			return -1;
-		}
-
-		let matches;
-
-		matches = yearA.match(/(\d{4})/);
-		if (matches) {
-			digitsA = matches[1];
-		} else {
-			return 1;
-		}
-		matches = yearB.match(/(\d{4})/);
-		if (matches) {
-			digitsB = matches[1];
-		} else {
-			return -1;
-		}
-
-		if (digitsA != digitsB) {
-			return parseInt(digitsA) - parseInt(digitsB);
-		}
-
-		// years are the same, so sort by circa
-		let circaA = false;
-		let circaB = false;
-		if (yearA.match(/~/)) {
-			circaA = true;
-		}
-		if (yearB.match(/~/)) {
-			circaB = true;
-		}
-		if (circaA) {
-			return +1;
-		}
-		if (circaB) {
-			return -1;
-		}
-		return 0;
-	});
-	let yearCount = keys.length;
-
-	let output = "";
-	output += "<select class='year' onchange='doSearch()'>\n";
-	output += `<option value=''>Year (${yearCount})</options>`;
-	for (let year of keys) {
-		if (!year.match(/~/)) {
-			output += `<option value="${year}">&nbsp;&nbsp;&thinsp;${year} (${years[year]})</option>`;
-		} else {
-			output += `<option value="${year}">${year} (${years[year]})</option>`;
-		}
-	}
-	output += "</select>";
-	return output;
-
-}
+function buildYearSelect(data) { return ""; }
 
 
 
@@ -642,131 +450,23 @@ function doSearch(data) {
 	}
 
 	let composerField = searchInterface.querySelector("select.composer");
-	if (!composerField) {
-		console.log("Problem finding composer field in search interface");
-		return;
-	}
-	let composerQuery = composerField.value;
+	let composerQuery = composerField ? composerField.value : "";
 
-	let genreField = searchInterface.querySelector("select.genre");
-	if (!genreField) {
-		console.log("Problem finding composer field in search interface");
-		return;
-	}
-	let genreQuery = genreField.value;
-
-	let sourceField = searchInterface.querySelector("select.source");
-	if (!sourceField) {
-		console.log("Problem finding source field in search interface");
-		return;
-	}
-	let sourceQuery = sourceField.value;
-
-	let voiceField = searchInterface.querySelector("select.voice");
-	if (!voiceField) {
-		console.log("Problem finding voice-count field in search interface");
-		return;
-	}
-	let voiceQuery = voiceField.value;
+	let originField = searchInterface.querySelector("select.origin");
+	let originQuery = originField ? originField.value : "";
 
 	let textCheckbox = document.querySelector("#text-checkbox");
-	let textQuery = textCheckbox && textCheckbox.checked ? "yes" : "";
-
-	let yearField = searchInterface.querySelector("select.year");
-	if (!yearField) {
-		console.log("Problem finding year field in search interface");
-		return;
-	}
-	let yearQuery = yearField.value;
 
 	if (composerQuery) {
-		let tempdata = [];
-		for (let i=0; i<data.length; i++) {
-			let entry = data[i];
-			let composer = entry[INDEX_composer];
-			if (composer === composerQuery) {
-				tempdata.push(entry);
-			}
-		}
-		data = tempdata;
+		data = data.filter(entry => entry[INDEX_composer] === composerQuery);
 	}
 
-	if (genreQuery) {
-		let tempdata = [];
-		for (let i=0; i<data.length; i++) {
-			let entry = data[i];
-			let genre = entry[INDEX_genre];
-			if (genre === genreQuery) {
-				tempdata.push(entry);
-			}
-		}
-		data = tempdata;
-	}
-
-	if (sourceQuery) {
-		let tempdata = [];
-		for (let i=0; i<data.length; i++) {
-			let entry = data[i];
-			let source = entry[INDEX_firstsource];
-			if (source === sourceQuery) {
-				tempdata.push(entry);
-			}
-		}
-		data = tempdata;
-	}
-
-	if (voiceQuery !== "") {
-		let tempdata = [];
-		for (let i=0; i<data.length; i++) {
-			let entry = data[i];
-			let voice = entry[INDEX_voice];
-			if (voice == voiceQuery) {
-				tempdata.push(entry);
-			}
-		}
-		data = tempdata;
+	if (originQuery) {
+		data = data.filter(entry => entry[INDEX_origin] === originQuery);
 	}
 
 	if (textCheckbox && textCheckbox.checked) {
-	  data = data.filter(entry => entry[INDEX_text] === "yes");
-	}
-
-	if (yearQuery !== "") {
-		let tempdata = [];
-		for (let i=0; i<data.length; i++) {
-			let entry = data[i];
-			let year = entry[INDEX_firstsourcedate];
-			if (year == yearQuery) {
-				tempdata.push(entry);
-			}
-		}
-		data = tempdata;
-	}
-
-	if (selectedMensurations.size > 0) {
-	  const tempdata = [];
-
-	  for (let i = 0; i < data.length; i++) {
-	    const entry = data[i];
-	    const raw = entry[INDEX_Mensurations];
-
-	    if (!raw) continue;
-
-	    const signsInPiece = raw
-	      .split(";")
-	      .map(sign => sign.trim())
-	      .filter(Boolean);
-
-	    const hasAll = [...selectedMensurations].every(sel =>
-	      signsInPiece.includes(sel)
-	    );
-
-	    if (hasAll) {
-	      tempdata.push(entry);
-	    }
-	  }
-
-	  data = tempdata;
+		data = data.filter(entry => entry[INDEX_text] === "done");
 	}
 
 	displayBrowseTable(data);
@@ -818,15 +518,11 @@ function FreeTextSearch(query) {
 
     // Build a unified searchable string for the row
     const haystack = normalize([
-      rowData.Composer,
+      rowData["!!!COM"],
       rowData.Title,
-      rowData.Subtitle,
-      rowData.Genre,
-      rowData["First Source"],
-      rowData.Linkage,
+      rowData.Origin,
+      rowData.Pages,
       rowData.ID,
-      rowData.Transcriber,
-      rowData["External Project Name"]
     ].filter(Boolean).join(" "));
 
     const matched = tokens.every(token => haystack.includes(token));
@@ -981,31 +677,7 @@ function setComposerSelectMenu(input) {
 //      http://www.1520s-project.org/browse/?v=3&c=Willaert
 //
 
-function setVoiceSelectMenu(input) {
-	if (!input) {
-		return;
-	}
-
-	input = input.replace(/^\s+/, "").replace(/\s+$/, "");
-
-	let voiceSelect = document.querySelector("select.voice");
-	if (!voiceSelect) {
-		return;
-	}
-
-	let options = voiceSelect.querySelectorAll("option");
-
-	// Search for exact voice-count match:
-	for (let i=0; i<options.length; i++) {
-		let value = options[i].value;
-		if (value === input) {
-			options[i].selected = true;
-			return;
-		}
-	}
-
-	// Cannot find the given voice count.
-}
+function setVoiceSelectMenu(input) {}
 
 
 
@@ -1023,31 +695,18 @@ function setVoiceSelectMenu(input) {
 //      http://www.1520s-project.org/browse/?v=3&c=Willaert&g=motet
 //
 
-function setGenreSelectMenu(input) {
-	if (!input) {
-		return;
-	}
-
-	input = input.replace(/^\s+/, "").replace(/\s+$/, "").replace(/\s+/, " ", "g");
-
-	let genreSelect = document.querySelector("select.genre");
-	if (!genreSelect) {
-		return;
-	}
-
-	let options = genreSelect.querySelectorAll("option");
-
-	// Search for exact best genre match:
+function setOriginSelectMenu(input) {
+	if (!input) return;
+	let originSelect = document.querySelector("select.origin");
+	if (!originSelect) return;
+	let options = originSelect.querySelectorAll("option");
 	let regex = new RegExp(input, "i");
 	for (let i=0; i<options.length; i++) {
-		let value = options[i].value;
-		if (value.match(regex)) {
+		if (options[i].value.match(regex)) {
 			options[i].selected = true;
 			return;
 		}
 	}
-
-	// Cannot find the given genre.
 }
 
 
@@ -1068,32 +727,7 @@ function setGenreSelectMenu(input) {
 //      http://www.1520s-project.org/browse/?v=4&c=Willaert&g=motet&y=1518
 //
 
-function setYearSelectMenu(input) {
-	if (!input) {
-		return;
-	}
-
-	input = input.replace(/^\s+/, "").replace(/\s+$/, "").replace(/\s+/, " ", "g");
-
-	let yearSelect = document.querySelector("select.year");
-	if (!yearSelect) {
-		return;
-	}
-
-	let options = yearSelect.querySelectorAll("option");
-
-	// Search for exact match for year (or approximate year):
-	for (let i=0; i<options.length; i++) {
-		let value = options[i].value;
-		if (value === input) {
-			options[i].selected = true;
-			return;
-		}
-
-	}
-
-	// Cannot find exact given year.
-}
+function setYearSelectMenu(input) {}
 
 
 
@@ -1113,30 +747,7 @@ function setYearSelectMenu(input) {
 // values excluding empty text will be presumbed to be no.
 //
 
-function setTextAvailableSelectMenu(input) {
-	if (!input) {
-		return;
-	}
-
-	input = input.match(/y/, "i") ? "yes" : "no";
-
-	let textSelect = document.querySelector("#text-checkbox");
-	if (!textSelect) {
-		return;
-	}
-
-	let options = textSelect.querySelectorAll("option");
-
-	// Search for exact match for year (or approximate year):
-	for (let i=0; i<options.length; i++) {
-		let value = options[i].value;
-		if (value === input) {
-			options[i].selected = true;
-			return;
-		}
-
-	}
-}
+function setTextAvailableSelectMenu(input) {}
 
 
 
@@ -1154,30 +765,7 @@ function setTextAvailableSelectMenu(input) {
 //      http://www.1520s-project.org/browse/?x=yes
 //
 
-function setEarliestSourceSelectMenu(input) {
-	if (!input) {
-		return;
-	}
-
-	input = input.replace(/^\s+/, "").replace(/\s+$/, "");
-
-	let sourceSelect = document.querySelector("select.source");
-	if (!sourceSelect) {
-		return;
-	}
-
-	let options = sourceSelect.querySelectorAll("option");
-
-	// Search for exact match for earliest source:
-	for (let i=0; i<options.length; i++) {
-		let value = options[i].value;
-		if (value === input) {
-			options[i].selected = true;
-			return;
-		}
-
-	}
-}
+function setEarliestSourceSelectMenu(input) {}
 
 
 
@@ -1191,62 +779,29 @@ function setEarliestSourceSelectMenu(input) {
 function updateBrowseUrlDisplay() {
 	let url      = `${window.location.origin}${window.location.pathname}`;
 	let freetext = document.querySelector("input#input").value.trim();
-	let composer = document.querySelector("select.composer").value.trim();
-	let voice    = document.querySelector("select.voice").value.trim();
-	let text = document.querySelector("#text-checkbox").checked ? "yes" : "";
-	let year     = document.querySelector("select.year").value.trim();
-	let genre    = document.querySelector("select.genre").value.trim();
-	let source   = document.querySelector("select.source").value.trim();
+	let composerEl = document.querySelector("select.composer");
+	let originEl   = document.querySelector("select.origin");
+	let textChecked = document.querySelector("#text-checkbox") && document.querySelector("#text-checkbox").checked;
+
+	let composer = composerEl ? composerEl.value.trim() : "";
+	let origin   = originEl   ? originEl.value.trim()   : "";
 
 	let cgi = "";
 
 	if (freetext) {
 		cgi += "q=" + encodeURIComponent(freetext);
 	}
-
 	if (composer) {
-		if (cgi) {
-			cgi += "&";
-		}
-		let cid = COMPOSER2ID[composer];
-		if (cid) {
-			cgi += "c=" + encodeURIComponent(cid);
-		}
+		if (cgi) cgi += "&";
+		cgi += "c=" + encodeURIComponent(composer);
 	}
-
-	if (voice) {
-		if (cgi) {
-			cgi += "&";
-		}
-		cgi += "v=" + encodeURIComponent(voice);
+	if (origin) {
+		if (cgi) cgi += "&";
+		cgi += "o=" + encodeURIComponent(origin);
 	}
-
-	if (text) {
-		if (cgi) {
-			cgi += "&";
-		}
-		cgi += "x=" + encodeURIComponent(text);
-	}
-
-	if (year) {
-		if (cgi) {
-			cgi += "&";
-		}
-		cgi += "y=" + encodeURIComponent(year);
-	}
-
-	if (genre) {
-		if (cgi) {
-			cgi += "&";
-		}
-		cgi += "g=" + encodeURIComponent(genre);
-	}
-
-	if (source) {
-		if (cgi) {
-			cgi += "&";
-		}
-		cgi += "e=" + encodeURIComponent(source);
+	if (textChecked) {
+		if (cgi) cgi += "&";
+		cgi += "x=yes";
 	}
 
 	if (cgi) {
@@ -1254,7 +809,6 @@ function updateBrowseUrlDisplay() {
 	}
 
 	if (url !== window.location.href) {
-		// Update the CGI search parameters in the URL if they have changed:
 		window.history.pushState(null, null, url);
 	}
 }
@@ -1287,21 +841,15 @@ function makeComposer2Id(cindex) {
 //
 
 function clearSearchFields() {
-	let freetextElement = document.querySelector("input#input");
-	let composerElement = document.querySelector("select.composer");
-	let voiceElement    = document.querySelector("select.voice");
-	let textElement     = document.querySelector("select.text");
-	let yearElement     = document.querySelector("select.year");
-	let genreElement    = document.querySelector("select.genre");
-	let sourceElement   = document.querySelector("select.source");
+	let freetextElement  = document.querySelector("input#input");
+	let composerElement  = document.querySelector("select.composer");
+	let originElement    = document.querySelector("select.origin");
+	let textCheckbox     = document.querySelector("#text-checkbox");
 
-	freetextElement.value = "";
-	composerElement.value = "";
-	voiceElement.value    = "";
-	textElement.value     = "";
-	yearElement.value     = "";
-	genreElement.value    = "";
-	sourceElement.value   = "";
+	if (freetextElement) freetextElement.value = "";
+	if (composerElement) composerElement.value = "";
+	if (originElement)   originElement.value   = "";
+	if (textCheckbox)    textCheckbox.checked  = false;
 
 	doSearch();
 }

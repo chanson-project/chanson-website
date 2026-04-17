@@ -3,10 +3,12 @@
 let COMPOSERS             = {% include metadata/composers.json %}
 let COMPOSER2ID           = {};
 let METADATA              = {% include metadata/works.json %};
-let INDEX_id         	    = "ID";
-let INDEX_composer    	  = "!!!COM";
-let INDEX_title       	  = "Title";
-//let INDEX_genre      	    = "Genre";
+let INDEX_id              = "ID";
+let INDEX_composer        = "!!!COM";
+let INDEX_title           = "Title";
+let INDEX_pages           = "Pages";
+let INDEX_origin          = "Origin";
+let INDEX_text            = "Text";
 
 //////////////////////////////
 //
@@ -32,57 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		runSearch = true;
 	}
 
-	// Set the voice-count select menu:
-	if (cgi.v) {
-		setVoiceSelectMenu(cgi.v);
+	// Set the origin select menu:
+	if (cgi.o) {
+		setOriginSelectMenu(cgi.o);
 		runSearch = true;
-	} else if (cgi.voice) {
-		setVoiceSelectMenu(cgi.voice);
-		runSearch = true;
-	} else if (cgi.voice) {
-		setVoiceSelectMenu(cgi.voices);
-		runSearch = true;
-	}
-
-	// Set the text-available select menu:
-	if (cgi.x) {
-		setTextAvailableSelectMenu(cgi.x);
-		runSearch = true;
-	} else if (cgi.text) {
-		setTextAvailableSelectMenu(cgi.text);
-		runSearch = true;
-	}
-
-	// Set the genre select menu:
-	if (cgi.g) {
-		setGenreSelectMenu(cgi.g);
-		runSearch = true;
-	} else if (cgi.genre) {
-		setGenreSelectMenu(cgi.genre);
-		runSearch = true;
-	}
-
-	// Set the year select menu:
-	if (cgi.y) {
-		setYearSelectMenu(cgi.y);
-		runSearch = true;
-	} else if (cgi.genre) {
-		setYearSelectMenu(cgi.year);
-		runSearch = true;
-	}
-
-	// Set the earliest source select menu:
-	if (cgi.e) {
-		setEarliestSourceSelectMenu(cgi.e);
-		runSearch = true;
-	} else if (cgi.earliest) {
-		setEarliestSourceSelectMenu(cgi.earliest);
-		runSearch = true;
-	} else if (cgi.s) {
-		setEarliestSourceSelectMenu(cgi.s);
-		runSearch = true;
-	} else if (cgi.source) {
-		setEarliestSourceSelectMenu(cgi.source);
+	} else if (cgi.origin) {
+		setOriginSelectMenu(cgi.origin);
 		runSearch = true;
 	}
 
