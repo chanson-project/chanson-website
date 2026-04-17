@@ -47,6 +47,9 @@ function buildSearchInterface(data) {
 // displayBrowseTable --
 //
 
+let CURRENT_DATA = [];
+let SORT_STATE = { column: null, dir: 1 };
+
 function displayBrowseTable(data, selector) {
 	if (!selector) {
 		selector = "#list";
@@ -56,7 +59,9 @@ function displayBrowseTable(data, selector) {
 		console.error(`Error: cannot find ${selector} element to display work table`);
 		return;
 	}
-	let headings = [INDEX_composer, INDEX_title, INDEX_pages, INDEX_origin];
+	CURRENT_DATA = data;
+	SORT_STATE = { column: null, dir: 1 };
+	let headings = [INDEX_collection, INDEX_composer, INDEX_title, INDEX_pages, INDEX_origin];
 	let contents = "";
 	contents += "<table class='general'>\n";
 	contents += "<thead>\n";
@@ -70,6 +75,44 @@ function displayBrowseTable(data, selector) {
 }
 
 
+//////////////////////////////
+//
+// sortBy -- Sort the current table by a column, toggling direction on repeat clicks.
+//
+
+function sortBy(column) {
+	if (SORT_STATE.column === column) {
+		SORT_STATE.dir *= -1;
+	} else {
+		SORT_STATE.column = column;
+		SORT_STATE.dir = 1;
+	}
+
+	let sorted = CURRENT_DATA.slice().sort(function(a, b) {
+		let av = "";
+		let bv = "";
+		if (column === INDEX_collection) {
+			av = getCollection(a);
+			bv = getCollection(b);
+		} else {
+			av = (a[column] || "").toString();
+			bv = (b[column] || "").toString();
+		}
+		return av.localeCompare(bv) * SORT_STATE.dir;
+	});
+
+	let headings = [INDEX_collection, INDEX_composer, INDEX_title, INDEX_pages, INDEX_origin];
+	let tbody = document.querySelector("#list tbody");
+	if (tbody) {
+		tbody.innerHTML = makeTableBody(headings, sorted);
+	}
+	let thead = document.querySelector("#list thead");
+	if (thead) {
+		thead.innerHTML = makeTableHeader(headings);
+	}
+}
+
+
 
 //////////////////////////////
 //
@@ -77,15 +120,25 @@ function displayBrowseTable(data, selector) {
 //
 
 const HEADING_LABELS = {
-	"!!!COM": "Composer",
-	"Title":  "Title",
-	"Pages":  "Pages",
-	"Origin": "Origin",
+	"Collection": "Collection",
+	"!!!COM":     "Composer",
+	"Title":      "Title",
+	"Pages":      "Pages",
+	"Origin":     "Origin",
 };
 
 function makeTableHeader(headings) {
-	let labels = headings.map(h => HEADING_LABELS[h] || h);
-	let output = `<th>${labels.join("</th><th>")}</th>\n`;
+	let output = "";
+	for (let i = 0; i < headings.length; i++) {
+		let h = headings[i];
+		let label = HEADING_LABELS[h] || h;
+		let arrow = "";
+		if (SORT_STATE.column === h) {
+			arrow = SORT_STATE.dir === 1 ? " ▲" : " ▼";
+		}
+		output += `<th class="sortable" onclick="sortBy('${h}')">${label}${arrow}</th>`;
+	}
+	output += "\n";
 	return output;
 }
 
@@ -98,26 +151,26 @@ function makeTableHeader(headings) {
 
 function makeTableBody(headings, data) {
 	let output = "";
-	for (let i=0; i<data.length; i++) {
+	for (let i = 0; i < data.length; i++) {
 		let entry = data[i];
-		output += "<tr>";
-				for (let i=0; i<headings.length; i++) {
-			let value = "";
-			if (typeof entry[headings[i]] !== "undefined") {
-				value = entry[headings[i]];
-			}
-			let tdClass = headings[i].replace(/\s+/, "-", "g").replace(/[^a-zA-Z0-9_-]/, "", "g").toLowerCase();
+		let searchText = [
+			entry["!!!COM"], entry.Title, entry.Origin, entry.Pages, entry.ID, getCollection(entry)
+		].filter(Boolean).join(" ").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+		output += `<tr data-search="${searchText.replace(/"/g, "&quot;")}">\n`;
+		for (let j = 0; j < headings.length; j++) {
+			let h = headings[j];
+			let value = (typeof entry[h] !== "undefined") ? entry[h] : "";
+			let tdClass = h.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9_-]/g, "").toLowerCase();
 			output += `<td class="${tdClass}">`;
-			if (headings[i] == INDEX_title) {
-				let title = getTitle(entry);
+			if (h === INDEX_title) {
 				let scoreURL = getScoreURL(entry);
-				output += `<a href=${scoreURL}>${title}</a>`;
-			}
-
-			else {
+				output += `<a href=${scoreURL}>${getTitle(entry)}</a>`;
+			} else if (h === INDEX_collection) {
+				output += getCollection(entry);
+			} else {
 				output += value;
 			}
-			output += "</td>";
+			output += "</td>\n";
 		}
 		output += "</tr>\n";
 	}
@@ -152,6 +205,24 @@ function getTitle(entry) {
 	} else {
 		return title;
 	}
+}
+
+
+
+//////////////////////////////
+//
+// getCollection -- Derive collection name from ID prefix.
+//
+
+const COLLECTION_LABELS = {
+	"BC": "Charles-Émile Gadbois, \"La bonne chanson\"",
+	"EG": "Ernest Gagnon, \"Chansons populaires du Canada (1865)\"",
+};
+
+function getCollection(entry) {
+	let id = entry["ID"] || "";
+	let prefix = id.substring(0, 2);
+	return COLLECTION_LABELS[prefix] || prefix;
 }
 
 
@@ -513,20 +584,8 @@ function FreeTextSearch(query) {
   let searchCount = 0;
 
   for (let i = 0; i < tr.length; i++) {
-    const rowData = METADATA[i];
-    if (!rowData) continue;
-
-    // Build a unified searchable string for the row
-    const haystack = normalize([
-      rowData["!!!COM"],
-      rowData.Title,
-      rowData.Origin,
-      rowData.Pages,
-      rowData.ID,
-    ].filter(Boolean).join(" "));
-
+    const haystack = normalize(tr[i].dataset.search || "");
     const matched = tokens.every(token => haystack.includes(token));
-
     tr[i].style.display = matched ? "" : "none";
     if (matched) searchCount++;
   }
