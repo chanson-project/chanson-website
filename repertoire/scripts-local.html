@@ -815,23 +815,6 @@ function updateBrowseUrlDisplay() {
 
 
 
-//////////////////////////////
-//
-// makeComposer2Id -- Create a lookup table from composer name (last, first)
-//    to Coposer ID (such as "Willaert, Adrian" to "Wil").
-//
-
-function makeComposer2Id(cindex) {
-	let output = {};
-	for (let i=0; i<cindex.length; i++) {
-		let composer = cindex[i].Composer;
-		let id = cindex[i].ID;
-		output[composer] = id;
-	}
-	return output;
-}
-
-
 
 //////////////////////////////
 //

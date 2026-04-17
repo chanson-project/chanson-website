@@ -25,11 +25,3 @@ works:
 	curl -L "https://script.google.com/macros/s/$(SID)/exec" > works.json
 
 
-	# Only update if the file has changed
-	if ! cmp -s temp_Josquin.csv ../../Josquin/Josquin.csv; then \
-		mv temp_Josquin.csv ../../Josquin/Josquin.csv; \
-		mkdir -p ../../_data/Josquin; \
-		date +"last_updated: %e %B %Y" | sed 's/^ *//g' > ../../_data/Josquin/csv_metadata.yml; \
-	else \
-		rm temp_Josquin.csv; \
-	fi

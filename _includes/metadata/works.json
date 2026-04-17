@@ -19,10 +19,12 @@
 		"Pages": "6-7",
 		"!!!COM": "Anonymous",
 		"!!!LYR": "Anonymous",
-		"Origin": "Folklore canadien",
+		"Origin": "Chanson populaire",
 		"Kern": "done",
 		"Dynam": "n/a",
-		"Text": "done"
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2026/04/16"
 	},
 	{
 		"ID": "BC003",
@@ -30,11 +32,12 @@
 		"Title": "Les cloches du hameau",
 		"Pages": "8-9t",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/May/06"
+		"EEV-1": "2025/05/06"
 	},
 	{
 		"ID": "BC004",
@@ -42,12 +45,13 @@
 		"Title": "La laine des moutons",
 		"Pages": "9b",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Origin": "Chanson d'Auvergne (traditionelle)",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/05"
+		"EEV-1": "2025/05/05"
 	},
 	{
 		"ID": "BC005",
@@ -55,11 +59,12 @@
 		"Title": "Partons, la mer est belle!",
 		"Pages": "10-11",
 		"!!!COM": "Anonymous (Folklore acadien); arr. Charles-Émile Gadbois",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/05"
+		"EEV-1": "2025/05/05"
 	},
 	{
 		"ID": "BC006",
@@ -67,13 +72,14 @@
 		"Title": "Gailonla, gai le rosier",
 		"Pages": "12",
 		"!!!COM": "Anonymous (Folklore français)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Jason Lau",
-		"EEV-1": "2025/May/13",
+		"EEV-1": "2025/05/13",
 		"EED-2": "Ève Poudrier",
-		"EEV-2": "2025/July/01"
+		"EEV-2": "2025/07/01"
 	},
 	{
 		"ID": "BC007",
@@ -86,7 +92,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/06"
+		"EEV-1": "2025/05/06"
 	},
 	{
 		"ID": "BC008",
@@ -99,7 +105,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/May/13"
+		"EEV-1": "2025/05/13"
 	},
 	{
 		"ID": "BC009",
@@ -107,11 +113,12 @@
 		"Title": "En passant par la Lorraine",
 		"Pages": "15",
 		"!!!COM": "(Vieille chanson française)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/24"
+		"EEV-1": "2025/05/24"
 	},
 	{
 		"ID": "BC010",
@@ -124,7 +131,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/May/13"
+		"EEV-1": "2025/05/13"
 	},
 	{
 		"ID": "BC011",
@@ -132,11 +139,12 @@
 		"Title": "Dans la  Garde nationale",
 		"Pages": "17b",
 		"!!!COM": "Musique de Do-Mi-Sol",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/13"
+		"EEV-1": "2025/05/13"
 	},
 	{
 		"ID": "BC012",
@@ -144,11 +152,12 @@
 		"Title": "Sur la rim, pom, poum",
 		"Pages": "18-19",
 		"!!!COM": "Folklore canadien; arr. Charles-Émile Gadbois",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/14"
+		"EEV-1": "2025/05/14"
 	},
 	{
 		"ID": "BC013",
@@ -161,7 +170,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/May/20"
+		"EEV-1": "2025/05/20"
 	},
 	{
 		"ID": "BC014",
@@ -174,9 +183,9 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Jason Lau",
-		"EEV-1": "2025/May/30",
+		"EEV-1": "2025/05/30",
 		"EED-2": "Ève Poudrier",
-		"EEV-2": "2025/June/23"
+		"EEV-2": "2025/06/23"
 	},
 	{
 		"ID": "BC015",
@@ -189,7 +198,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/May/20"
+		"EEV-1": "2025/05/20"
 	},
 	{
 		"ID": "BC016",
@@ -213,10 +222,11 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/June/24",
+		"EEV-1": "2025/05/20",
 		"EED-2": "Ève Poudrier",
-		"EEV-2": "2025/June/23",
-		"EED-3": "Isaac Howie"
+		"EEV-2": "2025/06/23",
+		"EED-3": "Isaac Howie",
+		"EEV-3": "2025/June/24"
 	},
 	{
 		"ID": "BC018",
@@ -224,11 +234,12 @@
 		"Title": "C'est l'aviron qui nous mène en haut",
 		"Pages": "26-27",
 		"!!!COM": "Folklore canadien",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/14"
+		"EEV-1": "2025/05/14"
 	},
 	{
 		"ID": "BC019",
@@ -236,11 +247,12 @@
 		"Title": "Souvenir d'un vieillard",
 		"Pages": "28",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/24"
+		"EEV-1": "2025/05/24"
 	},
 	{
 		"ID": "BC020",
@@ -253,7 +265,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/27"
+		"EEV-1": "2025/05/27"
 	},
 	{
 		"ID": "BC021",
@@ -261,6 +273,7 @@
 		"Title": "Sur la route de Berthier",
 		"Pages": "30-31t",
 		"!!!COM": "Folklore canadien; arr. Charles-Émile Gadbois",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done"
@@ -271,11 +284,12 @@
 		"Title": "Debout, les Gars!",
 		"Pages": "31b",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/30"
+		"EEV-1": "2025/05/30"
 	},
 	{
 		"ID": "BC023",
@@ -283,11 +297,12 @@
 		"Title": "Dubé, R. P. Blondin, s. j.",
 		"Pages": "32-33t",
 		"!!!COM": "Gadbois, Charles-Émile",
+		"!!!LYR": "Dubé, R. P. Blondin",
 		"Kern": "done",
 		"Dynam": "done",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/27"
+		"EEV-1": "2025/05/27"
 	},
 	{
 		"ID": "BC024",
@@ -295,11 +310,13 @@
 		"Title": "Dans la forêt prochaine",
 		"Pages": "33b",
 		"!!!COM": "Musique de Do-Mi-Sol",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
+		"Notes": "Unable to view PDF (error rendering code)",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/28"
+		"EEV-1": "2025/05/28"
 	},
 	{
 		"ID": "BC025",
@@ -307,13 +324,14 @@
 		"Title": "V'là l'bon vent",
 		"Pages": "34-35",
 		"!!!COM": "Anonymous (Folklore); arr. Charles-Émile Gadbois",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/May/27",
+		"EEV-1": "2025/05/27",
 		"EED-2": "Ève Poudrier",
-		"EEV-2": "2025/June/19"
+		"EEV-2": "2025/06/19"
 	},
 	{
 		"ID": "BC026",
@@ -321,13 +339,14 @@
 		"Title": "Isabeau s'y promène",
 		"Pages": "36-37t",
 		"!!!COM": "(Folklore)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/June/03",
+		"EEV-1": "2025/06/03",
 		"EED-2": "Ève Poudrier",
-		"EEV-2": "2025/June/23"
+		"EEV-2": "2025/06/23"
 	},
 	{
 		"ID": "BC027",
@@ -346,11 +365,12 @@
 		"Title": "Les filles de la Rochelle",
 		"Pages": "38",
 		"!!!COM": "Vieille chanson française",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "done",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/May/29"
+		"EEV-1": "2025/05/29"
 	},
 	{
 		"ID": "BC029",
@@ -363,7 +383,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/30"
+		"EEV-1": "2025/06/30"
 	},
 	{
 		"ID": "BC030",
@@ -371,13 +391,14 @@
 		"Title": "Le p'tit cordonnier",
 		"Pages": "40-41t",
 		"!!!COM": "Anonymous (Folklore)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Craig Sapp",
-		"EEV-1": "2025/June/05",
+		"EEV-1": "2025/06/05",
 		"EED-2": "Ève Poudrier",
-		"EEV-2": "2025/June/09"
+		"EEV-2": "2025/06/09"
 	},
 	{
 		"ID": "BC031",
@@ -385,11 +406,12 @@
 		"Title": "Le petit prince",
 		"Pages": "41b",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/20"
+		"EEV-1": "2025/06/20"
 	},
 	{
 		"ID": "BC032",
@@ -397,11 +419,12 @@
 		"Title": "À la volette",
 		"Pages": "42",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/20"
+		"EEV-1": "2025/06/20"
 	},
 	{
 		"ID": "BC033",
@@ -409,11 +432,12 @@
 		"Title": "Au clair de la lune",
 		"Pages": "43",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/09"
+		"EEV-1": "2025/06/09"
 	},
 	{
 		"ID": "BC034",
@@ -421,11 +445,12 @@
 		"Title": "Il était un petit navire",
 		"Pages": "44",
 		"!!!COM": "Anonymous (Vieille chanson française)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/20"
+		"EEV-1": "2025/06/20"
 	},
 	{
 		"ID": "BC035",
@@ -433,11 +458,12 @@
 		"Title": "J'entends le moulin",
 		"Pages": "46",
 		"!!!COM": "Anonymous (folklore)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/20"
+		"EEV-1": "2025/06/20"
 	},
 	{
 		"ID": "BC036",
@@ -445,11 +471,12 @@
 		"Title": "Mon beau sapin",
 		"Pages": "47",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "done",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/10"
+		"EEV-1": "2025/06/10"
 	},
 	{
 		"ID": "BC037",
@@ -460,7 +487,9 @@
 		"!!!LYR": "Nadeau, Hector (abbé, p.s.s.)",
 		"Kern": "done",
 		"Dynam": "n/a",
-		"Text": "done"
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/06/11"
 	},
 	{
 		"ID": "BC038",
@@ -471,7 +500,9 @@
 		"!!!LYR": "Lapierre, Eugène (D.M.)",
 		"Kern": "done",
 		"Dynam": "n/a",
-		"Text": "done"
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/06/20"
 	},
 	{
 		"ID": "BC039",
@@ -479,11 +510,12 @@
 		"Title": "Ne pleure pas Jeannette",
 		"Pages": "51",
 		"!!!COM": "Anonymous (Vieille chanson française)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/15"
+		"EEV-1": "2025/06/15"
 	},
 	{
 		"ID": "BC040",
@@ -497,9 +529,9 @@
 		"Text": "done",
 		"Notes": "*(mis pour balayer); * and quotation marks not encoded.",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/June/07",
+		"EEV-1": "2025/06/07",
 		"EED-2": "Ève Poudrier",
-		"EEV-2": "2025/June/18"
+		"EEV-2": "2025/06/18"
 	},
 	{
 		"ID": "BC041",
@@ -507,13 +539,14 @@
 		"Title": "Au fond des campagnes",
 		"Pages": "53",
 		"!!!COM": "Anonymous (Folklore)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/June/10",
+		"EEV-1": "2025/06/10",
 		"EED-2": "Ève Poudrier",
-		"EEV-2": "2025/June/18"
+		"EEV-2": "2025/06/18"
 	},
 	{
 		"ID": "BC042",
@@ -521,11 +554,12 @@
 		"Title": "Margoton",
 		"Pages": "54",
 		"!!!COM": "Chanson française du XVe siècle.",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/June/10"
+		"EEV-1": "2025/06/10"
 	},
 	{
 		"ID": "BC043",
@@ -533,6 +567,7 @@
 		"Title": "C'était Anne de Bretagne",
 		"Pages": "55",
 		"!!!COM": "Anonymous (Folklore français)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "done",
 		"Text": "done",
@@ -551,7 +586,7 @@
 		"Dynam": "done",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/June/24",
+		"EEV-1": "2025/06/24",
 		"EED-2": "Ève Poudrier",
 		"EEV-2": "2025/07/29"
 	},
@@ -561,6 +596,7 @@
 		"Title": "C'est la belle Françoise",
 		"Pages": "57",
 		"!!!COM": "Anonymous (Folklore)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
@@ -605,6 +641,7 @@
 		"Title": "Mon merle",
 		"Pages": "61",
 		"!!!COM": "Anonymous (Folklore canadien)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
@@ -639,9 +676,9 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Jason Lau",
-		"EEV-1": "2025/June/06",
+		"EEV-1": "2025/06/06",
 		"EED-2": "Ève Poudrier",
-		"EEV-2": "2025/July/01"
+		"EEV-2": "2025/07/01"
 	},
 	{
 		"ID": "BC051",
@@ -649,6 +686,7 @@
 		"Title": "Perrine était servante",
 		"Pages": "64",
 		"!!!COM": "Anonymous (Chanson populaire des provinces de l'Ouest de la France)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
@@ -708,6 +746,7 @@
 		"Title": "Au bois du rossignolet",
 		"Pages": "68-69",
 		"!!!COM": "Anonymous (Folklore)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
@@ -725,7 +764,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "10/09/2025"
+		"EEV-1": "2025/10/09"
 	},
 	{
 		"ID": "BC057",
@@ -738,7 +777,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "12/09/2025"
+		"EEV-1": "2025/12/09"
 	},
 	{
 		"ID": "BC058",
@@ -752,7 +791,7 @@
 		"Text": "done",
 		"Notes": "Del segno have been replaced by repeat signs.",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "12/09/2025"
+		"EEV-1": "2025/12/09"
 	},
 	{
 		"ID": "BC059",
@@ -766,7 +805,7 @@
 		"Text": "done",
 		"Notes": "Added elision in pline:20r to accommodate musical setting (de votr[e] = d'votr[e]).",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "12/09/2025"
+		"EEV-1": "2025/12/09"
 	},
 	{
 		"ID": "BC060",
@@ -774,11 +813,12 @@
 		"Title": "La jardinière du Roi",
 		"Pages": "76",
 		"!!!COM": "Anonymous (Valse populaire du pays Romand)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/23"
+		"EEV-1": "2025/06/23"
 	},
 	{
 		"ID": "BC061",
@@ -786,11 +826,12 @@
 		"Title": "La vie est belle",
 		"Pages": "77",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/23"
+		"EEV-1": "2025/06/23"
 	},
 	{
 		"ID": "BC062",
@@ -803,7 +844,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/24"
+		"EEV-1": "2025/06/24"
 	},
 	{
 		"ID": "BC063",
@@ -811,11 +852,12 @@
 		"Title": "La rim doum dim",
 		"Pages": "79",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/24"
+		"EEV-1": "2025/06/24"
 	},
 	{
 		"ID": "BC064",
@@ -828,7 +870,7 @@
 		"Dynam": "n/a",
 		"Text": "not done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/June/24"
+		"EEV-1": "2025/06/24"
 	},
 	{
 		"ID": "BC065",
@@ -836,12 +878,13 @@
 		"Title": "Ah! Si mon moine voulait danser",
 		"Pages": "82-83t",
 		"!!!COM": "Anonymous (Folklore)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"Notes": "Le texte de cette chanson est basé sur un jeu de mots. Dans le langage populaire du Québec on donne le nom de \"moine\" au petit jouet de bois appelé en France: \"toupie d'Allemagne\". Apparemment il s'agit d'un moine (un religieux); Mais en réalité, il s'agit d'une toupie que les enfants essayent de faire danser en la fouettant légèrement avec leur corde.",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/July/01"
+		"EEV-1": "2025/07/01"
 	},
 	{
 		"ID": "BC066",
@@ -849,11 +892,12 @@
 		"Title": "Nanette",
 		"Pages": "83b",
 		"!!!COM": "Anonymous (Folklore)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Ève Poudrier",
-		"EEV-1": "2025/July/01"
+		"EEV-1": "2025/07/01"
 	},
 	{
 		"ID": "BC067",
@@ -861,6 +905,7 @@
 		"Title": "Mon père avait cinq cents moutons",
 		"Pages": "84",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
@@ -999,7 +1044,7 @@
 		"Dynam": "n/a",
 		"Text": "done",
 		"EED-1": "Isaac Howie",
-		"EEV-1": "2025/Aug/5"
+		"EEV-1": "2025/08/05"
 	},
 	{
 		"ID": "BC077",
@@ -1054,6 +1099,7 @@
 		"Title": "Bonhomme, bonhomme",
 		"Pages": "102-103",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
@@ -1134,6 +1180,7 @@
 		"Title": "Quand j'étais chez mon père, apprenti pastouriau",
 		"Pages": "110",
 		"!!!COM": "Anonymous (Vieille chanson française)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
@@ -1146,6 +1193,7 @@
 		"Title": "Papillon, tu es volage",
 		"Pages": "111",
 		"!!!COM": "Anonymous (Folklore canadien)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
@@ -1171,6 +1219,7 @@
 		"Title": "Marie Ma-de-leine",
 		"Pages": "113",
 		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
@@ -1183,6 +1232,7 @@
 		"Title": "Meunier, tu dors",
 		"Pages": "114-115t",
 		"!!!COM": "Anonymous (Folklore)",
+		"!!!LYR": "Anonymous",
 		"Kern": "done",
 		"Dynam": "n/a",
 		"Text": "done",
@@ -1203,6 +1253,1630 @@
 		"EEV-1": "2025/07/31"
 	},
 	{
-		"ID": "BC092"
+		"ID": "BC092",
+		"File Name": "BC092_sur-la-route-de-dijon_p116-117t.krn",
+		"Title": "Sur la route de Dijon",
+		"Pages": "116-117t",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/08/01"
+	},
+	{
+		"ID": "BC093",
+		"File Name": "BC093_les-gars-de-locmine_p117b.krn",
+		"Title": "Les gars de Locminé",
+		"Pages": "117b",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "done",
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/08/01"
+	},
+	{
+		"ID": "BC094",
+		"File Name": "BC094_je-nai-pas-de-barbe-au-menton_p118.krn",
+		"Title": "Je n'ai pas de barbe au menton",
+		"Pages": "118k",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/08/01"
+	},
+	{
+		"ID": "BC095",
+		"File Name": "BC095_le-bal-chez-boule_p119.krn",
+		"Title": "Le bal chez Boulé",
+		"Pages": "119",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Do-Mi-Sol",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/08/05"
+	},
+	{
+		"ID": "BC096",
+		"File Name": "BC096_le-nez-de-martin_p120.krn",
+		"Title": "Le nez de Martin",
+		"Pages": "120",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "done",
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/08/05"
+	},
+	{
+		"ID": "BC097",
+		"File Name": "BC097_la-poule-a-colin_p121.krn",
+		"Title": "Colin (La poule à Colin)",
+		"Pages": "121",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/08/05"
+	},
+	{
+		"ID": "BC098",
+		"File Name": "BC098_un-ptit-moulin-sur-la-riviere_p122-123t.krn",
+		"Title": "Un p'tit moulin sur la rivière",
+		"Pages": "122-123t",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/08/06"
+	},
+	{
+		"ID": "BC099",
+		"File Name": "BC099_marie-calumet_p123b.krn",
+		"Title": "Marie Calumet",
+		"Pages": "123b",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/08/07"
+	},
+	{
+		"ID": "BC100",
+		"File Name": "BC100_pot-pourri_p124-125.krn",
+		"Title": "Pot pourri",
+		"Pages": "124-125",
+		"!!!COM": "Gadbois, Charles-Émile",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "done",
+		"Text": "done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2025/08/10"
+	},
+	{
+		"ID": "BC101",
+		"File Name": "BC101_le-credo-du-paysan_p126-127.krn",
+		"Title": "Le crédo du paysan",
+		"Pages": "126-127",
+		"!!!COM": "Goublier, Gustave",
+		"!!!LYR": "Borel, François and Borel, Stéphane",
+		"Kern": "done",
+		"Dynam": "done",
+		"Text": "done",
+		"EED-1": "Isaac Howie",
+		"EEV-1": "2025/08/12",
+		"EED-2": "Ève Poudrier",
+		"EEV-2": "2025/09/15"
+	},
+	{
+		"ID": "BC102",
+		"File Name": "BC102_le-lac-des-amours_p128.krn",
+		"Title": "Le lac des amours",
+		"Pages": "128",
+		"!!!COM": "Gadbois, Charles-Émile",
+		"!!!LYR": "Gadbois, Charles-Émile",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "not done",
+		"EED-1": "Isaac Howie",
+		"EEV-1": "2025/08/12"
+	},
+	{
+		"ID": "BC103",
+		"File Name": "BC103_le-soir-sur-leau_p129.krn",
+		"Title": "Le soir sur l'eau",
+		"Pages": "129",
+		"!!!COM": "Gadbois, Charles-Émile",
+		"!!!LYR": "Gadbois, Charles-Émile",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"EED-1": "Judith Valerie Engel",
+		"EEV-1": "2026/01/13",
+		"EED-2": "Avery Yewon Hong",
+		"EEV-2": "2026/01/21",
+		"EED-3": "Ève Poudrier",
+		"EEV-3": "2026/03/28"
+	},
+	{
+		"ID": "BC104",
+		"File Name": "BC104_dans-tous-les-cantons_p130-131t.krn",
+		"Title": "Dans tous les cantons",
+		"Pages": "130-131t",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"Notes": "EEV-2 date earlier than EEV-1; Kern was also reviewed by Ève Poudrier on 2026/03/29 as EED/EEV-4 (no columns available for that)",
+		"EED-1": "Avery Yewon Hong",
+		"EEV-1": "2026/02/23",
+		"EED-2": "Jack Etchegary",
+		"EEV-2": "2026/02/03",
+		"EED-3": "Karissa Tang",
+		"EEV-3": "2026/03/11"
+	},
+	{
+		"ID": "BC105",
+		"File Name": "BC105_il-ny-a-quun-seul-dieu_p131b.krn",
+		"Title": "Il n'y a qu'un seul Dieu",
+		"Pages": "131b",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"Notes": "Ève Poudrier also listed as EED:pr-3 and 2026/03/12 as EEV:pr-3",
+		"EED-1": "Karissa Tang",
+		"EEV-1": "2026/01/13",
+		"EED-2": "Avery Yewon Hong",
+		"EEV-2": "2026/01/21",
+		"EED-3": "Ève Poudrier",
+		"EEV-3": "2026/03/29"
+	},
+	{
+		"ID": "BC106",
+		"File Name": "BC106_commca_p132-133.krn",
+		"Title": "Comm'ça",
+		"Pages": "132-133",
+		"!!!COM": "Sirois, Lucien",
+		"!!!LYR": "Sirois, Lucien",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"Notes": "Kern was also reviewed by Ève Poudrier on 2026/04/10 as EED/EEV-4 (no columns available for that)",
+		"EED-1": "Gavin Topnik",
+		"EEV-1": "2026/01/13",
+		"EED-2": "Jack Etchegary",
+		"EEV-2": "2026/01/22",
+		"EED-3": "Judith Valerie Engel",
+		"EEV-3": "2026/02/04"
+	},
+	{
+		"ID": "BC107",
+		"File Name": "BC107_a-saint-malo-beau-port-de-mer_p134.krn",
+		"Title": "À Saint-Malo, beau port de mer",
+		"Pages": "134",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"EED-1": "Bethany Cheung",
+		"EEV-1": "2026/01/13",
+		"EED-2": "Judith Valerie Engel",
+		"EEV-2": "2026/01/22",
+		"EED-3": "Bethany Cheung",
+		"EEV-3": "2026/02/03",
+		"EED-4": "Jack Etchegary",
+		"EEV-4": "2026/02/03",
+		"EED-5": "Ève Poudrier",
+		"EEV-5": "2026/04/16"
+	},
+	{
+		"ID": "BC108",
+		"File Name": "BC108_jai-cueilli-la-belle-rose_p135.krn",
+		"Title": "J'ai cueilli la belle rose",
+		"Pages": "135",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "in progress",
+		"Dynam": "n/a",
+		"Text": "in progress",
+		"EED-1": "Jack Etchegary",
+		"EEV-1": "2026/02/03",
+		"EED-2": "Bethany Cheung",
+		"EEV-2": "2026/02/03",
+		"EED-3": "Ève Poudrier",
+		"EEV-3": "2026/02/03"
+	},
+	{
+		"ID": "BC109",
+		"File Name": "BC109_o-carillon_p136-137t.krn",
+		"Title": "Ô Carillon",
+		"Pages": "136-137t",
+		"!!!COM": "Sabatier, Charles Wugk",
+		"!!!LYR": "Crémazie, Octave",
+		"Kern": "done",
+		"Dynam": "done",
+		"Text": "in progress",
+		"Notes": "Text analysis remains to ne done",
+		"EED-1": "Ève Poudrier",
+		"EEV-1": "2026/04/16"
+	},
+	{
+		"ID": "BC110",
+		"File Name": "BC110_la-bonne-chanson-se-chante-partout_p137b.krn",
+		"Title": "La bonne chanson se chante partout",
+		"Pages": "137b",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "not done",
+		"Dynam": "n/a",
+		"Text": "not done"
+	},
+	{
+		"ID": "BC111",
+		"File Name": "BC111_youppe-youppe-sur-la-riviere_p138-139t.krn",
+		"Title": "Youppe! Youppe! sur la rivière",
+		"Pages": "138-139t",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "not done",
+		"Dynam": "n/a",
+		"Text": "not done"
+	},
+	{
+		"ID": "BC112",
+		"File Name": "BC112_bonsoir-mes-amis-bonsoir_p139b.krn",
+		"Title": "Bonsoir, mes amis, bonsoir!",
+		"Pages": "139b",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "not done",
+		"Dynam": "n/a",
+		"Text": "not done"
+	},
+	{
+		"ID": "BC113",
+		"File Name": "BC113_nos-souvenirs_p140-141t.krn",
+		"Title": "Nos souvenirs",
+		"Pages": "140-141t",
+		"!!!COM": "Georges, Raoul",
+		"!!!LYR": "Favard, E.",
+		"Kern": "in progress",
+		"Dynam": "n/a",
+		"Text": "in progress",
+		"Notes": "Unable to find first name of lyricist E. Favard",
+		"EED-1": "Junny Chen",
+		"EEV-1": "2026/04/09",
+		"EED-2": "Ève Poudrier",
+		"EEV-2": "2026/04/15"
+	},
+	{
+		"ID": "BC114",
+		"File Name": "BC114_au-revoir_p141b.krn",
+		"Title": "Au revoir",
+		"Pages": "141b",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "done",
+		"Dynam": "n/a",
+		"Text": "done",
+		"EED-1": "Rajat Chowdhury",
+		"EEV-1": "2026/03/21",
+		"EED-2": "Ève Poudrier",
+		"EEV-2": "2026/04/10"
+	},
+	{
+		"ID": "EG001",
+		"Filename": "eg001_adam-et-eve_p161-167.krn",
+		"Title": "Adam et Ève",
+		"Pages": "161-167",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/10"
+	},
+	{
+		"ID": "EG002",
+		"Filename": "eg002_ah-je-men-vais-entrer-en-danse_p216-217.krn",
+		"Title": "Ah!, je m'en vais entrer en danse",
+		"Pages": "216-217",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG003",
+		"Filename": "eg003_ah-qui-marierons-nous_p151-152.krn",
+		"Title": "Ah! Qui marierons-nous?",
+		"Pages": "151-152",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/09",
+		"EED-2": "Isaac Howie"
+	},
+	{
+		"ID": "EG004",
+		"Filename": "eg004_ah-qui-me-passera-le-bois_p88-92.krn",
+		"Title": "Ah! Qui me passera le bois",
+		"Pages": "88-92",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/04/15"
+	},
+	{
+		"ID": "EG005",
+		"Filename": "eg005_ah-si-mon-moine-voulait-danser_p128-129.krn",
+		"Title": "Ah! Si mon moine voulait danser!",
+		"Pages": "128-129",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/17"
+	},
+	{
+		"ID": "EG006b",
+		"Filename": "eg006b_a-la-claire-fontaine_p1-3.krn",
+		"Title": "À la claire fontaine",
+		"Pages": "1-3",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG006c",
+		"Filename": "eg006c_a-la-claire-fontaine_p279-281.krn",
+		"Title": "À la claire fontaine",
+		"Pages": "279-281",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG007",
+		"Filename": "eg007_a-la-sante-de-ces-jeunes-maries_p287-290.krn",
+		"Title": "À la santé de ces jeunes",
+		"Pages": "287-290",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG008",
+		"Filename": "eg008_a-saint-malo-beau-port-de-mer_pg24-25.krn",
+		"Title": "À Saint-Malo, beau port de mer",
+		"Pages": "24-25",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG009",
+		"Filename": "eg009_au-bois-du-rossignolet_p107-110.krn",
+		"Title": "Au bois du rossignolet",
+		"Pages": "107-110",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/04/14"
+	},
+	{
+		"ID": "EG010",
+		"Filename": "eg010_au-jardin-de-mon-pere-un-oranger-lui-ya_p43-46.krn",
+		"Title": "Au jardin de mon père un oranger lui ya",
+		"Pages": "43-46",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "In-Progress",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG011",
+		"Filename": "eg011_aurai-je-nanette_p42.krn",
+		"Title": "Aurai-je Nanette?",
+		"Pages": "42",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG012",
+		"Filename": "eg012_bal-chez-boule_p115-117.krn",
+		"Title": "Bal chez boulé",
+		"Pages": "115-117",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/23"
+	},
+	{
+		"ID": "EG013",
+		"Filename": "eg013_bonhomme-bonhomme-que-sais-tu-donc-faire_p226-227.krn",
+		"Title": "Bonhomme, bonhomme que sais-tu donc faire",
+		"Pages": "226-227",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG014",
+		"Filename": "eg014_cecilia_p31-32.krn",
+		"Title": "Cécilia",
+		"Pages": "31-32",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG015",
+		"Filename": "eg015_celle-que-mon-coeur-aime_p310.krn",
+		"Title": "Celle que mon cœur aime",
+		"Pages": "310",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Isaac Howie",
+		"EEV-1": "2026/01/19"
+	},
+	{
+		"ID": "EG016",
+		"Filename": "eg016_cest-dans-la-ville-de-bytown_p65-68.krn",
+		"Title": "C'est dans la ville de Bytown",
+		"Pages": "65-68",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG017",
+		"Filename": "eg017_cest-dans-la-ville-de-rouen_p118-119.krn",
+		"Title": "C'est dans la ville de Rouen",
+		"Pages": "118-119",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/23"
+	},
+	{
+		"ID": "EG018",
+		"Filename": "eg018_cest-dans-paris-ya-t-une-brune_p184-185.krn",
+		"Title": "C'est dans Paris ya-t-une brune",
+		"Pages": "184-185",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/08",
+		"EED-2": "Isaac Howie"
+	},
+	{
+		"ID": "EG019b",
+		"Filename": "eg019b_cest-la-belle-francoise_p8-9.krn",
+		"Title": "C'est la belle Françoise",
+		"Pages": "8-9",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG019c",
+		"Filename": "eg019c_cest-la-belle-francoise_p8-9.krn",
+		"Title": "C'est la belle Françoise",
+		"Pages": "8-9",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous"
+	},
+	{
+		"ID": "EG019d",
+		"Filename": "eg019d_cest-la-belle-francoise_p10.krn",
+		"Title": "C'est la belle Françoise",
+		"Pages": "10",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG019e",
+		"Filename": "eg019e_cest-la-belle-francoise_p11.krn",
+		"Title": "C'est la belle Françoise",
+		"Pages": "11",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG020",
+		"Filename": "eg020_cest-la-plus-belle-de-ceans_p218-219.krn",
+		"Title": "C'est la belle de Ceans",
+		"Pages": "218-219",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG021",
+		"Filename": "eg021_cest-la-poulette-grise_p261-263.krn",
+		"Title": "C'est la poulette grise",
+		"Pages": "261-263",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG022",
+		"Filename": "eg022_cest-le-bon-vin-qui-danse_p220-221.pdf",
+		"Title": "C'est le bon vin qui danse",
+		"Pages": "220-221",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG023",
+		"Filename": "eg023_cest-lvent-frivolant_p22.krn",
+		"Title": "C'est l'vent frivolant",
+		"Pages": "22",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG024",
+		"Filename": "eg024_cest-pinson-avec-cendrouille_p275-278.krn",
+		"Title": "C'est pinson avec cendrouille",
+		"Pages": "275-278",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG025",
+		"Filename": "eg025_cetait-une-fregate_p208-210.krn",
+		"Title": "C'était une frégate",
+		"Pages": "208-210",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG026",
+		"Filename": "eg026_chez-mon-pere-ya-trois-filles_p282-286.krn",
+		"Title": "Chez mon père y'a trois filles",
+		"Pages": "282-286",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None",
+		"Notes": "Grouped together w/ EG084 \"Perette est bien malade\""
+	},
+	{
+		"ID": "EG027",
+		"Filename": "eg027_dans-les-chantiers-nous-hivernerons_p99-103.krn",
+		"Title": "Dans les chantiers nous hivernerons",
+		"Pages": "99-103",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/04/14"
+	},
+	{
+		"ID": "EG028b",
+		"Filename": "eg028b_dans-les-prisons-de-nantes_p26-28.krn",
+		"Title": "Dans les prisons de Nantes, Var. 1",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG028c",
+		"Filename": "eg028c_dans-les-prisons-de-nantes_p29-30.krn",
+		"Title": "Dans les prisons de Nantes, Var. 2",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG029",
+		"Filename": "eg029_dans-ma-main-droite-je-tiens-rosier_p147-148.krn",
+		"Title": "Dans ma main droite je tiens rosier",
+		"Pages": "147-148",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/09",
+		"EED-2": "Isaac Howie"
+	},
+	{
+		"ID": "EG030",
+		"Filename": "eg030_dans-paris-ya-t-une-brune-plus-bell-que-le-jour_p170-173.krn",
+		"Title": "Dans Paris ya-t-une brune plus bell' que le jour",
+		"Pages": "170-173",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/10",
+		"EED-2": "Isaac Howie"
+	},
+	{
+		"ID": "EG031",
+		"Filename": "eg031_dans-tous-les-cantons_291.krn",
+		"Title": "Dans tous les cantons",
+		"Pages": "291",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Isaac Howie",
+		"EEV-1": "2026/01/18"
+	},
+	{
+		"ID": "EG032b",
+		"Filename": "eg032b_descendez-a-lombre_p18.krn",
+		"Title": "Descendez à l'ombre, Var. 1",
+		"Pages": "16",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG032c",
+		"Filename": "eg032b_descendez-a-lombre_p17.krn",
+		"Title": "Descendez à l'ombre, Var. 2",
+		"Pages": "17",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG033",
+		"Filename": "eg033_digue-dindaine_p49-52.krn",
+		"Title": "Digue dindaine",
+		"Pages": "49-52",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG034",
+		"Filename": "eg034_dou-viens-tu-bergere_p309-311.krn",
+		"Title": "D'où viens-tu, bergère?",
+		"Pages": "309-311",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Isaac Howie",
+		"EEV-1": "2026/01/28"
+	},
+	{
+		"ID": "EG035",
+		"Filename": "eg035_en-filant-ma-quenouille_p213-215.krn",
+		"Title": "En filant ma quenouille",
+		"Pages": "213-215",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG036",
+		"Filename": "eg036_en-revenant-de-la-joli-rochelle_p155-156.krn",
+		"Title": "En revenant de la joli' Rochelle",
+		"Pages": "155-156",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/09",
+		"EED-2": "Isaac Howie"
+	},
+	{
+		"ID": "EG037",
+		"Filename": "eg037_en-roulant-ma-boule_p12-15.krn",
+		"Title": "En roulant ma boule",
+		"Pages": "12-15",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG038",
+		"Filename": "eg038_entre_paris_et_saint_denis_p294.krn",
+		"Title": "Entre Paris et Saint-Denis",
+		"Pages": "294",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Isaac Howie",
+		"EEV-1": "2026/01/26"
+	},
+	{
+		"ID": "EG039",
+		"Filename": "eg039_et-moi-je-menfouiyais_p145-146.krn",
+		"Title": "Et moi je m'enfouiyais",
+		"Pages": "145-146",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/15"
+	},
+	{
+		"ID": "EG040",
+		"Filename": "eg040_et-moi-je-men-passe_p33.krn",
+		"Title": "Et moi je m'en passé!",
+		"Pages": "33",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG041",
+		"Filename": "eg041_fendez-le-bois-chauffez-le-four_p111-112.krn",
+		"Title": "Fendez le bois, chauffez le four",
+		"Pages": "111-112",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/23"
+	},
+	{
+		"ID": "EG042",
+		"Filename": "eg042_francois-marcotte_p270-274.krn",
+		"Title": "François Marcotte",
+		"Pages": "270-274",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG043",
+		"Filename": "eg043_fringue-fringue-sur-laviron_p61-62",
+		"Title": "Fringue, fringue sur l'aviron",
+		"Pages": "61-62",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG044",
+		"Filename": "eg044_frit-a-lhuile_p64.krn",
+		"Title": "Frit à l'huile",
+		"Pages": "64",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG045",
+		"Filename": "eg045_gai-lon-la-gai-le-rosier_p39-41.krn",
+		"Title": "Gai lon la, gai le rosier",
+		"Pages": "39-41",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG046",
+		"Filename": "eg046_genticorum_p63.krn",
+		"Title": "Genticorum",
+		"Pages": "63",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG047",
+		"Filename": "eg047_hier-sur-le-pont-davignon_p96-97.krn",
+		"Title": "Hier sur le pont d'Avignon",
+		"Pages": "96-97",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/04/14"
+	},
+	{
+		"ID": "EG048",
+		"Filename": "eg048_il-nya-quun-seul-Dieu_p298.krn",
+		"Title": "Il n'y a qu'un seul Dieu",
+		"Pages": "298",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Isaac Howie",
+		"EEV-1": "2026/01/18"
+	},
+	{
+		"ID": "EG049",
+		"Filename": "eg049_isabeau-sy-promene_p36-38.krn",
+		"Title": "Isabeau s'y promène",
+		"Pages": "36-38",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG050",
+		"Filename": "eg050_jacquot-hugues_p267-269.krn",
+		"Title": "Jacquot Hugues",
+		"Pages": "267-269",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG051",
+		"Filename": "eg051_jai-cueilli-la-belle-rose_p85-87.krn",
+		"Title": "J'ai cueilli la belle rose",
+		"Pages": "85-87",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/04/16"
+	},
+	{
+		"ID": "EG052",
+		"Filename": "eg052_jai-fait-une-maitresse_p136-140.krn",
+		"Title": "J'ai fait une maitresse",
+		"Pages": "136-140",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/16"
+	},
+	{
+		"ID": "EG053",
+		"Filename": "eg053_jaimrai-tendrement-ces-amants-constant_p20.krn",
+		"Title": "J'aim'rai tendrement ces amants constant",
+		"Pages": "20",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG054",
+		"Filename": "eg054_jai-perdu-mon-amant_p194-196.krn",
+		"Title": "J'ai perdu mon amant",
+		"Pages": "194-196",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG055",
+		"Filename": "eg055_jai-tant-danse-jai-tant-saute_p47-48.krn",
+		"Title": "J'ai tant dansé, j'ai tant santé",
+		"Pages": "47-48",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG056",
+		"Filename": "eg056_jai-tant-denfants-a-marier_p149-150.krn",
+		"Title": "J'ai tant d'enfants à marier!",
+		"Pages": "149-150",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/09",
+		"EED-2": "Isaac Howie"
+	},
+	{
+		"ID": "EG057",
+		"Filename": "eg057_jai-trop-grand-peur-des-loups_p177-178.krn",
+		"Title": "J'ai trop grand' peur des loups",
+		"Pages": "177-178",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/09"
+	},
+	{
+		"ID": "EG058",
+		"Filename": "eg058_jai-trouve-le-nique-du-lievre_p153-154.krn",
+		"Title": "J'ai trouvé le nique du lièvre",
+		"Pages": "153-154",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/09"
+	},
+	{
+		"ID": "EG059",
+		"Filename": "eg059_jai-vu-le-loup-le-rnard-passer_p179.krn",
+		"Title": "J'ai vu le loup, le r'nard passer",
+		"Pages": "179",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/09"
+	},
+	{
+		"ID": "EG060b",
+		"Filename": "eg060b_jamais-je-nourrirai-de-geai_p232-235.krn",
+		"Title": "Jamais de nourrirai de geai",
+		"Pages": "232-235",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG060c",
+		"Filename": "eg060c_jamais-je-nourrirai-de-geai_p236.pdf",
+		"Title": "Jamais de nourrirai de geai",
+		"Pages": "236",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG061",
+		"Filename": "eg061_je-le-mene-bien-mon-devidoi_p180-181.krn",
+		"Title": "Je le mène bien mon dévidoi'!",
+		"Pages": "180-181",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/09"
+	},
+	{
+		"ID": "EG062",
+		"Filename": "eg062_je-me-suis-mis-au-rang-daimer_p211-212.krn",
+		"Title": "Je me suis mis au rang d'aimer",
+		"Pages": "211-212",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG063b",
+		"Filename": "eg063b_je-nai-pas-de-barbe-au-menton-mais-il-men-vient_p190-192.krn",
+		"Title": "Je n'ai pas de barbe au menton, mais il m'en vient",
+		"Pages": "190-192",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/08",
+		"EED-2": "Isaac Howie"
+	},
+	{
+		"ID": "EG063c",
+		"Filename": "eg063b_je-nai-pas-de-barbe-au-menton-mais-il-men-vient_p193.krn",
+		"Title": "Je n'ai pas de barbe au menton, mais il m'en vient",
+		"Pages": "193",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG064",
+		"Filename": "eg064_je-ne-veux-pas-dun-habitant_p264-266.krn",
+		"Title": "Je ne veux pas d'un habitant",
+		"Pages": "264-266",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG065",
+		"Filename": "eg065_jentends-le-moulin-tique-tique-taque_p222-223.krn",
+		"Title": "J'entends le moulin, tique-tique-taque",
+		"Pages": "222-223",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG066",
+		"Filename": "eg066_la-bibournoise_p73-74.krn",
+		"Title": "La bibournoise",
+		"Pages": "73-74",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "In-progress",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG067",
+		"Filename": "eg067_la-fille-du-roi-despagne_p126-127.krn",
+		"Title": "La fille du roi d'Espagne",
+		"Pages": "126-127",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/17"
+	},
+	{
+		"ID": "EG068",
+		"Filename": "eg068_la-guignolee_p237-251.krn",
+		"Title": "La guignolée",
+		"Pages": "237-251",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "???"
+	},
+	{
+		"ID": "EG069",
+		"Filename": "eg069_le-juif-errant_p130-135.krn",
+		"Title": "Le Juif-Errant",
+		"Pages": "130-135",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/17"
+	},
+	{
+		"ID": "EG070",
+		"Filename": "eg070_le-ptit-bois-dlail_p141-144.krn",
+		"Title": "Le P'tit bois d'l'Ail",
+		"Pages": "141-144",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/15"
+	},
+	{
+		"ID": "EG071",
+		"Filename": "eg071_leve-ton-pied_p18-19.krn",
+		"Title": "Lève ton pied",
+		"Pages": "18-19",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG072",
+		"Filename": "eg072_malbrough_p252-255.krn",
+		"Title": "Malbrough",
+		"Pages": "252-255",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG073",
+		"Filename": "eg073_mariann-sen-va-t-au-moulin_p120-122.krn",
+		"Title": "Mariann' s'en va-t-au moulin",
+		"Pages": "120-122",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/23"
+	},
+	{
+		"ID": "EG074",
+		"Filename": "eg074_marianson-dame-jolie_p157-160.krn",
+		"Title": "Marianson, dame jolie",
+		"Pages": "157-160",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/08"
+	},
+	{
+		"ID": "EG075",
+		"Filename": "eg075_men-revenant-de-saint-andre_p182-183.krn",
+		"Title": "M'en revenant de Saint-André",
+		"Pages": "182-183",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/09"
+	},
+	{
+		"ID": "EG076d",
+		"Filename": "eg076b_mon-beau-ruban-gris_p54-56.krn",
+		"Title": "Mon beau ruban gris",
+		"Pages": "54-55",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG076c",
+		"Filename": "eg076c_mon-beau-ruban-gris_p57.krn",
+		"Title": "Mon beau ruban gris",
+		"Pages": "57",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG077",
+		"Filename": "eg077_mon-cri-cra-tir-la-lirette_p53.krn",
+		"Title": "Mon cri cra, tir' la lirette",
+		"Pages": "53",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG078",
+		"Filename": "eg078_mon-pere-avait-un-beau-champ-de-pois_p113-114.krn",
+		"Title": "Mon père avait un beau champ de pois",
+		"Pages": "113-114",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/23"
+	},
+	{
+		"ID": "EG079",
+		"Filename": "eg079_mon-ton-ton-turlutaine_p34-35.krn",
+		"Title": "Mon, ton, ton, turlutaine",
+		"Pages": "34-35",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG080",
+		"Filename": "eg080_nous-etions-trois-capitaines_p188-189.krn",
+		"Title": "Nous étions trois capitaines",
+		"Pages": "188-189",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/08"
+	},
+	{
+		"ID": "EG081",
+		"Filename": "eg081_papillon-tu-es-volage_p186-187.krn",
+		"Title": "Papillon tu es volage",
+		"Pages": "186-187",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/09"
+	},
+	{
+		"ID": "EG082",
+		"Filename": "eg082_par-derrier-chez-ma-tant-en-arbre-ya-t-une-plante_p174-176.krn",
+		"Title": "Par derrièr' chez ma tante ya-t-un arbre planté",
+		"Pages": "174-176",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/11"
+	},
+	{
+		"ID": "EG083",
+		"Filename": "eg083_par-derrièr-chez-mon-père_p4-7.krn",
+		"Title": "Par derrièr' chez mon père",
+		"Pages": "4-7",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Notes": "Grouped together w/ EG101 \"Vive la canadien\"",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG084",
+		"Filename": "eg084_perette-est-bien-malade_p282-286.krn",
+		"Title": "Perette est bien malade",
+		"Pages": "282-286",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None",
+		"Notes": "Grouped together w/ EG026 \"Chez mon père ya trois filles\""
+	},
+	{
+		"ID": "EG085",
+		"Filename": "eg085_petit-rocher-de-la-haute-montagne_p199-207.krn",
+		"Title": "Petit rocher de la haute montagne",
+		"Pages": "199-207",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG086",
+		"Filename": "eg086_pinpanipole_p256-258.krn",
+		"Title": "Pinpanipole",
+		"Pages": "256-258",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None",
+		"Notes": "Grouped together w/ EG091 \"Sainte Marguerite\""
+	},
+	{
+		"ID": "EG087",
+		"Filename": "eg087_pipandor-a-la-balance_p259-260.krn",
+		"Title": "Pipandor a la balance",
+		"Pages": "259-260",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG088",
+		"Filename": "eg088_ptit-jean_p104-106.krn",
+		"Title": "P'tit Jean",
+		"Pages": "104-106",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/04/14"
+	},
+	{
+		"ID": "EG089",
+		"Filename": "eg089_quand-jetais-chez-mon-pere_p69-72.krn",
+		"Title": "Quand j'étais chez mon père",
+		"Pages": "69-72",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "In-progress",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG090",
+		"Filename": "eg090_qui-veut-manger-du-lievre_p228-231.krn",
+		"Title": "Qui veut manger du lièvre",
+		"Pages": "228-231",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG091",
+		"Filename": "eg091_sainte-marguerite_p256-258.krn",
+		"Title": "Saint-Marguerite",
+		"Pages": "256-258",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None",
+		"Notes": "Grouped together w/ EG086 \"Pinpanipole\""
+	},
+	{
+		"ID": "EG092",
+		"Filename": "eg092_si-tu-te-mets-anguille_p76-79.krn",
+		"Title": "Si tu mets anguille",
+		"Pages": "76-79",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"Notes": "Grouped together w/ EG097 \"En canadien errant\"",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/04/16"
+	},
+	{
+		"ID": "EG093",
+		"Filename": "eg093_suivons-le-vent_pg23.krn",
+		"Title": "Suivons le vent",
+		"Pages": "23",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG094b",
+		"Filename": "eg094b_sur-le-pont-davignon_p93-95.krn",
+		"Title": "Sur le pont d'Avignon",
+		"Pages": "93-95",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/04/15"
+	},
+	{
+		"ID": "EG094c",
+		"Filename": "eg094c_sur-le-pont-davignon-tout-la-monde-y-passe_p98.krn",
+		"Title": "Sur le pont d'Avignon tout le monde y passe",
+		"Pages": "98",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/04/14"
+	},
+	{
+		"ID": "EG095",
+		"Filename": "eg095_sur-le-pont-de-nantes_p224-225.krn",
+		"Title": "Sur le pont de Nantes",
+		"Pages": "224-225",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
+	},
+	{
+		"ID": "EG096",
+		"Filename": "eg096_tenaouiche-tenaga-ouich-ka_p123-125.krn",
+		"Title": "Tenaouiche tenaga, ouich'ka!",
+		"Pages": "123-125",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/03/19"
+	},
+	{
+		"ID": "EG097",
+		"Filename": "eg097_un-canadien-errant_p76-79.krn",
+		"Title": "Un Canadien errant",
+		"Pages": "76-79",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"Notes": "Grouped together w/ EG092 \"Si tu mets anguille\"",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/04/16"
+	},
+	{
+		"ID": "EG098",
+		"Filename": "eg098_une-perdriole_p80-84.krn",
+		"Title": "Une perdriole",
+		"Pages": "80-84",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG099",
+		"Filename": "eg099_un-jour-lenvi-ma-pris-de-deserter-de-france_p168-169.krn",
+		"Title": "Un jour l'envi m'a pris de déserter de France",
+		"Pages": "168-169",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "Complete",
+		"EED-1": "Sam Boone",
+		"EEV-1": "2026/02/10"
+	},
+	{
+		"ID": "EG100",
+		"Filename": "eg100_va-va-va-ptit-bonnet-grand-bonnet_p58-60.krn",
+		"Title": "Va, va, va, p'tit bonnet, grand bonnet",
+		"Pages": "58-60",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG101",
+		"Filename": "eg101_vive-la-canadienne_p4-7.krn",
+		"Title": "Vive la Canadienne",
+		"Pages": "4-7",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None",
+		"Notes": "Grouped together w/ EG083 \"Par derrièr' chez mon père\""
+	},
+	{
+		"ID": "EG102",
+		"Filename": "eg102_vive-napoleon_p75.krn",
+		"Title": "Vive Napoléon!",
+		"Pages": "75",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"Text": "In-progress",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG103",
+		"Filename": "eg103_vla-lbon-vent_p21.krn",
+		"Title": "V'la l'bon vent",
+		"Pages": "21",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Kern": "Complete",
+		"Dynam": "None",
+		"EED-1": "Sam Boone"
+	},
+	{
+		"ID": "EG104",
+		"Filename": "eg104_voici-les-temps-et-la-saison_p197-198.krn",
+		"Title": "Voici les temps et la saison",
+		"Pages": "197-198",
+		"!!!COM": "Anonymous",
+		"!!!LYR": "Anonymous",
+		"Dynam": "None"
 	}
 ]

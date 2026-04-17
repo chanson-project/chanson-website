@@ -234,9 +234,7 @@ order: 2
 	<p>Metadata used to search on the <a href="https://1520s-project.org/browse/">browse page</a>, as well as display additional information about scores on the work pages, is available as a set of JSON files used by the website:</p>
 	<ul class="spaced-list">
 		<li><a href="https://raw.githubusercontent.com/benory/1520s-project-website/main/_includes/metadata/works.json" target="_blank">Works</a> (metadata about the scores used for searches on the browse page)</li>
-		<li><a href="https://raw.githubusercontent.com/benory/1520s-project-website/main/_includes/metadata/composers.json" target="_blank">Composers</a> (metadata and links for composers used on the browse and work pages)</li>
-		<li><a href="https://raw.githubusercontent.com/benory/1520s-project-website/main/_includes/metadata/modern_editions.json" target="_blank">Modern Editions</a> (information about modern editions for works used on the workpages)</li>
-		<li><a href="https://raw.githubusercontent.com/benory/1520s-project-website/main/_includes/metadata/statistics.json" target="_blank">Statistics</a> (number of works by year, compiled for use on the browse page)</li>
+
 	</ul>
 </section>
 

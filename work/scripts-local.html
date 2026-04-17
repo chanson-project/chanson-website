@@ -45,7 +45,9 @@ function displayWork(id) {
 	let prefix = id.substring(0, 2);
 	if (prefix === "BC" || prefix === "EG") {
 		let dir = prefix === "BC" ? "bc100" : "eg104";
-		let rawUrl = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main/" + dir + "/kern/" + DATA1520.lookup.works[id]["File Name"];
+		let work = DATA1520.lookup.works[id];
+		let filename = work["File Name"] || work["Filename"] || "";
+		let rawUrl = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main/" + dir + "/kern/" + filename;
 		fetch(rawUrl, { headers: { "Authorization": "token " + DATA1520.github_token } })
 			.then(function(response) { return response.text(); })
 			.then(function(kern) {

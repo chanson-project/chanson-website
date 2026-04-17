@@ -2,7 +2,6 @@
 // vim: ts=3
 
 let METADATA = {% include metadata/works.json %};
-let STATISTICS = {% include metadata/statistics.json %};
 
 
 //////////////////////////////
@@ -11,8 +10,7 @@ let STATISTICS = {% include metadata/statistics.json %};
 //
 
 document.addEventListener("DOMContentLoaded", function () {
-  	fillInCensusData(METADATA);
-	displayYearsPlot(STATISTICS);
+	fillInCensusData(METADATA);
 });
 
 </script>

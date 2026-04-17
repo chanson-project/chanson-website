@@ -29,11 +29,10 @@ This is a Jekyll static site for an academic musicology database (Renaissance po
 
 ### Data flow
 
-The live data source is a Google Spreadsheet exposed via a deployed Google Apps Script. `make` curls that endpoint to download JSON files into `_includes/metadata/` (works.json, composers.json, statistics.json, modern_editions.json, Josquin.json). These JSON files are embedded directly into HTML at Jekyll build time using Liquid `{% include %}` tags, becoming JavaScript variables at page load:
+The live data source is a Google Spreadsheet exposed via a deployed Google Apps Script. `make` curls that endpoint to download `_includes/metadata/works.json`. This file is embedded directly into HTML at Jekyll build time using a Liquid `{% include %}` tag, becoming a JavaScript variable at page load:
 
 ```javascript
 let METADATA = {% include metadata/works.json %};
-let COMPOSERS = {% include metadata/composers.json %};
 ```
 
 All search and filtering is client-side JavaScript operating on those in-memory objects.
@@ -50,4 +49,4 @@ Global includes live in `_includes/` (header, footer, shared scripts/styles). Th
 
 ### Search/filter (repertoire page)
 
-URL parameters drive the search state: `?c=` (composer), `g=` (genre), `y=` (year), `e`/`s` (source), `v=` (voices), `x=` (text availability), `q=` (free text). Parsed via `_includes/scripts/getCgiParameters.js`. Dropdowns are built dynamically from COMPOSERS/METADATA; filtering is pure client-side.
+URL parameters drive the search state: `?c=` (composer), `?o=` (origin), `?x=` (text availability), `?q=` (free text). Parsed via `_includes/scripts/getCgiParameters.js`. Dropdowns are built dynamically from METADATA; filtering is pure client-side.
