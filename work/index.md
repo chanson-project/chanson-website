@@ -43,7 +43,10 @@ layout: work
        <div class="button hide" onclick="displayNoAccidentals()">Hide Editorial Accidentals</div>
        <div class="button show hidden" onclick="displayAccidentals()">Show Editorial Accidentals</div>
     </div>
-    <div id="activity-merged-notitle" data-ext="png" class="analysis-toggle button">Activity</div>
+    <div id="textSelect">
+       <div class="button show-text" onclick="displayText()">Show Text</div>
+       <div class="button hide-text hidden" onclick="displayNoText()">Hide Text</div>
+    </div>
     <div id="activity-separate-notitle" data-ext="png" class="analysis-toggle button">Activity by voice</div>
     <div id="prange-duration" data-ext="svg" class="analysis-toggle button">Vocal ranges by note durations</div>
 </div>

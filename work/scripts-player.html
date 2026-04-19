@@ -48,7 +48,8 @@ const KernPlayer = (function () {
   // ── Parse kern → event list ────────────────────────────────────────────────
 
   function parseKern(kernText) {
-    const events = [];
+    // Pass 1: collect every note token with tie status flags
+    const raw1 = [];
     let beat  = 0;
     let tempo = 120;
 
@@ -71,15 +72,49 @@ const KernPlayer = (function () {
         if (!field || field === '.') continue;
         for (const token of field.split(' ')) {
           if (!token || token === '.') continue;
-          if (token.includes('_') || token.includes(']') || token.includes(')') || token.includes('(') || token.includes('[')) continue; // tied continuation
-          const dur   = tokenToDuration(token);
+          const dur = tokenToDuration(token);
           if (dur > advance) advance = dur;
           const pitch = tokenToMidi(token);
-          if (pitch >= 0) events.push({ beat, pitch, dur, track: ti });
+          if (pitch >= 0) {
+            raw1.push({
+              beat, pitch, dur, track: ti,
+              tieStart:  token.includes('['),
+              tieMiddle: token.includes('_'),
+              tieEnd:    token.includes(']'),
+            });
+          }
         }
       }
 
       if (advance > 0) beat += advance;
+    }
+
+    // Pass 2: merge tied notes — extend each tie-start's duration through
+    // all matching same-pitch same-track continuations, then drop them.
+    const skip   = new Set();
+    const events = [];
+
+    for (let i = 0; i < raw1.length; i++) {
+      if (skip.has(i)) continue;
+      const ev = raw1[i];
+
+      // Middle / end of a tie with no matching start — skip
+      if (ev.tieMiddle || ev.tieEnd) continue;
+
+      let dur = ev.dur;
+
+      if (ev.tieStart) {
+        for (let j = i + 1; j < raw1.length; j++) {
+          const nx = raw1[j];
+          if (nx.pitch !== ev.pitch || nx.track !== ev.track) continue;
+          if (!nx.tieMiddle && !nx.tieEnd) break; // same pitch but new note, stop
+          dur += nx.dur;
+          skip.add(j);
+          if (nx.tieEnd) break;
+        }
+      }
+
+      events.push({ beat: ev.beat, pitch: ev.pitch, dur, track: ev.track });
     }
 
     events.sort((a, b) => a.beat - b.beat);
@@ -140,8 +175,8 @@ const KernPlayer = (function () {
   const AHEAD = 0.25; // seconds to schedule ahead
 
   function bpm()            { return userTempo !== null ? userTempo : (parsed ? parsed.tempo : 120); }
-  function beatsToSec(b)    { return b * 60 / bpm(); }
-  function currentBeat()    { return isPlaying ? pauseBeat + (getAC().currentTime - acStart) * bpm() / 60 : pauseBeat; }
+  function beatsToSec(b)    { return b * 240 / bpm(); }  // b is in whole notes; 1 whole = 4 quarter beats
+  function currentBeat()    { return isPlaying ? pauseBeat + (getAC().currentTime - acStart) * bpm() / 240 : pauseBeat; }
 
   function idxAtBeat(beat) {
     if (!parsed) return 0;
@@ -211,7 +246,7 @@ const KernPlayer = (function () {
   function setTempo(val) {
     const wasPlaying = isPlaying;
     if (wasPlaying) { pauseBeat = currentBeat(); isPlaying = false; cancelAnimationFrame(rafId); }
-    userTempo = val / 10;
+    userTempo = val;
     if (wasPlaying) { acStart = getAC().currentTime; schedIdx = idxAtBeat(pauseBeat); isPlaying = true; tick(); }
   }
 

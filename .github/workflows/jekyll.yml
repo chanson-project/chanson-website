@@ -45,13 +45,6 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Download Metadata
         run: make
-      - name: Download kern files
-        run: |
-          git clone --depth=1 https://x-access-token:${{ secrets.CHANSON_GITHUB_TOKEN }}@github.com/chanson-project/chanson-encoding.git _chanson_encoding
-          mkdir -p kern/bc100 kern/eg104
-          cp _chanson_encoding/bc100/kern/*.krn kern/bc100/ 2>/dev/null || true
-          cp _chanson_encoding/eg104/kern/*.krn kern/eg104/ 2>/dev/null || true
-          rm -rf _chanson_encoding
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: |
