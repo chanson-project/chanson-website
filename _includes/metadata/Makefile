@@ -15,13 +15,16 @@
 
 
 #SID for 1520s Project Metadata
-SID = AKfycbyrEW_qndXYjnpa_rw1AyA9q2yodj03-DmVrGEnHSH2Bq-ThiJiNjXncoBpnlkE0-gJ
+SID = AKfycbwAajD0eAGncwAPozKI7utoCujUWeYOi3OA9hacxFaTGTSkXdc0TaCP3ijUfiOV7O45
 
 all: download
 
-download: works
+download: works sources
 
 works:
 	curl -L "https://script.google.com/macros/s/$(SID)/exec" > works.json
+
+sources:
+	curl -L "https://script.google.com/macros/s/$(SID)/exec?type=sources" > sources.json
 
 

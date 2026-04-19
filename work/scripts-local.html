@@ -103,346 +103,129 @@ function displayWorkInfo(id) {
 		return;
 	}
 
-	if (!id) {
-		id = DATA1520.workid;
-	}
-	if (!id) {
-		id = "Jac2001";
-	}
+	if (!id) id = DATA1520.workid;
+	if (!id) id = "BC001";
 	DATA1520.workid = id;
 
 	let workinfo = DATA1520.lookup.works[id];
 	if (!workinfo) {
 		console.error(`Error: Cannot find workinfo for ${id} in displayWorkInfo()`);
+		return;
 	}
-
-	let comid = "";
-	let matches = id.match(/^([A-Z][a-z][a-z])/);
-	if (matches) {
-		comid = matches[1];
-	}
-	let cominfo = {};
-	if (comid) {
-		cominfo = DATA1520.lookup.composers[comid];
-	}
-	if (!comid) {
-		console.error(`Error: Problem finding ${comid} in composer info`);
-	}
-
-	let output = "";
-
-	let title       = workinfo.Title;
-	let subtitle    = workinfo.Subtitle;
-	let titleoutput = "";
-	if (title) {
-		if (subtitle){
-			titleoutput = `<div class="work-item"><b>Title:</b> ${title}, <i>${subtitle}</i></div>`;
-		}
-		else {
-			titleoutput = `<div class="work-item"><b>Title:</b> ${title}</div>`;
-		}
-	}
-
-	let composer = workinfo.Composer;
-	let composeroutput = "";
-	if (composer) {
-		let matches = composer.match(/^(.*?)\s*,\s*(.*?)$/);
-		if (matches) {
-			composer = `${matches[2]} ${matches[1]}`;
-		}
-
-		composeroutput = `<div class="work-item"><b>Composer:</b> ${composer}`;
-
-		let diammcomp = cominfo["Composer DIAMM page"];
-		let rismPersonId = cominfo["Composer RISM ID"];
-
-		if (rismPersonId) {
-			if (rismPersonId.match(/^[a-z]{2}/)) {
-				// Remove "pe" prefix on rism person number:
-				rismPersonId = rismPersonId.substring(2);
-			}
-		}
-		if (diammcomp) {
-			composeroutput += ` <span class="info-link">(<a target="_blank" href="${diammcomp}">DIAMM</a>)</span>`;
-		}
-		if (rismPersonId) {
-			composeroutput += ` <span class="info-link">(<a target="_blank" href="https://rism.online/people/${rismPersonId}">RISM</a>)</span>`;
-		}
-		composeroutput += `</div>`;
-	}
-
-	// Add line in work info for implausible attributions with anonymous works
-	let attrimplausible = workinfo["Implausible Attribution"];
-	let attrimprobable  = workinfo["Improbable Attribution"];
-	let attrplausible   = workinfo["Plausible Attribution"];
-
-	let attrimplausiblename = "";
-	let attrimprobablename  = "";
-	let attrplausiblename   = "";
-
-	let attrimplausibleoutput = "";
-	let attrimprobableoutput  = "";
-	let attrplausibleoutput   = "";
-
-	// Adjust category names for singular/plural:
-
-	if (attrimplausible) {
-		if (attrimplausible.includes(";")) {
-			attrimplausiblename = "Implausible attributions";
-		} else {
-			attrimplausiblename = "Implausible attribution";
-		}
-	}
-
-	if (attrimprobable) {
-		if (attrimprobable.includes(";")) {
-			attrimprobablename = "Improbable attributions";
-		} else {
-			attrimprobablename = "Improbable attribution";
-		}
-	}
-
-	if (attrplausible) {
-		if (attrplausible.includes(";")) {
-			attrplausiblename = "Plausible attributions";
-		} else {
-			attrplausiblename = "Plausible attribution";
-		}
-	}
-
-	// Add work items for unlikely/false attributions:
-
-	if (attrplausible) {
-		attrplausibleoutput = `<div class="work-item"><b>${attrplausiblename}:</b> ${attrplausible}</div>`;
-	}
-
-	if (attrimprobable) {
-		attrimprobableoutput = `<div class="work-item"><b>${attrimprobablename}:</b> ${attrimprobable}</div>`;
-
-	}
-
-	if (attrimplausible) {
-		attrimplausibleoutput = `<div class="work-item"><b>${attrimplausiblename}:</b> ${attrimplausible} </div>`;
-
-	}
-
-	// Add work item for genre:
-
-	let genre = workinfo.Genre;
-	let genreoutput = "";
-	if (genre) {
-		genreoutput += `<div class="work-item"><b>Genre:</b> ${genre}</div>`;
-	}
-
-	let source = workinfo["First Source"];
-	let uniquesource = workinfo["Unique Source"];
-	let sourceoutput = "";
-
-	if (source) {
-		let diammsource = workinfo["DIAMM Source Link"];
-		let rismsource = workinfo["RISM Source Link"];
-		let foliosnumberspages = workinfo["Pages, Folios, or Numbers"];
-		let sourcetype = "";
-		if (uniquesource == "yes") {
-			sourcetype = "Unique";
-		} else {
-			sourcetype = "First";
-		}
-		if (diammsource) {
-			sourceoutput += `<div class="work-item"><b>${sourcetype} source:</b> <a target="_blank" href="${diammsource}">${source}</a>`;
-		} else if (rismsource) {
-			sourceoutput += `<div class="work-item"><b>${sourcetype} source:</b> <a target="_blank" href="${rismsource}">${source}</a>`;
-		} else {
-			sourceoutput += `<div class="work-item"><b>${sourcetype} source:</b> ${source}`;
-		}
-
-		if (foliosnumberspages) {
-			sourceoutput += `, ${foliosnumberspages}</div>`;
-		} else {
-			sourceoutput += `</div>`;
-		}
-
-	}
-
-	let date = workinfo["First Source Date"];
-	let dateoutput = "";
-	if (date) {
-
-		let label = (uniquesource === "yes") 
-		? "Source date" 
-		: "First source date";
-
-		dateoutput = `<div class="work-item"><b>${label}:</b> ${date}</div>`;
-	}
-
-	let emensurations	  = workinfo["Mensuration Signs in Earliest Source"];
-
-	let mensurationOutput = "";
-	if (emensurations) {
-		// Ensure emensurations is an array; if it's a string, split on semicolons:
-		let signs = Array.isArray(emensurations) ? emensurations : emensurations.split(";").map(sign => sign.trim());
-
-		let label = (uniquesource === "yes") 
-		? "Mensuration sign in source" 
-		: "Mensuration signs in earliest source";
-
-		let signImages = signs.map(sign => {
-			let filename = mensurationSigns[sign];
-			if (filename) {
-				return `<img class="mensuration-sign" src="/images/mensurations/${filename}" alt="${sign}" title="${sign}" style="height: 30px; margin-right: 5px;">`;
-			} else {
-				console.warn(`Warning: Mensuration sign not found in map: "${sign}"`);
-				return `<span class="missing-sign" title="${sign}">${sign}</span>`;
-			}
-		}).join("");
-
-
-		mensurationOutput = `<div class="work-item"><b>${label}:</b> ${signImages}</div>`;
-	}
-
-	let editionsource       = workinfo["Edition Source"];
-	let editionsourceURL    = workinfo["Edition Source URL"];
-	let editionsourceoutput = "";
-
-	// Extract modern edition IDs from workinfo
-	let modernEditions = workinfo["Modern Editions"];
-	let modernEditionsOutput ;
-
-	if (modernEditions) {
-	    // Convert semicolon-separated string into an array of trimmed IDs
-	    let modernEditionIds = modernEditions.split(";").map(id => id.trim());
-
-	    console.log("Modern Edition IDs:", modernEditionIds); // Debugging: Check extracted IDs
-
-	    // Omit modern editions if the modern edition is listed on the score
-	    let externalName       = workinfo["External Project Name"];
-
-	    // Ensure lookup table is defined
-	    if (DATA1520.lookup && DATA1520.lookup.modern_editions && !externalName) {
-	        // Retrieve matching entries from the lookup table
-	        let editionsInfo = modernEditionIds.map(id => {
-	            let edition = DATA1520.lookup.modern_editions[id];
-	            if (!edition) {
-	                console.warn(`Warning: ID not found in lookup - ${id}`);
-	            }
-	            return edition;
-	        }).filter(Boolean); // Remove undefined entries
-
-	        console.log("Retrieved Modern Editions:", editionsInfo); // Debugging output
-
-	       // Create HTML output for modern editions
-			if (editionsInfo.length > 0) {
-			    modernEditionsOutput = `<div class="work-item"><b>Modern Editions:</b> `; // Keep space instead of <br>
-
-			    let formattedEditions = editionsInfo.map(ed => {
-			        let entry = `<span class="bibliographic-entry">`;
-
-			        if (ed["Composer/Author"]) entry += `${ed["Composer/Author"]}, `;
-			        if (ed["Name of Article"]) entry += ` "${ed["Name of Article"]}," `;
-			        if (ed["Name of Dissertation"]) entry += ` "${ed["Name of Dissertation"]}" `;
-			        if (ed["Name of Volume"]) entry += `<i>${ed["Name of Volume"]}</i>`;
-
-			        if (ed["Editor"]) entry += `, ed. ${ed["Editor"]}`;
-			        if (ed["Series and Volume"]) entry += `, ${ed["Series and Volume"]}`;
-			        if (ed["Dissertation"]) entry += `(${ed["Dissertation"]}`;
-
-			        if (ed["Location"] && ed["Publisher"] && ed["Publication Year"]) {
-			            entry += ` (${ed["Location"]}: ${ed["Publisher"]}, ${ed["Publication Year"]})`;
-			    	} else if (ed["Location"] && ed["Publication Year"]) {
-			            entry += ` (${ed["Location"]}: ${ed["Publication Year"]})`;
-			        } else if (ed["Publisher"] && ed["Publication Year"]) {
-			        	entry += ` (${ed["Publisher"]}, ${ed["Publication Year"]})`;
-			        } else if (ed["Dissertation"] && ed["Publication Year"]){
-			        	entry += `, ${ed["Publication Year"]})`;
-			    	} else if (ed["Publication Year"]) {
-			            entry += ` (${ed["Publication Year"]})`;
-			        }
-
-			        if (ed["Number of Piece"]) entry += `, ${ed["Number of Piece"]}`;
-			        if (ed["Page Numbers"]) entry += `: ${ed["Page Numbers"]}`;
-			        
-			        entry += `.</span><br>`; // Use <span> instead of <div> to prevent forced new line
-
-			        return entry;
-				    }).join(""); // Join with semicolon and "and" for proper formatting
-
-				    modernEditionsOutput += formattedEditions + `</div>`; // Closing the main div
-				}
-		    } else {
-		        console.error("Error: DATA1520.lookup.modern_editions is undefined.");
-		    }
-		} else {
-		    console.warn("Warning: No modern editions found for this work.");
-	}
-
-	let mei      = `${DATA1520.dataurl}/${DATA1520.workid}.mei`;  // URL from data server
-	let midi     = `${DATA1520.dataurl}/${DATA1520.workid}.mid`;  // URL from data server
-
-	let humdrum  = workinfo["Humdrum URL"];                       // URL from GitHub
-	let musicxml = workinfo["Humdrum URL"];                       // URL from GitHub
-	let pdf      = workinfo["Humdrum URL"];                       // URL from GitHub
-	let sibelius = workinfo["Humdrum URL"];                       // URL from GitHub
-
-	let downloadoutput = "";
-
-	// Convert Humdrum URLs to other parallel data files on GitHub:
-	pdf      = pdf.replace("humdrum", "pdf").replace(".krn", ".pdf").replace("github.com", "raw.githubusercontent.com").replace("/blob", "").replace("tree", "");
-	sibelius = sibelius.replace("humdrum", "sibelius").replace(".krn", ".sib").replace("github.com", "raw.githubusercontent.com").replace("/blob", "").replace("tree", "");
-	musicxml = musicxml.replace("humdrum", "musicxml").replace(".krn", ".musicxml").replace("github.com", "raw.githubusercontent.com").replace("/blob", "").replace("tree", "");
-	humdrum  = humdrum.replace("github.com", "raw.githubusercontent.com").replace("/blob", "").replace("tree", "");
-
-	downloadoutput += `<div class="work-item"><b>Download:</b> <a onclick="forceDownload(event)" href="${pdf}" download>PDF</a> | <a onclick="forceDownload(event)" href="${musicxml}">MusicXML</a> | <a onclick="forceDownload(event)" href="${mei}">MEI</a> | <a onclick="forceDownload(event)" href="${humdrum}">Humdrum</a> | <a onclick="forceDownload(event)" href="${sibelius}">Sibelius</a> | <a onclick="forceDownload(event)" href="${midi}">MIDI</a></div>`;
-
-	let github = workinfo["Humdrum URL"];
-	let githuboutput = "";
-
-	let urlParam = encodeURIComponent(github);
-	let efilter = "";
-	if (DATA1520.filter) {
-		efilter = encodeURIComponent(DATA1520.filter);
-		efilter = `&filter=${efilter}`;
-	}
-	githuboutput += `<div class="work-item"><b>View on:</b> <a target='_blank' href='https://verovio.humdrum.org/?k=e&file=${urlParam}${efilter}'>VHV</a> | <a target='_blank' href='${github}'>Github</a></div>`;
 
 	let tbody = document.querySelector("tbody#work-info-body");
-	if (!tbody){
+	if (!tbody) {
 		console.warn("Cannot find tbody#work-info-body");
 		return;
 	}
-	if (!tbody.innerHTML.match(/^\s*$/)){
-		return;
+	if (!tbody.innerHTML.match(/^\s*$/)) return;
+
+	// Derive collection label and GitHub paths from ID prefix
+	const prefix = id.substring(0, 2);
+	const dir    = prefix === "BC" ? "bc100" : prefix === "EG" ? "eg104" : "";
+	const fname  = workinfo["File Name"] || workinfo["Filename"] || "";
+	const rawBase    = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main";
+	const githubBase = "https://github.com/chanson-project/chanson-encoding/blob/main";
+	const rawURL    = dir && fname ? `${rawBase}/${dir}/kern/${fname}` : "";
+	const githubURL = dir && fname ? `${githubBase}/${dir}/kern/${fname}` : "";
+
+	const COLLECTIONS = { "BC": "La Bonne Chanson", "EG": "Éditions Gadbois" };
+
+	// ── Left column: bibliographic ─────────────────────────────────────────────
+
+	let titleoutput = "";
+	if (workinfo.Title) {
+		titleoutput = `<div class="work-item"><b>Title:</b> ${workinfo.Title}</div>`;
 	}
-    const row = document.createElement("tr");
 
-	const leftColumnCell = document.createElement("td");
-    leftColumnCell.innerHTML = `${titleoutput}
-        ${composeroutput}
-        ${genreoutput}
-        ${attrplausibleoutput || ""}
-        ${attrimprobableoutput || ""}
-        ${attrimplausibleoutput || ""}
-        `;
-    row.appendChild(leftColumnCell);
+	let composeroutput = "";
+	const com = workinfo["!!!COM"] || "";
+	if (com) {
+		let display = com;
+		const m = com.match(/^(.*?)\s*,\s*(.*?)$/);
+		if (m) display = `${m[2]} ${m[1]}`;
+		composeroutput = `<div class="work-item"><b>Composer:</b> ${display}</div>`;
+	}
 
-	const middleColumnCell = document.createElement("td");
-    middleColumnCell.innerHTML = `${sourceoutput}
-    	${dateoutput}
-    	${mensurationOutput}
-    	${editionsourceoutput || ""}
-        `;
-    row.appendChild(middleColumnCell);
+	let lyricistoutput = "";
+	const lyr = workinfo["!!!LYR"] || "";
+	if (lyr) {
+		let display = lyr;
+		const m = lyr.match(/^(.*?)\s*,\s*(.*?)$/);
+		if (m) display = `${m[2]} ${m[1]}`;
+		lyricistoutput = `<div class="work-item"><b>Lyricist:</b> ${display}</div>`;
+	}
 
-	const rightColumnCell = document.createElement("td");
-    rightColumnCell.innerHTML = `
-    	${downloadoutput}
-    	${githuboutput}
-    	${modernEditionsOutput || ""}
-        `;
-    row.appendChild(rightColumnCell);
-    tbody.appendChild(row);
+	const collectionoutput = `<div class="work-item"><b>Collection:</b> ${COLLECTIONS[prefix] || prefix}</div>`;
+	const pagesoutput = workinfo.Pages ? `<div class="work-item"><b>Pages:</b> ${workinfo.Pages}</div>` : "";
+
+	// ── Middle column: origin and encoding status ──────────────────────────────
+
+	const originoutput = workinfo.Origin
+		? `<div class="work-item"><b>Origin:</b> ${workinfo.Origin}</div>`
+		: "";
+
+	const notesoutput = workinfo.Notes
+		? `<div class="work-item"><b>Notes:</b> ${workinfo.Notes}</div>`
+		: "";
+
+	const statusLabel = { "done": "complete", "n/a": "n/a", "partial": "partial" };
+	function badge(val) { return val ? (statusLabel[val.toLowerCase()] || val) : ""; }
+
+	let encodingoutput = "";
+	const kst = badge(workinfo.Kern);
+	const tst = badge(workinfo.Text);
+	const dst = badge(workinfo.Dynam);
+	if (kst || tst || dst) {
+		let parts = [];
+		if (kst) parts.push(`notation: ${kst}`);
+		if (tst) parts.push(`text: ${tst}`);
+		if (dst) parts.push(`dynamics: ${dst}`);
+		encodingoutput = `<div class="work-item"><b>Encoding:</b> ${parts.join("; ")}</div>`;
+	}
+
+	// ── Right column: encoders and links ───────────────────────────────────────
+
+	let encodersoutput = "";
+	const encoderList = [];
+	for (let n = 1; n <= 5; n++) {
+		const name = workinfo[`EED-${n}`];
+		const date = workinfo[`EEV-${n}`];
+		if (name) encoderList.push(date ? `${name} (${date})` : name);
+	}
+	if (encoderList.length) {
+		const label = encoderList.length > 1 ? "Encoders" : "Encoder";
+		encodersoutput = `<div class="work-item"><b>${label}:</b> ${encoderList.join(", ")}</div>`;
+	}
+
+	let linksoutput = "";
+	if (rawURL) {
+		const vhvURL = `https://verovio.humdrum.org/?k=e&file=${encodeURIComponent(rawURL)}`;
+		linksoutput = `<div class="work-item"><b>View on:</b> <a target="_blank" href="${vhvURL}">VHV</a> | <a target="_blank" href="${githubURL}">GitHub</a></div>`;
+	}
+
+	const downloadoutput = rawURL
+		? `<div class="work-item"><b>Download:</b> <a href="${rawURL}" download>Humdrum (.krn)</a></div>`
+		: "";
+
+	// ── Build table row ────────────────────────────────────────────────────────
+
+	const row = document.createElement("tr");
+
+	const leftCell = document.createElement("td");
+	leftCell.innerHTML = titleoutput + composeroutput + lyricistoutput + collectionoutput + pagesoutput;
+	row.appendChild(leftCell);
+
+	const middleCell = document.createElement("td");
+	middleCell.innerHTML = originoutput + encodingoutput + notesoutput;
+	row.appendChild(middleCell);
+
+	const rightCell = document.createElement("td");
+	rightCell.innerHTML = encodersoutput + linksoutput + downloadoutput;
+	row.appendChild(rightCell);
+
+	tbody.appendChild(row);
 }
-
-
 
 //////////////////////////////
 //

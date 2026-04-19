@@ -61,7 +61,7 @@ function displayBrowseTable(data, selector) {
 	}
 	CURRENT_DATA = data;
 	SORT_STATE = { column: null, dir: 1 };
-	let headings = [INDEX_collection, INDEX_composer, INDEX_title, INDEX_pages, INDEX_origin];
+	let headings = [INDEX_collection, INDEX_editor, INDEX_composer, INDEX_title, INDEX_pages, INDEX_origin];
 	let contents = "";
 	contents += "<table class='general'>\n";
 	contents += "<thead>\n";
@@ -94,6 +94,9 @@ function sortBy(column) {
 		if (column === INDEX_collection) {
 			av = getCollection(a);
 			bv = getCollection(b);
+		} else if (column === INDEX_editor) {
+			av = getEditor(a);
+			bv = getEditor(b);
 		} else {
 			av = (a[column] || "").toString();
 			bv = (b[column] || "").toString();
@@ -101,7 +104,7 @@ function sortBy(column) {
 		return av.localeCompare(bv) * SORT_STATE.dir;
 	});
 
-	let headings = [INDEX_collection, INDEX_composer, INDEX_title, INDEX_pages, INDEX_origin];
+	let headings = [INDEX_collection, INDEX_editor, INDEX_composer, INDEX_title, INDEX_pages, INDEX_origin];
 	let tbody = document.querySelector("#list tbody");
 	if (tbody) {
 		tbody.innerHTML = makeTableBody(headings, sorted);
@@ -121,6 +124,7 @@ function sortBy(column) {
 
 const HEADING_LABELS = {
 	"Collection": "Collection",
+	"Editor":     "Editor",
 	"!!!COM":     "Composer",
 	"Title":      "Title",
 	"Pages":      "Pages",
@@ -154,7 +158,7 @@ function makeTableBody(headings, data) {
 	for (let i = 0; i < data.length; i++) {
 		let entry = data[i];
 		let searchText = [
-			entry["!!!COM"], entry.Title, entry.Origin, entry.Pages, entry.ID, getCollection(entry)
+			entry["!!!COM"], entry.Title, entry.Origin, entry.Pages, entry.ID, getCollection(entry), getEditor(entry)
 		].filter(Boolean).join(" ").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 		output += `<tr data-search="${searchText.replace(/"/g, "&quot;")}">\n`;
 		for (let j = 0; j < headings.length; j++) {
@@ -167,6 +171,8 @@ function makeTableBody(headings, data) {
 				output += `<a href=${scoreURL}>${getTitle(entry)}</a>`;
 			} else if (h === INDEX_collection) {
 				output += getCollection(entry);
+			} else if (h === INDEX_editor) {
+				output += getEditor(entry);
 			} else {
 				output += value;
 			}
@@ -211,18 +217,31 @@ function getTitle(entry) {
 
 //////////////////////////////
 //
-// getCollection -- Derive collection name from ID prefix.
+// getCollection -- Derive collection name (!!!OPR) from sources lookup.
 //
 
-const COLLECTION_LABELS = {
-	"BC": "Charles-Émile Gadbois, \"La bonne chanson\" (1937)",
-	"EG": "Ernest Gagnon, \"Chansons populaires du Canada\" (1865)",
-};
-
 function getCollection(entry) {
-	let id = entry["ID"] || "";
-	let prefix = id.substring(0, 2);
-	return COLLECTION_LABELS[prefix] || prefix;
+	let prefix = (entry["ID"] || "").substring(0, 2);
+	let source = SOURCES_LOOKUP[prefix];
+	if (!source) return prefix;
+	return source["!!!OPR"] || prefix;
+}
+
+
+
+//////////////////////////////
+//
+// getEditor -- Derive editor name from sources lookup.
+//
+
+function getEditor(entry) {
+	let prefix = (entry["ID"] || "").substring(0, 2);
+	let source = SOURCES_LOOKUP[prefix];
+	if (!source) return "";
+	let editor = source["Editor"] || "";
+	let m = editor.match(/^(.*?)\s*,\s*(.*?)$/);
+	if (m) return m[2].trim() + " " + m[1].trim();
+	return editor;
 }
 
 

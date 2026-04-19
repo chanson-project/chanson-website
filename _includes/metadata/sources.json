@@ -1,0 +1,17 @@
+[
+	{
+		"Source ID": "BC100",
+		"Name": "BC",
+		"!!!OPR": "Les cent plus belles chansons",
+		"!!!PUB": "2011",
+		"Editor": "Gadbois, Charles-Émile"
+	},
+	{
+		"Source ID": "EG104",
+		"Name": "EG",
+		"!!!OPR": "Chansons populaires du Canada",
+		"!!!PUB": "1865",
+		"Editor": "Gagnon,Ernest",
+		"!!!OCL": "Gagnon,Ernest"
+	}
+]
