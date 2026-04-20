@@ -21,22 +21,18 @@
 
 /* ── Banner ──────────────────────────────────────────────────────────────── */
 .banner-wrap {
-  position: relative;
-  display: inline-block;
-  line-height: 0;
+  display: flex;
+  align-items: center;
   width: 100%;
+  background: #fef7e7;
 }
 .banner-wrap img.desktop-banner {
   display: block;
-  width: 100%;
+  width: 42%;
+  height: auto;
 }
 .banner-tagline {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 60%;
-  background: #f0ece0;
+  flex: 1;
   display: flex;
   align-items: center;
   padding: 0 5%;

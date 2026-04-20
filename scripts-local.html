@@ -62,71 +62,43 @@ function UserSearch() {
 //
 
 function fillInCensusData(data) {
-	let workCount = 0;
-	let noteCount = 0;
-	let massCount = 0;
-	let motetCount = 0;
-	let secularCount = 0;
+	let workCount = data.length;
+	let pageCount = 0;
+	let composerSet = new Set();
+	let encoderSet = new Set();
 
-	for (let i=0; i<data.length; i++) {
-		let count = data[i]["Note Count"];
-		if (count) {
-			noteCount += parseInt(count);
+	for (let i = 0; i < data.length; i++) {
+		let entry = data[i];
+
+		let com = entry["!!!COM"];
+		if (com) composerSet.add(com);
+
+		for (let n = 1; n <= 5; n++) {
+			let enc = entry["EED-" + n];
+			if (enc) encoderSet.add(enc);
+		}
+
+		let pages = (entry["Pages"] || "").toString().trim();
+		let rangeMatch = pages.match(/(\d+)\s*[-\u2013]\s*(\d+)/);
+		if (rangeMatch) {
+			pageCount += parseInt(rangeMatch[2]) - parseInt(rangeMatch[1]) + 1;
+		} else if (/\d/.test(pages)) {
+			pageCount += 1;
 		}
 	}
 
-	for (let i=0; i<data.length; i++) {
-		let genre = data[i]["Genre"];
-		workCount++;
+	let sourceCount = (typeof SOURCES_METADATA !== "undefined") ? SOURCES_METADATA.length : 0;
 
-		if (genre == "mass"){
-			massCount++;
-		}
-		if (genre == "motet"){
-			motetCount++;
-		}
-		if (genre == "secular work"){
-			secularCount++;
-		}
+	function setEl(id, val) {
+		let el = document.querySelector("#" + id);
+		if (el) el.innerHTML = val;
 	}
 
-  let roundworkCount = Math.floor(workCount / 25) * 25;
-
-	let noteElement = document.querySelector("#note-count");
-	if (noteElement) {
-		noteElement.innerHTML = noteCount;
-	}
-
-	let workElement = document.querySelector("#work-count");
-	if (workElement) {
-		workElement.innerHTML = workCount;
-	}
-
-	let roundworkElement = document.querySelector("#roundwork-count");
-	if (roundworkElement) {
-		if (roundworkCount !== workCount){
-			roundworkElement.innerHTML = `more than ${roundworkCount}`;
-		}
-		else if (roundworkCount == workCount){
-			roundworkElement.innerHTML = `${roundworkCount}`;
-		}
-	}
-
-	let massElement = document.querySelector("#mass-count");
-	if (massElement) {
-		massElement.innerHTML = massCount;
-	}
-
-	let motetElement = document.querySelector("#motet-count");
-	if (motetElement) {
-		motetElement.innerHTML = motetCount;
-	}
-
-	let secularElement = document.querySelector("#secular-count");
-	if (secularElement) {
-		secularElement.innerHTML = secularCount;
-	}
-
+	setEl("work-count", workCount);
+	setEl("home-encoder-count", encoderSet.size);
+	setEl("home-source-count", sourceCount);
+	setEl("home-composer-count", composerSet.size);
+	setEl("home-page-count", pageCount);
 }
 
 
@@ -284,7 +256,7 @@ function displayTopComposers() {
 		return;
 	}
 
-	let threshold = 3;
+	let threshold = 1;
 	let plotInfo = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 		"background": "#FFFAF1",

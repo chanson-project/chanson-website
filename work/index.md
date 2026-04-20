@@ -44,7 +44,6 @@ layout: work
     </div>
     <div id="textSelect">
        <div class="button show-text" onclick="displayText()" data-i18n="work.show_text">Show Text</div>
-       <div class="button hide-text hidden" onclick="displayNoText()" data-i18n="work.hide_text">Hide Text</div>
     </div>
     <div id="activity-separate-notitle" data-ext="png" class="analysis-toggle button">Activity by voice</div>
     <div id="prange-duration" data-ext="svg" class="analysis-toggle button">Vocal ranges by note durations</div>

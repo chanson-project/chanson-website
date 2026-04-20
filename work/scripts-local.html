@@ -41,10 +41,6 @@ function displayWork(id) {
 	if (window.localStorage.AccidentalState === "hide") {
 		hnpOptions.filter.push("shed -ke s/X?i/y/g");
 	}
-	if (window.localStorage.TextState === "show") {
-		hnpOptions.filter.push("text -a");
-	}
-
 	let prefix = id.substring(0, 2);
 	if (prefix === "BC" || prefix === "EG") {
 		let dir = prefix === "BC" ? "bc100" : "eg104";
@@ -347,32 +343,21 @@ function displayAccidentals() {
 
 //////////////////////////////
 //
-// displayText -- Show lyric text layer using "text -a" filter.
+// displayText -- Open VHV in a new tab with text -a filter applied.
 //
 
 function displayText() {
-	let elements = document.querySelectorAll("#textSelect .button");
-	for (let i=0; i<elements.length; i++) {
-		elements[i].classList.toggle("hidden");
-	}
-	window.localStorage.TextState = "show";
-	displayWork();
-}
-
-
-
-//////////////////////////////
-//
-// displayNoText -- Hide lyric text layer.
-//
-
-function displayNoText() {
-	let elements = document.querySelectorAll("#textSelect .button");
-	for (let i=0; i<elements.length; i++) {
-		elements[i].classList.toggle("hidden");
-	}
-	window.localStorage.TextState = "hide";
-	displayWork();
+	let id = DATA1520.workid;
+	let work = DATA1520.lookup.works[id];
+	if (!work) return;
+	let prefix = id.substring(0, 2);
+	let dir = prefix === "BC" ? "bc100" : prefix === "EG" ? "eg104" : "";
+	let fname = work["File Name"] || work["Filename"] || "";
+	if (!dir || !fname) return;
+	let rawBase = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main";
+	let rawURL = rawBase + "/" + dir + "/kern/" + fname;
+	let vhvURL = "https://verovio.humdrum.org/?k=e&file=" + encodeURIComponent(rawURL) + "&filter=text%20-a";
+	window.open(vhvURL, "_blank");
 }
 
 

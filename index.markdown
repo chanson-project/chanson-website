@@ -46,22 +46,22 @@ layout: page
           <div class="metric-label" data-i18n="home.works">Works</div>
         </div>
         <div class="metric">
-          <div class="metric-value" id="note-count"></div>
-          <div class="metric-label" data-i18n="home.notes">Notes</div>
+          <div class="metric-value" id="home-source-count"></div>
+          <div class="metric-label" data-i18n="home.sources">Sources</div>
         </div>
       </div>
       <div class="data-genres">
         <div class="genre-row">
-          <span class="genre-count" id="mass-count"></span>
-          <span class="genre-label" data-i18n="home.mass_movements">Mass movements</span>
+          <span class="genre-count" id="home-composer-count"></span>
+          <span class="genre-label" data-i18n="home.composers">Composers</span>
         </div>
         <div class="genre-row">
-          <span class="genre-count" id="motet-count"></span>
-          <span class="genre-label" data-i18n="home.motets">Motets</span>
+          <span class="genre-count" id="home-page-count"></span>
+          <span class="genre-label" data-i18n="home.pages">Pages</span>
         </div>
         <div class="genre-row">
-          <span class="genre-count" id="secular-count"></span>
-          <span class="genre-label" data-i18n="home.secular_works">Secular works</span>
+          <span class="genre-count" id="home-encoder-count"></span>
+          <span class="genre-label" data-i18n="home.encoders">Encoders</span>
         </div>
       </div>
     </div>
