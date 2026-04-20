@@ -14,6 +14,10 @@ let INDEX_title           = "Title";
 let INDEX_pages           = "Pages";
 let INDEX_origin          = "Origin";
 let INDEX_text            = "Text";
+
+function getTextStatus(entry) {
+	return entry["Text"] || entry["!!!EST-text"] || "";
+}
 let INDEX_collection      = "Collection";
 let INDEX_editor          = "Editor";
 

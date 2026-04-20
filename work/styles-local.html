@@ -229,12 +229,17 @@ main {
 
   text-indent: -19999px;
   background: url('/images/mp3.svg') no-repeat center;
+  cursor: pointer;
 
   width: 56px;
   height: 40px;
 
-  margin-right: 6px;   /* space before pills */
-  position: static;    /* remove baseline hack */
+  margin-right: 6px;
+  position: static;
+}
+
+.play.is-playing {
+  background: url('/images/mp3-pause.svg') no-repeat center;
 }
 
 

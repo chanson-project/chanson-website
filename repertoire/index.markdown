@@ -18,12 +18,12 @@ order: 3
 {% include_relative scripts-local.html %}
 {% include styles/styles-common.css.html %}
 
-<div class="section-header"><h4>Repertoire</h4></div>
+<div class="section-header"><h4 data-i18n="rep.heading">Repertoire</h4></div>
 
 <div id="search-interface">
   <div class="row">
     <div class="left-group">
-      <input type="text" id="input" onkeyup="FreeTextSearch()" placeholder="Enter title, composer, etc.">
+      <input type="text" id="input" onkeyup="FreeTextSearch()" placeholder="Enter title, composer, etc." data-i18n-placeholder="rep.search_placeholder">
       <span id="search-count"></span>
     </div>
     <div class="right-group">

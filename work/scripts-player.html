@@ -33,7 +33,7 @@ const KernPlayer = (function () {
   // ── Duration conversion (whole notes) ─────────────────────────────────────
 
   function tokenToDuration(token) {
-    const m = token.match(/^(\d+)/);
+    const m = token.match(/(\d+)/);
     if (!m) return 0;
     const n = parseInt(m[1]);
     if (n === 0) return 2.0;   // breve
@@ -73,6 +73,7 @@ const KernPlayer = (function () {
         for (const token of field.split(' ')) {
           if (!token || token === '.') continue;
           const dur = tokenToDuration(token);
+          if (dur === 0) continue; // skip non-kern tokens (lyrics, dynamics, etc.)
           if (dur > advance) advance = dur;
           const pitch = tokenToMidi(token);
           if (pitch >= 0) {
@@ -123,10 +124,21 @@ const KernPlayer = (function () {
 
   // ── Web Audio synthesis ────────────────────────────────────────────────────
 
-  let ac = null;
+  let ac      = null;
+  let acOut   = null;  // master output node (compressor)
 
   function getAC() {
-    if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
+    if (!ac) {
+      ac    = new (window.AudioContext || window.webkitAudioContext)();
+      const comp        = ac.createDynamicsCompressor();
+      comp.threshold.value = -18;
+      comp.knee.value      =  12;
+      comp.ratio.value     =   6;
+      comp.attack.value    = 0.003;
+      comp.release.value   = 0.15;
+      comp.connect(ac.destination);
+      acOut = comp;
+    }
     if (ac.state === 'suspended') ac.resume();
     return ac;
   }
@@ -134,27 +146,32 @@ const KernPlayer = (function () {
   function scheduleNote(pitch, durSec, velocity, when) {
     const ctx  = getAC();
     const freq = 440 * Math.pow(2, (pitch - 69) / 12);
-    const vol  = (velocity / 127) * 0.15;
+    const vol  = (velocity / 127) * 0.12;
 
     [['triangle', 1.0], ['sine', 0.25]].forEach(([type, mul]) => {
       const osc = ctx.createOscillator();
       const env = ctx.createGain();
       osc.connect(env);
-      env.connect(ctx.destination);
+      env.connect(acOut);
       osc.type             = type;
       osc.frequency.value  = freq;
 
-      const atk = 0.008;
-      const dec = 0.12;
-      const sus = 0.45;
-      const rel = Math.min(0.2, durSec * 0.35);
-      const end = when + durSec;
+      const atk     = 0.008;
+      const dec     = 0.12;
+      const sus     = 0.45;
+      const rel     = Math.min(0.2, durSec * 0.35);
+      const end     = when + durSec;
+      const relStart = end - rel;
 
       env.gain.setValueAtTime(0, when);
       env.gain.linearRampToValueAtTime(vol * mul,       when + atk);
       env.gain.linearRampToValueAtTime(vol * mul * sus, when + atk + dec);
-      env.gain.setValueAtTime(         vol * mul * sus, end - rel);
-      env.gain.linearRampToValueAtTime(0,               end + 0.05);
+      // Only hold sustain if it fits — otherwise the setValueAtTime fires
+      // mid-decay and causes an audible gain jump (click).
+      if (relStart > when + atk + dec) {
+        env.gain.setValueAtTime(vol * mul * sus, relStart);
+      }
+      env.gain.linearRampToValueAtTime(0, end + 0.05);
 
       osc.start(when);
       osc.stop(end + 0.1);
@@ -255,22 +272,10 @@ const KernPlayer = (function () {
   // ── UI integration ─────────────────────────────────────────────────────────
 
   function initUI() {
-    // Wire existing play/pause buttons to MIDI player
-    const playBtn  = document.getElementById('audiobutton-play');
-    const pauseBtn = document.getElementById('audiobutton-pause');
-
-    if (playBtn) {
-      playBtn.onclick = function () {
-        play();
-        playBtn.classList.add('hidden');
-        if (pauseBtn) pauseBtn.classList.remove('hidden');
-      };
-    }
-    if (pauseBtn) {
-      pauseBtn.onclick = function () {
-        pause();
-        pauseBtn.classList.add('hidden');
-        if (playBtn) playBtn.classList.remove('hidden');
+    const btn = document.getElementById('audiobutton-play');
+    if (btn) {
+      btn.onclick = function () {
+        if (isPlaying) { pause(); } else { play(); }
       };
     }
 
@@ -300,10 +305,8 @@ const KernPlayer = (function () {
   }
 
   function syncButtons(playing) {
-    const playBtn  = document.getElementById('audiobutton-play');
-    const pauseBtn = document.getElementById('audiobutton-pause');
-    if (playBtn)  playBtn.classList.toggle('hidden',  playing);
-    if (pauseBtn) pauseBtn.classList.toggle('hidden', !playing);
+    const btn = document.getElementById('audiobutton-play');
+    if (btn) btn.classList.toggle('is-playing', playing);
   }
 
   function updateProgress(beat) {

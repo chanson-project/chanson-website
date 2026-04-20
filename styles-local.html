@@ -413,4 +413,41 @@ table.general tr:last-child a {
   font-size: 12px;
 }
 
+/* ── Source cards (home page) ────────────────────────────────────────────── */
+
+#home-sources-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.source-card {
+  flex: 1 1 280px;
+  padding: 18px 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.source-card:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+  border-color: rgba(0, 90, 200, 0.30);
+}
+
+.source-card-title {
+  font-size: 1.05em;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1a1a2e;
+}
+
+.source-card-meta {
+  font-size: 0.88em;
+  color: #555;
+  line-height: 1.5;
+}
+
 </style>

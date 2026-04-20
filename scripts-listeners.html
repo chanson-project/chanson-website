@@ -1,6 +1,12 @@
 <script>
 
-let METADATA = {% include metadata/works.json %};
+let METADATA         = {% include metadata/works.json %};
+let SOURCES_METADATA = {% include metadata/sources.json %};
+let SOURCES_LOOKUP   = {};
+for (let _si = 0; _si < SOURCES_METADATA.length; _si++) {
+    let _s = SOURCES_METADATA[_si];
+    if (_s.Name) SOURCES_LOOKUP[_s.Name] = _s;
+}
 let GENRE_INDEX;
 
 const GENRE_LABELS = {
@@ -16,7 +22,7 @@ const GENRE_LABELS = {
 //
 
 document.addEventListener("DOMContentLoaded", function () {
-	fillMostRecentList(METADATA);
+	buildHomeSourceCards();
 	displayTopComposers(METADATA);
   GENRE_INDEX = buildGenreIndex(METADATA);
 	setupUserSearchEnterKey();

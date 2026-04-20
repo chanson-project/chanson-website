@@ -30,7 +30,7 @@ function buildSearchInterface(data) {
   checkbox.onchange = doSearch;
 
   label.appendChild(checkbox);
-  label.appendChild(document.createTextNode("Texted scores only"));
+  label.appendChild(document.createTextNode(t('rep.texted_only')));
 
   const textedContainer = document.getElementById("texted-container");
   if (textedContainer) {
@@ -61,7 +61,7 @@ function displayBrowseTable(data, selector) {
 	}
 	CURRENT_DATA = data;
 	SORT_STATE = { column: null, dir: 1 };
-	let headings = [INDEX_collection, INDEX_editor, INDEX_composer, INDEX_title, INDEX_pages, INDEX_origin];
+	let headings = [INDEX_title, INDEX_composer, INDEX_pages, INDEX_origin, INDEX_collection, INDEX_editor];
 	let contents = "";
 	contents += "<table class='general'>\n";
 	contents += "<thead>\n";
@@ -104,7 +104,7 @@ function sortBy(column) {
 		return av.localeCompare(bv) * SORT_STATE.dir;
 	});
 
-	let headings = [INDEX_collection, INDEX_editor, INDEX_composer, INDEX_title, INDEX_pages, INDEX_origin];
+	let headings = [INDEX_title, INDEX_composer, INDEX_pages, INDEX_origin, INDEX_collection, INDEX_editor];
 	let tbody = document.querySelector("#list tbody");
 	if (tbody) {
 		tbody.innerHTML = makeTableBody(headings, sorted);
@@ -131,11 +131,20 @@ const HEADING_LABELS = {
 	"Origin":     "Origin",
 };
 
+const HEADING_I18N = {
+	"Collection": "rep.col_collection",
+	"Editor":     "rep.col_editor",
+	"!!!COM":     "rep.col_composer",
+	"Title":      "rep.col_title",
+	"Pages":      "rep.col_pages",
+	"Origin":     "rep.col_origin",
+};
+
 function makeTableHeader(headings) {
 	let output = "";
 	for (let i = 0; i < headings.length; i++) {
 		let h = headings[i];
-		let label = HEADING_LABELS[h] || h;
+		let label = HEADING_I18N[h] ? t(HEADING_I18N[h]) : (HEADING_LABELS[h] || h);
 		let arrow = "";
 		if (SORT_STATE.column === h) {
 			arrow = SORT_STATE.dir === 1 ? " ▲" : " ▼";
@@ -194,6 +203,8 @@ function getTitle(entry) {
 	let title = "";
 	if (typeof entry["Title"] !== "undefined") {
 		title = entry["Title"];
+	} else if (typeof entry["!!!OTL@@FR"] !== "undefined") {
+		title = entry["!!!OTL@@FR"];
 	}
 	let subtitle = "";
 	if (typeof entry["Subtitle"] !== "undefined") {
@@ -341,7 +352,7 @@ function buildComposerSelect(data) {
 	clist.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 	let composerCount = clist.length;
 	let output = "<select class='composer' onchange='doSearch()'>\n";
-	output += `<option value="">Composers (${composerCount})</option>`;
+	output += `<option value="">${t('rep.composers_label')} (${composerCount})</option>`;
 	for (let i=0; i<clist.length; i++) {
 		let name = clist[i];
 		let count = counter[clist[i]];
@@ -368,7 +379,7 @@ function buildOriginSelect(data) {
 	let olist = Object.keys(counter).sort();
 	let originCount = olist.length;
 	let output = "<select class='origin' onchange='doSearch()'>\n";
-	output += `<option value="">Origin (${originCount})</option>`;
+	output += `<option value="">${t('rep.origin_label')} (${originCount})</option>`;
 	for (let i=0; i<olist.length; i++) {
 		let name = olist[i];
 		output += `<option value="${name}">${name} (${counter[name]})</option>`;
@@ -486,7 +497,7 @@ function buildTextSelect(data) {
 	let fileCount = data.length;
 	for (let i=0; i<fileCount; i++) {
 		let entry = data[i];
-		let text = entry[INDEX_text];
+		let text = getTextStatus(entry);
 		if (!text) {
 			// console.error("WARNING: ", entry, " DOES NOT HAVE AN ENTRY AS TO WHETHER IT IS TEXTED");
 			continue;
@@ -556,7 +567,7 @@ function doSearch(data) {
 	}
 
 	if (textCheckbox && textCheckbox.checked) {
-		data = data.filter(entry => entry[INDEX_text] === "done");
+		data = data.filter(entry => { let t = getTextStatus(entry).toLowerCase(); return t === "done" || t === "complete"; });
 	}
 
 	displayBrowseTable(data);
@@ -638,9 +649,9 @@ function showAllBrowseRows() {
 function displaySearchCount(count) {
 	let output = "";
 	if (count == 1) {
-		output = `[${count} result]`;
+		output = `[${count} ${t('rep.result')}]`;
 	} else {
-		output = `[${count} results]`;
+		output = `[${count} ${t('rep.results')}]`;
 	}
 	let searchCountElement = document.querySelector("#search-count");
 	if (searchCountElement) {

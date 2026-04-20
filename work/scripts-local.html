@@ -129,13 +129,16 @@ function displayWorkInfo(id) {
 	const rawURL    = dir && fname ? `${rawBase}/${dir}/kern/${fname}` : "";
 	const githubURL = dir && fname ? `${githubBase}/${dir}/kern/${fname}` : "";
 
-	const COLLECTIONS = { "BC": "La Bonne Chanson", "EG": "Éditions Gadbois" };
+	const sourceEntry   = DATA1520.lookup.sources[prefix] || {};
+	const collectionName = sourceEntry["!!!OPR"] || prefix;
+	const collectionLink = `/sources/?s=${encodeURIComponent(prefix)}`;
 
 	// ── Left column: bibliographic ─────────────────────────────────────────────
 
 	let titleoutput = "";
-	if (workinfo.Title) {
-		titleoutput = `<div class="work-item"><b>Title:</b> ${workinfo.Title}</div>`;
+	const titleText = workinfo.Title || workinfo["!!!OTL@@FR"] || "";
+	if (titleText) {
+		titleoutput = `<div class="work-item"><b>${t('work.title')}:</b> ${titleText}</div>`;
 	}
 
 	let composeroutput = "";
@@ -144,7 +147,7 @@ function displayWorkInfo(id) {
 		let display = com;
 		const m = com.match(/^(.*?)\s*,\s*(.*?)$/);
 		if (m) display = `${m[2]} ${m[1]}`;
-		composeroutput = `<div class="work-item"><b>Composer:</b> ${display}</div>`;
+		composeroutput = `<div class="work-item"><b>${t('work.composer')}:</b> ${display}</div>`;
 	}
 
 	let lyricistoutput = "";
@@ -153,38 +156,23 @@ function displayWorkInfo(id) {
 		let display = lyr;
 		const m = lyr.match(/^(.*?)\s*,\s*(.*?)$/);
 		if (m) display = `${m[2]} ${m[1]}`;
-		lyricistoutput = `<div class="work-item"><b>Lyricist:</b> ${display}</div>`;
+		lyricistoutput = `<div class="work-item"><b>${t('work.lyricist')}:</b> ${display}</div>`;
 	}
 
-	const collectionoutput = `<div class="work-item"><b>Collection:</b> ${COLLECTIONS[prefix] || prefix}</div>`;
-	const pagesoutput = workinfo.Pages ? `<div class="work-item"><b>Pages:</b> ${workinfo.Pages}</div>` : "";
+	const collectionoutput = `<div class="work-item"><b>${t('work.collection')}:</b> <a href="${collectionLink}">${collectionName}</a></div>`;
+	const pagesoutput = workinfo.Pages ? `<div class="work-item"><b>${t('work.pages')}:</b> ${workinfo.Pages}</div>` : "";
 
 	// ── Middle column: origin and encoding status ──────────────────────────────
 
 	const originoutput = workinfo.Origin
-		? `<div class="work-item"><b>Origin:</b> ${workinfo.Origin}</div>`
+		? `<div class="work-item"><b>${t('work.origin')}:</b> ${workinfo.Origin}</div>`
 		: "";
 
 	const notesoutput = workinfo.Notes
-		? `<div class="work-item"><b>Notes:</b> ${workinfo.Notes}</div>`
+		? `<div class="work-item"><b>${t('work.notes')}:</b> ${workinfo.Notes}</div>`
 		: "";
 
-	const statusLabel = { "done": "complete", "n/a": "n/a", "partial": "partial" };
-	function badge(val) { return val ? (statusLabel[val.toLowerCase()] || val) : ""; }
-
-	let encodingoutput = "";
-	const kst = badge(workinfo.Kern);
-	const tst = badge(workinfo.Text);
-	const dst = badge(workinfo.Dynam);
-	if (kst || tst || dst) {
-		let parts = [];
-		if (kst) parts.push(`notation: ${kst}`);
-		if (tst) parts.push(`text: ${tst}`);
-		if (dst) parts.push(`dynamics: ${dst}`);
-		encodingoutput = `<div class="work-item"><b>Encoding:</b> ${parts.join("; ")}</div>`;
-	}
-
-	// ── Right column: encoders and links ───────────────────────────────────────
+// ── Right column: encoders and links ───────────────────────────────────────
 
 	let encodersoutput = "";
 	const encoderList = [];
@@ -194,18 +182,18 @@ function displayWorkInfo(id) {
 		if (name) encoderList.push(date ? `${name} (${date})` : name);
 	}
 	if (encoderList.length) {
-		const label = encoderList.length > 1 ? "Encoders" : "Encoder";
+		const label = encoderList.length > 1 ? t('work.encoders') : t('work.encoder');
 		encodersoutput = `<div class="work-item"><b>${label}:</b> ${encoderList.join(", ")}</div>`;
 	}
 
 	let linksoutput = "";
 	if (rawURL) {
 		const vhvURL = `https://verovio.humdrum.org/?k=e&file=${encodeURIComponent(rawURL)}`;
-		linksoutput = `<div class="work-item"><b>View on:</b> <a target="_blank" href="${vhvURL}">VHV</a> | <a target="_blank" href="${githubURL}">GitHub</a></div>`;
+		linksoutput = `<div class="work-item"><b>${t('work.view_on')}:</b> <a target="_blank" href="${vhvURL}">VHV</a> | <a target="_blank" href="${githubURL}">GitHub</a></div>`;
 	}
 
 	const downloadoutput = rawURL
-		? `<div class="work-item"><b>Download:</b> <a href="${rawURL}" download>Humdrum (.krn)</a></div>`
+		? `<div class="work-item"><b>${t('work.download')}:</b> <a href="${rawURL}" download>${t('work.humdrum_file')}</a></div>`
 		: "";
 
 	// ── Build table row ────────────────────────────────────────────────────────
@@ -217,7 +205,7 @@ function displayWorkInfo(id) {
 	row.appendChild(leftCell);
 
 	const middleCell = document.createElement("td");
-	middleCell.innerHTML = originoutput + encodingoutput + notesoutput;
+	middleCell.innerHTML = originoutput + notesoutput;
 	row.appendChild(middleCell);
 
 	const rightCell = document.createElement("td");
@@ -308,7 +296,7 @@ function displayExternalInfo(id) {
 	}
 
 	let output = "";
-	let title              = workinfo["Title"];
+	let title              = workinfo["Title"] || workinfo["!!!OTL@@FR"] || "";
 	let externalURL        = workinfo["External Project URL"];
 	let externalName       = workinfo["External Project Name"];
 	let criticalCommentary = workinfo["Critical Commentary"];

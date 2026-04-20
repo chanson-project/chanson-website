@@ -1,0 +1,195 @@
+{% include_relative scripts-listeners.html %}
+
+<script>
+
+let SELECTED_SOURCE = null;
+
+
+//////////////////////////////
+//
+// buildSourceCards -- Render one card per source from SOURCES_METADATA.
+//
+
+function buildSourceCards() {
+    const container = document.getElementById("sources-cards");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    for (let i = 0; i < SOURCES_METADATA.length; i++) {
+        const src    = SOURCES_METADATA[i];
+        const name   = src["Name"] || "";
+        const opr    = src["!!!OPR"] || name;
+        const pub    = src["!!!PUB"] || "";
+        const editor = formatEditor(src["Editor"] || "");
+        const count  = METADATA.filter(function(e) {
+            return (e["ID"] || "").substring(0, 2) === name;
+        }).length;
+
+        const card = document.createElement("div");
+        card.className = "source-card";
+        card.dataset.name = name;
+        card.onclick = function() { selectSource(name); };
+
+        const metaParts = [];
+        if (editor)  metaParts.push("<b>" + t('src.editor') + ":</b> " + editor);
+        if (pub)     metaParts.push("<b>" + t('src.published') + ":</b> " + pub);
+        if (count)   metaParts.push("<b>" + t('src.works') + ":</b> " + count);
+
+        card.innerHTML =
+            "<div class=\"source-card-title\">" + opr + "</div>" +
+            "<div class=\"source-card-meta\">" + metaParts.join(" &ensp;·&ensp; ") + "</div>";
+
+        container.appendChild(card);
+    }
+}
+
+
+//////////////////////////////
+//
+// selectSource -- Show works for a given source Name (e.g. "BC").
+//
+
+function selectSource(name) {
+    SELECTED_SOURCE = name;
+
+    // Highlight active card
+    document.querySelectorAll(".source-card").forEach(function(c) {
+        c.classList.toggle("active", c.dataset.name === name);
+    });
+
+    const src    = SOURCES_LOOKUP[name];
+    const opr    = src ? (src["!!!OPR"] || name) : name;
+    const works  = METADATA.filter(function(e) {
+        return (e["ID"] || "").substring(0, 2) === name;
+    });
+
+    // Update URL without reload
+    const url = window.location.pathname + "?s=" + encodeURIComponent(name);
+    window.history.pushState(null, null, url);
+
+    // Header
+    const header = document.getElementById("source-works-header");
+    if (header) {
+        header.innerHTML = "<h5 class=\"source-works-title\">" + opr + "</h5>";
+    }
+
+    // Clear search
+    const input = document.getElementById("source-input");
+    if (input) input.value = "";
+
+    // Render table
+    renderWorksTable(works);
+
+    // Show panel
+    const panel = document.getElementById("source-works-panel");
+    if (panel) panel.classList.remove("source-works-hidden");
+}
+
+
+//////////////////////////////
+//
+// renderWorksTable -- Build the works table for the selected source.
+//
+
+function renderWorksTable(works) {
+    const container = document.getElementById("source-works-list");
+    if (!container) return;
+
+    let html = "<table class=\"general source-table\">\n";
+    html += "<thead><tr>";
+    html += "<th>" + t('src.col_composer') + "</th><th>" + t('src.col_title') + "</th><th>" + t('src.col_pages') + "</th><th>" + t('src.col_origin') + "</th>";
+    html += "</tr></thead>\n<tbody>\n";
+
+    for (let i = 0; i < works.length; i++) {
+        const e      = works[i];
+        const title  = getWorkTitle(e);
+        const comp   = e["!!!COM"] || "";
+        const pages  = e["Pages"]  || "";
+        const origin = e["Origin"] || "";
+        const url    = "/work/?id=" + (e["ID"] || "");
+        const search = [comp, title, pages, origin, e["ID"] || ""]
+            .join(" ").toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        html += "<tr data-search=\"" + search.replace(/"/g, "&quot;") + "\">\n";
+        html += "<td>" + comp + "</td>\n";
+        html += "<td><a href=\"" + url + "\">" + title + "</a></td>\n";
+        html += "<td>" + pages + "</td>\n";
+        html += "<td>" + origin + "</td>\n";
+        html += "</tr>\n";
+    }
+
+    html += "</tbody></table>\n";
+    container.innerHTML = html;
+    displaySourceCount(works.length);
+}
+
+
+//////////////////////////////
+//
+// sourceSearch -- Free-text filter over the works table.
+//
+
+function sourceSearch(query) {
+    const input = document.getElementById("source-input");
+    if (query !== undefined) {
+        if (input) input.value = query;
+    } else {
+        query = input ? input.value : "";
+    }
+
+    const rows = document.querySelectorAll("#source-works-list tbody tr");
+    const normalize = function(s) {
+        return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    };
+    const tokens = normalize(query).split(/\s+/).filter(Boolean);
+
+    let count = 0;
+    for (let i = 0; i < rows.length; i++) {
+        const haystack = normalize(rows[i].dataset.search || "");
+        const match = tokens.every(function(t) { return haystack.includes(t); });
+        rows[i].style.display = match ? "" : "none";
+        if (match) count++;
+    }
+
+    displaySourceCount(tokens.length ? count : rows.length);
+}
+
+
+//////////////////////////////
+//
+// displaySourceCount --
+//
+
+function displaySourceCount(count) {
+    const el = document.getElementById("source-count");
+    if (el) el.innerHTML = "[" + count + " " + (count === 1 ? t('src.result') : t('src.results')) + "]";
+}
+
+
+//////////////////////////////
+//
+// getWorkTitle -- Resolve title from either field name variant.
+//
+
+function getWorkTitle(entry) {
+    const title    = entry["Title"]       || entry["!!!OTL@@FR"] || "";
+    const subtitle = entry["Subtitle"]    || "";
+    if (subtitle) return title ? title + ", <i>" + subtitle + "</i>" : subtitle;
+    return title;
+}
+
+
+//////////////////////////////
+//
+// formatEditor -- Reformat "Last, First" → "First Last".
+//
+
+function formatEditor(raw) {
+    const m = raw.match(/^(.*?)\s*,\s*(.*?)$/);
+    if (m) return m[2].trim() + " " + m[1].trim();
+    return raw;
+}
+
+</script>

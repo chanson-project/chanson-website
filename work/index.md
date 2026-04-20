@@ -36,16 +36,15 @@ layout: work
 
 <div id="button-container" class="button-container">
     <div id="audiobutton-container">
-        <span id="audiobutton-play" class="play" onclick="DATA1520.audio.play();">play</span>
-        <span id="audiobutton-pause" class="pause hidden" onclick="DATA1520.audio.pause();">pause</span>
+        <span id="audiobutton-play" class="play">play</span>
     </div>
     <div id="accidentalSelect">
-       <div class="button hide" onclick="displayNoAccidentals()">Hide Editorial Accidentals</div>
-       <div class="button show hidden" onclick="displayAccidentals()">Show Editorial Accidentals</div>
+       <div class="button hide" onclick="displayNoAccidentals()" data-i18n="work.hide_accidentals">Hide Editorial Accidentals</div>
+       <div class="button show hidden" onclick="displayAccidentals()" data-i18n="work.show_accidentals">Show Editorial Accidentals</div>
     </div>
     <div id="textSelect">
-       <div class="button show-text" onclick="displayText()">Show Text</div>
-       <div class="button hide-text hidden" onclick="displayNoText()">Hide Text</div>
+       <div class="button show-text" onclick="displayText()" data-i18n="work.show_text">Show Text</div>
+       <div class="button hide-text hidden" onclick="displayNoText()" data-i18n="work.hide_text">Hide Text</div>
     </div>
     <div id="activity-separate-notitle" data-ext="png" class="analysis-toggle button">Activity by voice</div>
     <div id="prange-duration" data-ext="svg" class="analysis-toggle button">Vocal ranges by note durations</div>

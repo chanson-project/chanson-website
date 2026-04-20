@@ -4,12 +4,46 @@
 
 //////////////////////////////
 //
-// fillMostRecentList --
+// buildHomeSourceCards -- Render source cards linking to the Sources page.
 //
 
-function fillMostRecentList(metadata) {
-	displayMostRecent(metadata);
-	fillInCensusData(metadata);
+function buildHomeSourceCards() {
+	fillInCensusData(METADATA);
+	const container = document.getElementById("home-sources-cards");
+	if (!container) return;
+
+	container.innerHTML = "";
+
+	for (let i = 0; i < SOURCES_METADATA.length; i++) {
+		const src    = SOURCES_METADATA[i];
+		const name   = src["Name"] || "";
+		const opr    = src["!!!OPR"] || name;
+		const pub    = src["!!!PUB"] || "";
+		const editor = (function(raw) {
+			const m = raw.match(/^(.*?)\s*,\s*(.*?)$/);
+			return m ? m[2].trim() + " " + m[1].trim() : raw;
+		})(src["Editor"] || "");
+		const count  = METADATA.filter(function(e) {
+			return (e["ID"] || "").substring(0, 2) === name;
+		}).length;
+
+		const card = document.createElement("div");
+		card.className = "source-card";
+		card.onclick = function() {
+			window.location.href = "/sources/?s=" + encodeURIComponent(name);
+		};
+
+		const metaParts = [];
+		if (editor) metaParts.push("<b>" + t('src.editor') + ":</b> " + editor);
+		if (pub)    metaParts.push("<b>" + t('src.published') + ":</b> " + pub);
+		if (count)  metaParts.push("<b>" + t('src.works') + ":</b> " + count);
+
+		card.innerHTML =
+			"<div class=\"source-card-title\">" + opr + "</div>" +
+			"<div class=\"source-card-meta\">" + metaParts.join(" &ensp;·&ensp; ") + "</div>";
+
+		container.appendChild(card);
+	}
 }
 
 //////////////////////////////
@@ -159,7 +193,7 @@ function displayMostRecent(metadata) {
 //
 
 function prepareTitle(entry) {
-	let output = entry.Title;
+	let output = entry.Title || entry["!!!OTL@@FR"] || "";
 	if (entry.Subtitle) {
 		output += `, <i>${entry.Subtitle}</i>`;
 	}
@@ -409,9 +443,10 @@ function displayTopComposers() {
 }
 
 function renderSuggestion(entry) {
+  const baseTitle = entry.Title || entry["!!!OTL@@FR"] || "";
   const title = entry.Subtitle
-    ? `${entry.Title}, <i>${entry.Subtitle}</i>`
-    : entry.Title;
+    ? `${baseTitle}, <i>${entry.Subtitle}</i>`
+    : baseTitle;
 
   const composer = entry.Composer || "Unknown";
   const genre = entry.Genre || "";

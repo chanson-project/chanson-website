@@ -16,6 +16,7 @@ document.body.classList.add("wait");  // display a wait cursor while preparing p
 let DATA1520 = {}; // global object to store information about work. Type "DATA1520" on the console to view.
 DATA1520.metadata                 = {};
 DATA1520.metadata.works           = {% include metadata/works.json %};
+DATA1520.metadata.sources         = {% include metadata/sources.json %};
 DATA1520.lookup                   = {};
 DATA1520.filter                   = "";
 DATA1520.timemap                  = [];  // Mapping between notes in SVG and timeline for audio
@@ -47,6 +48,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 	// Create lookup tables for metadata:
 	DATA1520.lookup.works           = createLookup(DATA1520.metadata.works);
+	DATA1520.lookup.sources         = {};
+	DATA1520.metadata.sources.forEach(function(s) {
+		if (s.Name) DATA1520.lookup.sources[s.Name] = s;
+	});
 
 	displayWork(DATA1520.workid);
 	//initializeAudio(DATA1520.workid);

@@ -1,0 +1,173 @@
+<script>
+(function () {
+
+  var T = {
+    en: {
+      /* banner */
+      'banner.subtitle':        'Exploring French-Canadian folk music in digital format',
+
+      /* nav */
+      'nav.about':              'about',
+      'nav.repertoire':         'repertoire',
+      'nav.sources':            'sources',
+      'nav.documentation':      'documentation',
+
+      /* home */
+      'home.browse':            'Browse',
+      'home.search_placeholder':'Search composers, works, genres\u2026',
+      'home.project_data':      'Project Data',
+      'home.works':             'Works',
+      'home.notes':             'Notes',
+      'home.mass_movements':    'Mass movements',
+      'home.motets':            'Motets',
+      'home.secular_works':     'Secular works',
+      'home.top_composers':     'Best-Represented Composers',
+      'home.sources':           'Sources',
+
+      /* repertoire */
+      'rep.heading':            'Repertoire',
+      'rep.search_placeholder': 'Enter title, composer, etc.',
+      'rep.texted_only':        'Texted scores only',
+      'rep.col_title':          'Title',
+      'rep.col_composer':       'Composer',
+      'rep.col_pages':          'Pages',
+      'rep.col_origin':         'Origin',
+      'rep.col_collection':     'Collection',
+      'rep.col_editor':         'Editor',
+      'rep.result':             'result',
+      'rep.results':            'results',
+      'rep.composers_label':    'Composers',
+      'rep.origin_label':       'Origin',
+
+      /* sources */
+      'src.heading':            'Sources',
+      'src.search_placeholder': 'Filter by title, composer\u2026',
+      'src.col_composer':       'Composer',
+      'src.col_title':          'Title',
+      'src.col_pages':          'Pages',
+      'src.col_origin':         'Origin',
+      'src.editor':             'Editor',
+      'src.published':          'Published',
+      'src.works':              'Works',
+      'src.result':             'result',
+      'src.results':            'results',
+
+      /* work page */
+      'work.title':             'Title',
+      'work.composer':          'Composer',
+      'work.lyricist':          'Lyricist',
+      'work.collection':        'Collection',
+      'work.pages':             'Pages',
+      'work.origin':            'Origin',
+      'work.notes':             'Notes',
+      'work.encoder':           'Encoder',
+      'work.encoders':          'Encoders',
+      'work.view_on':           'View on',
+      'work.download':          'Download',
+      'work.humdrum_file':      'Humdrum (.krn)',
+      'work.hide_accidentals':  'Hide Editorial Accidentals',
+      'work.show_accidentals':  'Show Editorial Accidentals',
+      'work.show_text':         'Show Text',
+      'work.hide_text':         'Hide Text',
+    },
+
+    fr: {
+      /* banner */
+      'banner.subtitle':        'Explorer la musique folklorique canadienne-fran\u00e7aise en format num\u00e9rique',
+
+      /* nav */
+      'nav.about':              '\u00e0 propos',
+      'nav.repertoire':         'r\u00e9pertoire',
+      'nav.sources':            'sources',
+      'nav.documentation':      'documentation',
+
+      /* home */
+      'home.browse':            'Parcourir',
+      'home.search_placeholder':'Chercher compositeurs, \u0153uvres, genres\u2026',
+      'home.project_data':      'Donn\u00e9es du projet',
+      'home.works':             '\u0152uvres',
+      'home.notes':             'Notes',
+      'home.mass_movements':    'Mouvements de messe',
+      'home.motets':            'Motets',
+      'home.secular_works':     '\u0152uvres profanes',
+      'home.top_composers':     'Compositeurs les mieux repr\u00e9sent\u00e9s',
+      'home.sources':           'Sources',
+
+      /* repertoire */
+      'rep.heading':            'R\u00e9pertoire',
+      'rep.search_placeholder': 'Entrer titre, compositeur, etc.',
+      'rep.texted_only':        'Partitions avec texte uniquement',
+      'rep.col_title':          'Titre',
+      'rep.col_composer':       'Compositeur',
+      'rep.col_pages':          'Pages',
+      'rep.col_origin':         'Origine',
+      'rep.col_collection':     'Collection',
+      'rep.col_editor':         '\u00c9diteur',
+      'rep.result':             'r\u00e9sultat',
+      'rep.results':            'r\u00e9sultats',
+      'rep.composers_label':    'Compositeurs',
+      'rep.origin_label':       'Origine',
+
+      /* sources */
+      'src.heading':            'Sources',
+      'src.search_placeholder': 'Filtrer par titre, compositeur\u2026',
+      'src.col_composer':       'Compositeur',
+      'src.col_title':          'Titre',
+      'src.col_pages':          'Pages',
+      'src.col_origin':         'Origine',
+      'src.editor':             '\u00c9diteur',
+      'src.published':          'Publi\u00e9',
+      'src.works':              '\u0152uvres',
+      'src.result':             'r\u00e9sultat',
+      'src.results':            'r\u00e9sultats',
+
+      /* work page */
+      'work.title':             'Titre',
+      'work.composer':          'Compositeur',
+      'work.lyricist':          'Parolier',
+      'work.collection':        'Collection',
+      'work.pages':             'Pages',
+      'work.origin':            'Origine',
+      'work.notes':             'Notes',
+      'work.encoder':           'Encodeur',
+      'work.encoders':          'Encodeurs',
+      'work.view_on':           'Voir sur',
+      'work.download':          'T\u00e9l\u00e9charger',
+      'work.humdrum_file':      'Humdrum (.krn)',
+      'work.hide_accidentals':  'Masquer les accidents \u00e9ditoriaux',
+      'work.show_accidentals':  'Afficher les accidents \u00e9ditoriaux',
+      'work.show_text':         'Afficher le texte',
+      'work.hide_text':         'Masquer le texte',
+    }
+  };
+
+  window.LANG = localStorage.getItem('chanson_lang') || 'en';
+  document.documentElement.lang = window.LANG;
+
+  window.t = function (key) {
+    return (T[window.LANG] || {})[key] || T.en[key] || key;
+  };
+
+  window.setLang = function (lang) {
+    localStorage.setItem('chanson_lang', lang);
+    window.location.reload();
+  };
+
+  window.applyTranslations = function () {
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var v = t(el.getAttribute('data-i18n'));
+      if (v) el.textContent = v;
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+      var v = t(el.getAttribute('data-i18n-placeholder'));
+      if (v) el.placeholder = v;
+    });
+    /* keep toggle label current */
+    var btn = document.getElementById('lang-toggle');
+    if (btn) btn.textContent = window.LANG === 'en' ? 'FR' : 'EN';
+  };
+
+  document.addEventListener('DOMContentLoaded', window.applyTranslations);
+
+})();
+</script>

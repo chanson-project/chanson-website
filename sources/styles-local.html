@@ -1,0 +1,103 @@
+<style>
+
+.wrapper { max-width: 1000px; }
+
+/* ── Source cards ────────────────────────────────────────────────────────── */
+
+#sources-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.source-card {
+    flex: 1 1 280px;
+    padding: 18px 22px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+    transition: box-shadow 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.source-card:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+    border-color: rgba(0, 90, 200, 0.30);
+}
+
+.source-card.active {
+    border-color: rgba(0, 90, 200, 0.50);
+    background: rgba(0, 100, 220, 0.06);
+    box-shadow: 0 2px 12px rgba(0, 90, 200, 0.12);
+}
+
+.source-card-title {
+    font-size: 1.05em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #1a1a2e;
+}
+
+.source-card-meta {
+    font-size: 0.88em;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* ── Works panel ─────────────────────────────────────────────────────────── */
+
+.source-works-hidden { display: none; }
+
+.source-works-title {
+    margin: 0 0 14px 0;
+    font-size: 1.1em;
+    color: #003a8f;
+}
+
+#source-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+#source-input {
+    width: 250px;
+    font-size: 15px;
+    line-height: 1.4;
+    padding: 10px 12px 10px 38px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    background-color: rgba(255, 255, 255, 0.9);
+    background-image: url('/images/searchicon.png');
+    background-position: 12px center;
+    background-repeat: no-repeat;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+#source-count {
+    font-size: 0.88em;
+    color: #666;
+}
+
+/* ── Works table ─────────────────────────────────────────────────────────── */
+
+table.source-table thead th {
+    background: linear-gradient(
+        to bottom,
+        rgba(0,122,255,0.14),
+        rgba(0,122,255,0.08)
+    );
+    color: #003a8f;
+    border-bottom: 1px solid rgba(0,122,255,0.25);
+}
+
+table.source-table td:nth-child(4) {
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+</style>

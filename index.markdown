@@ -26,41 +26,42 @@ layout: page
 
   <!-- LEFT COLUMN -->
   <div class="left-column">
-    <div class="section-header"><h4>Browse</h4></div>
+    <div class="section-header"><h4 data-i18n="home.browse">Browse</h4></div>
     <div class="browse-box apple-search">
       <input
         type="search"
         id="input"
         placeholder="Search composers, works, genres…"
+        data-i18n-placeholder="home.search_placeholder"
         autocomplete="off"
       >
       <div id="search-suggestions"
            class="search-suggestions hidden"></div>
     </div>
-    <div class="section-header"><h4>Project Data</h4></div>
+    <div class="section-header"><h4 data-i18n="home.project_data">Project Data</h4></div>
     <div class="data-box apple-data">
       <div class="data-metrics">
         <div class="metric">
           <div class="metric-value" id="work-count"></div>
-          <div class="metric-label">Works</div>
+          <div class="metric-label" data-i18n="home.works">Works</div>
         </div>
         <div class="metric">
           <div class="metric-value" id="note-count"></div>
-          <div class="metric-label">Notes</div>
+          <div class="metric-label" data-i18n="home.notes">Notes</div>
         </div>
       </div>
       <div class="data-genres">
         <div class="genre-row">
           <span class="genre-count" id="mass-count"></span>
-          <span class="genre-label">Mass movements</span>
+          <span class="genre-label" data-i18n="home.mass_movements">Mass movements</span>
         </div>
         <div class="genre-row">
           <span class="genre-count" id="motet-count"></span>
-          <span class="genre-label">Motets</span>
+          <span class="genre-label" data-i18n="home.motets">Motets</span>
         </div>
         <div class="genre-row">
           <span class="genre-count" id="secular-count"></span>
-          <span class="genre-label">Secular works</span>
+          <span class="genre-label" data-i18n="home.secular_works">Secular works</span>
         </div>
       </div>
     </div>
@@ -68,11 +69,11 @@ layout: page
 
   <!-- RIGHT COLUMN -->
   <div class="right-column">
-    <div class="section-header"><h4>Best-Represented Composers</h4></div>
+    <div class="section-header"><h4 data-i18n="home.top_composers">Best-Represented Composers</h4></div>
     <div id="composer-plot"></div>
   </div>
 
 </div>
 
-<div class="section-header"><h4>Recently added works</h4></div>
-<div data-count="10" id="general"></div>
+<div class="section-header"><h4 data-i18n="home.sources">Sources</h4></div>
+<div id="home-sources-cards"></div>

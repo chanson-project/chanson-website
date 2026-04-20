@@ -1,4 +1,50 @@
+{% include i18n.html %}
+
 <style>
+
+/* ── Language toggle ─────────────────────────────────────────────────────── */
+#lang-toggle {
+  margin-left: 10px;
+  padding: 4px 10px;
+  font-size: 0.8em;
+  font-weight: 600;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  letter-spacing: 0.04em;
+}
+#lang-toggle:hover {
+  background: rgba(0,0,0,0.07);
+}
+
+/* ── Banner ──────────────────────────────────────────────────────────────── */
+.banner-wrap {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  width: 100%;
+}
+.banner-wrap img.desktop-banner {
+  display: block;
+  width: 100%;
+}
+.banner-tagline {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 60%;
+  background: #f0ece0;
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  font-size: clamp(0.95em, 2vw, 1.25em);
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
 
 .site-header {
   background: rgba(254, 247, 231, 0.92); /* #fef7e7 */
@@ -188,21 +234,23 @@
 
           {%- for my_page in pages_list -%}
             {%- if my_page.title -%}
-              <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+              <a class="page-link" href="{{ my_page.url | relative_url }}" data-i18n="nav.{{ my_page.title }}">{{ my_page.title | escape }}</a>
 
               {%- assign counter = counter | plus: 1 -%}
 
             {%- endif -%}
           {%- endfor -%}
+          <button id="lang-toggle" onclick="setLang(window.LANG === 'en' ? 'fr' : 'en')">FR</button>
         </div>
       </nav>
     {%- endif -%}
     {% if page.url == "/" or page.url == "/index.html" %}
     <div class="banner">
-      <img src="{{ '/images/1520s_banner.png' | relative_url }}" alt="Banner Image" class="desktop-banner">
-      <div class="banner-mobile">
-        <img src="/images/1520s_banner_left.png" alt="Banner Left">
-        <img src="/images/1520s_banner_right.png" alt="Banner Right">
+      <div class="banner-wrap">
+        <img src="{{ '/images/1520s_banner.png' | relative_url }}" alt="Banner" class="desktop-banner">
+        <div class="banner-tagline">
+          <span data-i18n="banner.subtitle">Exploring French-Canadian folk music in digital format</span>
+        </div>
       </div>
     </div>
     {% endif %}
