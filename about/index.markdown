@@ -55,23 +55,18 @@ order: 1
 
 <div class="support-section">
   <p>
-    This project has been generously supported by <a href="https://itatti.harvard.edu/" target="_blank">Villa I Tatti</a>, Harvard's Center for Italian Renaissance Studies, as part of a <a href="https://propelgrants.stanford.edu" target="_blank">Stanford Vice Provost and Dean of Research Propel Grant</a>, by the <a href="https://cesta.stanford.edu" target="_blank"> Stanford Center for Spatial and Textual Analysis</a>, and by the <a href="http://www.ccarh.org" target="_blank">Stanford Center for Computer Assisted Research in the Humanities</a>.
+    This project has been generously supported by <a href="https://disa.arts.ubc.ca/" target="_blank">UBC Digital Scholarship in the Arts</a> and by <a href="https://languagesciences.ubc.ca/" target="_blank">UBC Language Sciences</a> through a Knowledge Mobilization and Dissemination Grant, and by the <a href="https://www.ccarh.org/" target="_blank">Stanford Center for Computer Assisted Research in the Humanities</a>.
   </p>
 
   <div class="support-logos-top">
-    <a href="https://itatti.harvard.edu/" target="_blank">
-      <img src="/images/ITatti_logo.png" alt="i Tatti logo" class="support-logo">
+    <a href="https://disa.arts.ubc.ca/" target="_blank">
+      <img src="/images/DiSA%20Incubators.jpg" alt="UBC Digital Scholarship in the Arts logo" class="support-logo">
     </a>
-    <a href="https://cesta.stanford.edu/" target="_blank">
-      <img src="/images/CESTA_logo.png" alt="CESTA logo" class="support-logo">
+    <a href="https://languagesciences.ubc.ca/" target="_blank">
+      <img src="/images/LanguageSciences_logo.svg" alt="UBC Language Sciences Initiative logo" class="support-logo">
     </a>
-  </div>
-  <div class="support-logos-bottom">
-    <a href="http://www.ccarh.org/" target="_blank">
+    <a href="https://www.ccarh.org/" target="_blank">
       <img src="/images/CCARH_logo.png" alt="CCARH logo" class="support-logo">
-    </a>
-    <a href="https://propelgrants.stanford.edu" target="_blank">
-      <img src="/images/Propel_logo.png" alt="Propel Grant logo" class="support-logo">
     </a>
   </div>
 </div>

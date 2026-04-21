@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="110" viewBox="0 0 300 110">
+  <rect width="300" height="110" rx="6" fill="#002145"/>
+  <text x="150" y="36" font-family="Georgia, serif" font-size="13" font-weight="bold" letter-spacing="2" fill="#C39D25" text-anchor="middle">UBC</text>
+  <line x1="30" y1="46" x2="270" y2="46" stroke="#C39D25" stroke-width="0.8" opacity="0.5"/>
+  <text x="150" y="68" font-family="Georgia, serif" font-size="17" fill="white" text-anchor="middle">Language Sciences</text>
+  <text x="150" y="90" font-family="Georgia, serif" font-size="11" fill="#9ab0c8" text-anchor="middle">Initiative</text>
+</svg>
