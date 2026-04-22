@@ -1,0 +1,209 @@
+@ Chanson Project — UI translations
+@ Format: ATON  https://aton.sapp.org/
+@ Two top-level sections: en / fr
+@ Keys with HTML content are marked (html)
+
+@@START:en
+
+@ banner
+@banner.subtitle: Exploring Francophone folk music in digital format
+
+@ navigation
+@nav.about: about
+@nav.repertoire: repertoire
+@nav.sources: sources
+@nav.documentation: documentation
+
+@ home page
+@home.browse: Browse
+@home.search_placeholder: Search composers, works, genres…
+@home.project_data: Project Data
+@home.works: Works
+@home.encoders: Encoders
+@home.mass_movements: Mass movements
+@home.motets: Motets
+@home.secular_works: Secular works
+@home.top_composers: Best-Represented Composers
+@home.sources: Sources
+@home.composers: Composers
+@home.pages: Pages
+
+@ repertoire page
+@rep.heading: Repertoire
+@rep.search_placeholder: Enter title, composer, etc.
+@rep.texted_only: Texted scores only
+@rep.col_title: Title
+@rep.col_composer: Composer
+@rep.col_pages: Pages
+@rep.col_origin: Origin
+@rep.col_collection: Collection
+@rep.col_editor: Editor
+@rep.result: result
+@rep.results: results
+@rep.composers_label: Composers
+@rep.origin_label: Origin
+@rep.collection_label: Collection
+@rep.editor_label: Editor
+
+@ sources page
+@src.heading: Sources
+@src.search_placeholder: Filter by title, composer…
+@src.col_composer: Composer
+@src.col_title: Title
+@src.col_pages: Pages
+@src.col_origin: Origin
+@src.editor: Editor
+@src.published: Published
+@src.works: Works
+@src.result: result
+@src.results: results
+
+@ work page
+@work.title: Title
+@work.composer: Composer
+@work.lyricist: Lyricist
+@work.collection: Collection
+@work.pages: Pages
+@work.origin: Origin
+@work.notes: Notes
+@work.encoder: Encoder
+@work.encoders: Encoders
+@work.view_on: View on
+@work.download: Download
+@work.humdrum_file: Humdrum (.krn)
+@work.hide_accidentals: Hide Editorial Accidentals
+@work.show_accidentals: Show Editorial Accidentals
+@work.show_text: Show Text
+@work.hide_text: Hide Text
+
+@ about page
+@about.heading: about
+@about.h_project: Project
+@about.h_feedback: Feedback
+@about.h_people: People
+@about.h_support: Support
+@about.role_director: Director
+@about.role_tech_director: Technical Director
+@about.role_ra: Research Assistant
+@about.bio_sam: TBC
+@about.bio_eve: I am an Associate Professor in music theory at the School of Music of the University of British Columbia, where I teach courses on compositional practice in the 18th- and 19th-century, techniques of graphic linear analysis, music psychology, Francophone music, and digital technology in music research and creation. My research has been presented at interdisciplinary conferences in North America, Europe, and the Middle East, and published in Music Perception, Empirical Musicology Review, Action, Perception &amp; Cognition, and the Journal of New Music Research. My current projects focus on empirical aesthetics, rhythmic polyphony, and folk music of French-Canada, combining methods of close study, computer-aided musicology, and behavioural experimentation.
+@about.bio_craig: Craig Sapp is a world expert in computer-based musical analysis who develops transformative digital-humanities projects in collaboration with colleagues and students. As consulting professor at Stanford University, Sapp teaches courses in computational music theory and digital musicology. He serves as technical director of not only the <a href="https://josquin.stanford.edu" target="_blank">Josquin Research Project</a>, but also the NEH-funded <a href="https://www.tassomusic.org/" target="_blank">Tasso in Music Project</a>, and as technical lead for the <a href="https://chopin.musicsources.pl/en/" target="_blank">Chopin Heritage in Open Access project</a> (2016–20), the <a href="https://polish.musicsources.pl/pl" target="_blank">Polish Music in Open Access project</a> (2019–22), and the <a href="https://polyrhythm.humdrum.org" target="_blank">Polyrhythm Project</a> (2018–present). He served as a consultant for the <a href="https://gaspar-van-weerbeke.eu" target="_blank">Gaspar Online Edition</a> (2021–22).
+@about.bio_isaac: Isaac is a UBC Computer Science student (BCS, 2027) with a BMus (2025) in Organ and Ancient Mediterranean and Near Eastern Studies. He has been part of the project since summer 2025 doing music encoding, and now <a href="https://github.com/zaxophone" target="_blank">technical work</a> on the website and other areas. He is also an organist and children's choir director for Holy Family Parish (FSSP).
+@about.project: This project aims—from an interdisciplinary perspective—to fill a large gap in research on minority Francophone community experience in British Columbia. By building bridges between research institutions, cultural organizations, artists, and Francophone schools, it seeks to foster a culture of community resilience through creative engagement with Francophone music. Research on music in socio-cultural context has shown that participatory music, that is, a musical event in which the audience takes an active part in music making, contributes to social cohesion, identity formation, and well-being. Furthermore, research has shown that music-based interventions contribute significantly to language development. This project proposes to harness innovative music technology to develop open-access, digital resources that have the potential to enhance intergenerational language transfer, music education, and community-based music making. Research activities include ethnographic research, development of music-based pedagogical interventions, and a series of workshops highlighting the ethnic diversity of Francophone musical practices (planned for 2027).
+@about.feedback: Do you see a mistake in a score? Do you disagree with our editorial choices? Would you like a particular score to be texted? <a href="mailto:The1520sProject@gmail.com">Let us know</a>.
+@about.support: This project has been generously supported by <a href="https://disa.arts.ubc.ca/" target="_blank">UBC Digital Scholarship in the Arts</a> and by <a href="https://languagesciences.ubc.ca/" target="_blank">UBC Language Sciences</a> through a Knowledge Mobilization and Dissemination Grant, and by the <a href="https://www.ccarh.org/" target="_blank">Stanford Center for Computer Assisted Research in the Humanities</a>.
+
+@ documentation page
+@doc.heading: documentation
+@doc.h_procedure: Encoding Procedure
+@doc.h_general: General Encoding
+@doc.h_text: Text Encoding
+@doc.h_music: Music Encoding
+@doc.h_text_analysis: Text Analysis
+@doc.h_additional: Additional Notes
+@doc.h_formatting: Formatting
+
+@@END:en
+
+
+@@START:fr
+
+@ bannière
+@banner.subtitle: Explorer la musique folklorique francophone en format numérique
+
+@ navigation
+@nav.about: à propos
+@nav.repertoire: répertoire
+@nav.sources: sources
+@nav.documentation: documentation
+
+@ page d'accueil
+@home.browse: Parcourir
+@home.search_placeholder: Chercher compositeurs, œuvres, genres…
+@home.project_data: Données du projet
+@home.works: Œuvres
+@home.encoders: Encodeurs
+@home.mass_movements: Mouvements de messe
+@home.motets: Motets
+@home.secular_works: Œuvres profanes
+@home.top_composers: Compositeurs les mieux représentés
+@home.sources: Sources
+@home.composers: Compositeurs
+@home.pages: Pages
+
+@ page répertoire
+@rep.heading: Répertoire
+@rep.search_placeholder: Entrer titre, compositeur, etc.
+@rep.texted_only: Partitions avec texte uniquement
+@rep.col_title: Titre
+@rep.col_composer: Compositeur
+@rep.col_pages: Pages
+@rep.col_origin: Origine
+@rep.col_collection: Collection
+@rep.col_editor: Éditeur
+@rep.result: résultat
+@rep.results: résultats
+@rep.composers_label: Compositeurs
+@rep.origin_label: Origine
+@rep.collection_label: Collection
+@rep.editor_label: Éditeur
+
+@ page sources
+@src.heading: Sources
+@src.search_placeholder: Filtrer par titre, compositeur…
+@src.col_composer: Compositeur
+@src.col_title: Titre
+@src.col_pages: Pages
+@src.col_origin: Origine
+@src.editor: Éditeur
+@src.published: Publié
+@src.works: Œuvres
+@src.result: résultat
+@src.results: résultats
+
+@ page œuvre
+@work.title: Titre
+@work.composer: Compositeur
+@work.lyricist: Parolier
+@work.collection: Collection
+@work.pages: Pages
+@work.origin: Origine
+@work.notes: Notes
+@work.encoder: Encodeur
+@work.encoders: Encodeurs
+@work.view_on: Voir sur
+@work.download: Télécharger
+@work.humdrum_file: Humdrum (.krn)
+@work.hide_accidentals: Masquer les accidents éditoriaux
+@work.show_accidentals: Afficher les accidents éditoriaux
+@work.show_text: Afficher le texte
+@work.hide_text: Masquer le texte
+
+@ page à propos
+@about.heading: à propos
+@about.h_project: Projet
+@about.h_feedback: Vos commentaires
+@about.h_people: Équipe
+@about.h_support: Soutien
+@about.role_director: Directrice
+@about.role_tech_director: Directeur technique
+@about.role_ra: Assistant de recherche
+@about.bio_sam: À venir
+@about.bio_eve: Je suis professeure agrégée en théorie musicale à l'École de musique de l'Université de la Colombie-Britannique, où j'enseigne des cours sur la pratique compositionnelle aux XVIIIe et XIXe siècles, les techniques d'analyse linéaire graphique, la psychologie de la musique, la musique francophone et la technologie numérique dans la recherche et la création musicales. Mes recherches ont été présentées lors de conférences interdisciplinaires en Amérique du Nord, en Europe et au Moyen-Orient, et publiées dans Music Perception, Empirical Musicology Review, Action, Perception &amp; Cognition, et le Journal of New Music Research. Mes projets actuels portent sur l'esthétique empirique, la polyrythmie et la musique folklorique du Canada français, en combinant des méthodes d'étude approfondie, de musicologie assistée par ordinateur et d'expérimentation comportementale.
+@about.bio_craig: Craig Sapp est un expert mondial en analyse musicale informatique qui développe des projets transformateurs en humanités numériques en collaboration avec ses collègues et ses étudiants. En tant que professeur consultant à l'Université Stanford, Sapp enseigne des cours en théorie musicale computationnelle et en musicologie numérique. Il est directeur technique non seulement du <a href="https://josquin.stanford.edu" target="_blank">Josquin Research Project</a>, mais aussi du projet <a href="https://www.tassomusic.org/" target="_blank">Tasso in Music</a> financé par le NEH, et responsable technique du <a href="https://chopin.musicsources.pl/en/" target="_blank">Chopin Heritage in Open Access project</a> (2016–20), du <a href="https://polish.musicsources.pl/pl" target="_blank">Polish Music in Open Access project</a> (2019–22), et du <a href="https://polyrhythm.humdrum.org" target="_blank">Polyrhythm Project</a> (2018–présent). Il a également été consultant pour l'<a href="https://gaspar-van-weerbeke.eu" target="_blank">édition en ligne Gaspar</a> (2021–22).
+@about.bio_isaac: Isaac est étudiant en informatique à l'UBC (BCS, 2027) avec un BMus (2025) en orgue et en études de la Méditerranée antique et du Proche-Orient. Il fait partie du projet depuis l'été 2025, d'abord pour l'encodage musical, et maintenant pour le <a href="https://github.com/zaxophone">travail technique</a> sur le site web et d'autres domaines. Il est également organiste et directeur de chorale pour enfants à la paroisse Holy Family (FSSP).
+@about.project: Ce projet vise—d'une perspective interdisciplinaire—à combler un manque important dans la recherche sur l'expérience des communautés francophones minoritaires en Colombie-Britannique. En créant des liens entre les institutions de recherche, les organismes culturels, les artistes et les écoles francophones, il cherche à favoriser une culture de résilience communautaire par un engagement créatif avec la musique francophone. La recherche sur la musique dans son contexte socioculturel a démontré que la musique participative, c'est-à-dire un événement musical où le public prend une part active à la création musicale, contribue à la cohésion sociale, à la formation identitaire et au bien-être. De plus, des recherches ont montré que les interventions fondées sur la musique contribuent de manière significative au développement linguistique. Ce projet propose d'exploiter une technologie musicale innovante pour développer des ressources numériques en libre accès susceptibles de favoriser le transfert linguistique intergénérationnel, l'éducation musicale et la pratique musicale communautaire. Les activités de recherche comprennent des recherches ethnographiques, le développement d'interventions pédagogiques fondées sur la musique et une série d'ateliers mettant en valeur la diversité ethnique des pratiques musicales francophones (prévus pour 2027).
+@about.feedback: Vous voyez une erreur dans une partition? Vous n'êtes pas d'accord avec nos choix éditoriaux? Vous aimeriez qu'une partition particulière soit textuée? <a href="mailto:The1520sProject@gmail.com">Faites-le nous savoir</a>.
+@about.support: Ce projet a été généreusement soutenu par <a href="https://disa.arts.ubc.ca/" target="_blank">UBC Digital Scholarship in the Arts</a> et par <a href="https://languagesciences.ubc.ca/" target="_blank">UBC Language Sciences</a> grâce à une subvention de mobilisation et de diffusion des connaissances, ainsi que par le <a href="https://www.ccarh.org/" target="_blank">Centre for Computer Assisted Research in the Humanities de l'Université Stanford</a>.
+
+@ page documentation
+@doc.heading: documentation
+@doc.h_procedure: Procédure d'encodage
+@doc.h_general: Encodage général
+@doc.h_text: Encodage du texte
+@doc.h_music: Encodage musical
+@doc.h_text_analysis: Analyse textuelle
+@doc.h_additional: Notes supplémentaires
+@doc.h_formatting: Mise en forme
+
+@@END:fr
