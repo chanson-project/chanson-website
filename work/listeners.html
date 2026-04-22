@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 	DATA1520.lookup.works           = createLookup(DATA1520.metadata.works);
 	DATA1520.lookup.sources         = {};
 	DATA1520.metadata.sources.forEach(function(s) {
-		if (s.Name) DATA1520.lookup.sources[s.Name] = s;
+		if (s["!!!id"]) DATA1520.lookup.sources[s["!!!id"].substring(0, 2)] = s;
 	});
 
 	displayWork(DATA1520.workid);

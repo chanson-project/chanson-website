@@ -5,13 +5,13 @@ let SOURCES_METADATA      = {% include metadata/sources.json %};
 let SOURCES_LOOKUP        = {};
 for (let _si = 0; _si < SOURCES_METADATA.length; _si++) {
     let _s = SOURCES_METADATA[_si];
-    if (_s.Name) SOURCES_LOOKUP[_s.Name] = _s;
+    if (_s["!!!id"]) SOURCES_LOOKUP[_s["!!!id"].substring(0, 2)] = _s;
 }
 
-let INDEX_id              = "ID";
+let INDEX_id              = "!!!id";
 let INDEX_composer        = "!!!COM";
 let INDEX_title           = "Title";
-let INDEX_pages           = "Pages";
+let INDEX_pages           = "!!!page";
 let INDEX_origin          = "Origin";
 let INDEX_text            = "Text";
 

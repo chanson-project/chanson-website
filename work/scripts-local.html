@@ -45,7 +45,7 @@ function displayWork(id) {
 	if (prefix === "BC" || prefix === "EG") {
 		let dir = prefix === "BC" ? "bc100" : "eg104";
 		let work = DATA1520.lookup.works[id];
-		let filename = work["File Name"] || work["Filename"] || "";
+		let filename = work["!!!file-name"] || "";
 		fetch("https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main/" + dir + "/kern/" + filename)
 			.then(function(response) { return response.text(); })
 			.then(function(kern) {
@@ -79,7 +79,7 @@ function createLookup(dataArray) {
 	}
 	let output = {};
 	for (entry of dataArray) {
-		let id = entry.ID
+		let id = entry["!!!id"]
 		output[id] = entry;
 	}
 	return output;
@@ -119,7 +119,7 @@ function displayWorkInfo(id) {
 	// Derive collection label and GitHub paths from ID prefix
 	const prefix = id.substring(0, 2);
 	const dir    = prefix === "BC" ? "bc100" : prefix === "EG" ? "eg104" : "";
-	const fname  = workinfo["File Name"] || workinfo["Filename"] || "";
+	const fname  = workinfo["!!!file-name"] || "";
 	const rawBase    = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main";
 	const githubBase = "https://github.com/chanson-project/chanson-encoding/blob/main";
 	const rawURL    = dir && fname ? `${rawBase}/${dir}/kern/${fname}` : "";
@@ -156,7 +156,7 @@ function displayWorkInfo(id) {
 	}
 
 	const collectionoutput = `<div class="work-item"><b>${t('work.collection')}:</b> <a href="${collectionLink}">${collectionName}</a></div>`;
-	const pagesoutput = workinfo.Pages ? `<div class="work-item"><b>${t('work.pages')}:</b> ${workinfo.Pages}</div>` : "";
+	const pagesoutput = workinfo["!!!page"] ? `<div class="work-item"><b>${t('work.pages')}:</b> ${workinfo["!!!page"]}</div>` : "";
 
 	// ── Middle column: origin and encoding status ──────────────────────────────
 
@@ -353,7 +353,7 @@ function displayText() {
 	if (!work) return;
 	let prefix = id.substring(0, 2);
 	let dir = prefix === "BC" ? "bc100" : prefix === "EG" ? "eg104" : "";
-	let fname = work["File Name"] || work["Filename"] || "";
+	let fname = work["!!!file-name"] || "";
 	if (!dir || !fname) return;
 	let rawBase = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main";
 	let rawURL = rawBase + "/" + dir + "/kern/" + fname;

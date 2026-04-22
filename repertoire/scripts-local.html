@@ -138,7 +138,7 @@ const HEADING_LABELS = {
 	"Editor":     "Editor",
 	"!!!COM":     "Composer",
 	"Title":      "Title",
-	"Pages":      "Pages",
+	"!!!page":    "Pages",
 	"Origin":     "Origin",
 };
 
@@ -147,7 +147,7 @@ const HEADING_I18N = {
 	"Editor":     "rep.col_editor",
 	"!!!COM":     "rep.col_composer",
 	"Title":      "rep.col_title",
-	"Pages":      "rep.col_pages",
+	"!!!page":    "rep.col_pages",
 	"Origin":     "rep.col_origin",
 };
 
@@ -178,7 +178,7 @@ function makeTableBody(headings, data) {
 	for (let i = 0; i < data.length; i++) {
 		let entry = data[i];
 		let searchText = [
-			entry["!!!COM"], getTitle(entry), getOrigin(entry), entry.Pages, entry.ID, getCollection(entry), getEditor(entry)
+			entry["!!!COM"], getTitle(entry), getOrigin(entry), entry["!!!page"], entry["!!!id"], getCollection(entry), getEditor(entry)
 		].filter(Boolean).join(" ").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 		output += `<tr data-search="${searchText.replace(/"/g, "&quot;")}">\n`;
 		for (let j = 0; j < headings.length; j++) {
@@ -245,7 +245,7 @@ function getTitle(entry) {
 //
 
 function getCollection(entry) {
-	let prefix = (entry["ID"] || "").substring(0, 2);
+	let prefix = (entry["!!!id"] || "").substring(0, 2);
 	let source = SOURCES_LOOKUP[prefix];
 	if (!source) return prefix;
 	return source["!!!OPR"] || prefix;
@@ -259,10 +259,10 @@ function getCollection(entry) {
 //
 
 function getEditor(entry) {
-	let prefix = (entry["ID"] || "").substring(0, 2);
+	let prefix = (entry["!!!id"] || "").substring(0, 2);
 	let source = SOURCES_LOOKUP[prefix];
 	if (!source) return "";
-	let editor = source["Editor"] || "";
+	let editor = source["!!!PED"] || "";
 	let m = editor.match(/^(.*?)\s*,\s*(.*?)$/);
 	if (m) return m[2].trim() + " " + m[1].trim();
 	return editor;
@@ -277,8 +277,8 @@ function getEditor(entry) {
 
 function getScoreURL(entry) {
 	let ID = "";
-	if (typeof entry["ID"] !== "undefined") {
-		ID = entry["ID"];
+	if (typeof entry["!!!id"] !== "undefined") {
+		ID = entry["!!!id"];
 		let url = `"/work/?id=${ID}"`;
 		return url;
 	}

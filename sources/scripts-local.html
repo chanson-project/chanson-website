@@ -20,12 +20,12 @@ function buildSourceCards() {
 
     for (let i = 0; i < SOURCES_METADATA.length; i++) {
         const src    = SOURCES_METADATA[i];
-        const name   = src["Name"] || "";
+        const name   = (src["!!!id"] || "").substring(0, 2);
         const opr    = src["!!!OPR"] || name;
-        const pub    = src["!!!PUB"] || "";
-        const editor = formatEditor(src["Editor"] || "");
+        const pub    = src["!!!PDT"] || "";
+        const editor = formatEditor(src["!!!PED"] || "");
         const count  = METADATA.filter(function(e) {
-            return (e["ID"] || "").substring(0, 2) === name;
+            return (e["!!!id"] || "").substring(0, 2) === name;
         }).length;
 
         const card = document.createElement("div");
@@ -63,7 +63,7 @@ function selectSource(name) {
     const src    = SOURCES_LOOKUP[name];
     const opr    = src ? (src["!!!OPR"] || name) : name;
     const works  = METADATA.filter(function(e) {
-        return (e["ID"] || "").substring(0, 2) === name;
+        return (e["!!!id"] || "").substring(0, 2) === name;
     });
 
     // Update URL without reload
@@ -120,10 +120,10 @@ function renderWorksTable(works) {
         const e      = works[i];
         const title  = getWorkTitle(e);
         const comp   = e["!!!COM"] || "";
-        const pages  = e["Pages"]  || "";
+        const pages  = e["!!!page"]  || "";
         const origin = e["!!!ARE"] || e["Origin"] || "";
-        const url    = "/work/?id=" + (e["ID"] || "");
-        const search = [comp, title, pages, origin, e["ID"] || ""]
+        const url    = "/work/?id=" + (e["!!!id"] || "");
+        const search = [comp, title, pages, origin, e["!!!id"] || ""]
             .join(" ").toLowerCase()
             .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
@@ -163,8 +163,8 @@ function sortSourceBy(column) {
             av = getWorkTitle(a);
             bv = getWorkTitle(b);
         } else if (column === "pages") {
-            const am = (a["Pages"] || "").match(/\d+/);
-            const bm = (b["Pages"] || "").match(/\d+/);
+            const am = (a["!!!page"] || "").match(/\d+/);
+            const bm = (b["!!!page"] || "").match(/\d+/);
             return ((am ? parseInt(am[0]) : Infinity) - (bm ? parseInt(bm[0]) : Infinity)) * SOURCE_SORT.dir;
         } else if (column === "origin") {
             av = a["!!!ARE"] || a["Origin"] || "";

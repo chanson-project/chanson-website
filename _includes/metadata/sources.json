@@ -1,17 +1,17 @@
 [
 	{
-		"Source ID": "BC100",
-		"Name": "BC",
+		"!!!id": "BC100",
 		"!!!OPR": "Les cent plus belles chansons",
-		"!!!PUB": "2011",
-		"Editor": "Gadbois, Charles-Émile"
+		"!!!PDT": "1956; 2011",
+		"!!!PPR": "La Bonne Chanson, inc.",
+		"!!!PPP": "Saint-Hyacinthe, Québec, Canada",
+		"!!!PED": "Gadbois, Charles-Émile",
+		"!!!YEM": "On ne peut reproduire, enregistrer ou diffuser en tout ou en partie le présent ouvrage, sous quelque procédé que ce soit, électronique, mécanique, photographique, sonore, magnétique ou autre, sans avoir obtenu au préalable l'autorisation écrite de l'éditrice."
 	},
 	{
-		"Source ID": "EG104",
-		"Name": "EG",
+		"!!!id": "EG104",
 		"!!!OPR": "Chansons populaires du Canada",
-		"!!!PUB": "1865",
-		"Editor": "Gagnon,Ernest",
-		"!!!OCL": "Gagnon,Ernest"
+		"!!!PDT": "1865",
+		"!!!PED": "Gagnon,Ernest"
 	}
 ]
