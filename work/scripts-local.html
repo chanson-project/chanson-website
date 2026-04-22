@@ -160,8 +160,9 @@ function displayWorkInfo(id) {
 
 	// ── Middle column: origin and encoding status ──────────────────────────────
 
-	const originoutput = workinfo.Origin
-		? `<div class="work-item"><b>${t('work.origin')}:</b> ${workinfo.Origin}</div>`
+	const originVal = workinfo["!!!ARE"] || workinfo.Origin || "";
+	const originoutput = originVal
+		? `<div class="work-item"><b>${t('work.origin')}:</b> ${originVal}</div>`
 		: "";
 
 	const notesoutput = workinfo.Notes

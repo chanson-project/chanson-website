@@ -17,9 +17,13 @@ function buildSearchInterface(data) {
 
   document.getElementById("composer-container").innerHTML = "";
   document.getElementById("origin-container").innerHTML = "";
+  document.getElementById("collection-container").innerHTML = "";
+  document.getElementById("editor-container").innerHTML = "";
 
   document.getElementById("composer-container").appendChild(createElementFromHTML(buildComposerSelect(data)));
   document.getElementById("origin-container").appendChild(createElementFromHTML(buildOriginSelect(data)));
+  document.getElementById("collection-container").appendChild(createElementFromHTML(buildCollectionSelect(data)));
+  document.getElementById("editor-container").appendChild(createElementFromHTML(buildEditorSelect(data)));
 
   const label = document.createElement("label");
   label.className = "text-checkbox-label";
@@ -97,6 +101,13 @@ function sortBy(column) {
 		} else if (column === INDEX_editor) {
 			av = getEditor(a);
 			bv = getEditor(b);
+		} else if (column === INDEX_origin) {
+			av = getOrigin(a);
+			bv = getOrigin(b);
+		} else if (column === INDEX_pages) {
+			const am = (a[INDEX_pages] || "").match(/\d+/);
+			const bm = (b[INDEX_pages] || "").match(/\d+/);
+			return ((am ? parseInt(am[0]) : Infinity) - (bm ? parseInt(bm[0]) : Infinity)) * SORT_STATE.dir;
 		} else {
 			av = (a[column] || "").toString();
 			bv = (b[column] || "").toString();
@@ -167,7 +178,7 @@ function makeTableBody(headings, data) {
 	for (let i = 0; i < data.length; i++) {
 		let entry = data[i];
 		let searchText = [
-			entry["!!!COM"], entry.Title, entry.Origin, entry.Pages, entry.ID, getCollection(entry), getEditor(entry)
+			entry["!!!COM"], getTitle(entry), getOrigin(entry), entry.Pages, entry.ID, getCollection(entry), getEditor(entry)
 		].filter(Boolean).join(" ").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 		output += `<tr data-search="${searchText.replace(/"/g, "&quot;")}">\n`;
 		for (let j = 0; j < headings.length; j++) {
@@ -182,6 +193,8 @@ function makeTableBody(headings, data) {
 				output += getCollection(entry);
 			} else if (h === INDEX_editor) {
 				output += getEditor(entry);
+			} else if (h === INDEX_origin) {
+				output += getOrigin(entry);
 			} else {
 				output += value;
 			}
@@ -372,7 +385,7 @@ function buildComposerSelect(data) {
 function buildOriginSelect(data) {
 	let counter = {};
 	for (let i=0; i<data.length; i++) {
-		let origin = data[i][INDEX_origin];
+		let origin = getOrigin(data[i]);
 		if (!origin) continue;
 		counter[origin] = (counter[origin] === undefined) ? 1 : counter[origin] + 1;
 	}
@@ -382,6 +395,56 @@ function buildOriginSelect(data) {
 	output += `<option value="">${t('rep.origin_label')} (${originCount})</option>`;
 	for (let i=0; i<olist.length; i++) {
 		let name = olist[i];
+		output += `<option value="${name}">${name} (${counter[name]})</option>`;
+	}
+	output += "</select>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// buildCollectionSelect --
+//
+
+function buildCollectionSelect(data) {
+	let counter = {};
+	for (let i = 0; i < data.length; i++) {
+		let col = getCollection(data[i]);
+		if (!col) continue;
+		counter[col] = (counter[col] === undefined) ? 1 : counter[col] + 1;
+	}
+	let clist = Object.keys(counter).sort((a, b) => a.localeCompare(b));
+	let output = "<select class='collection' onchange='doSearch()'>\n";
+	output += `<option value="">${t('rep.collection_label')} (${clist.length})</option>`;
+	for (let i = 0; i < clist.length; i++) {
+		let name = clist[i];
+		output += `<option value="${name}">${name} (${counter[name]})</option>`;
+	}
+	output += "</select>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// buildEditorSelect --
+//
+
+function buildEditorSelect(data) {
+	let counter = {};
+	for (let i = 0; i < data.length; i++) {
+		let ed = getEditor(data[i]);
+		if (!ed) continue;
+		counter[ed] = (counter[ed] === undefined) ? 1 : counter[ed] + 1;
+	}
+	let elist = Object.keys(counter).sort((a, b) => a.localeCompare(b));
+	let output = "<select class='editor' onchange='doSearch()'>\n";
+	output += `<option value="">${t('rep.editor_label')} (${elist.length})</option>`;
+	for (let i = 0; i < elist.length; i++) {
+		let name = elist[i];
 		output += `<option value="${name}">${name} (${counter[name]})</option>`;
 	}
 	output += "</select>\n";
@@ -556,6 +619,12 @@ function doSearch(data) {
 	let originField = searchInterface.querySelector("select.origin");
 	let originQuery = originField ? originField.value : "";
 
+	let collectionField = searchInterface.querySelector("select.collection");
+	let collectionQuery = collectionField ? collectionField.value : "";
+
+	let editorField = searchInterface.querySelector("select.editor");
+	let editorQuery = editorField ? editorField.value : "";
+
 	let textCheckbox = document.querySelector("#text-checkbox");
 
 	if (composerQuery) {
@@ -563,7 +632,15 @@ function doSearch(data) {
 	}
 
 	if (originQuery) {
-		data = data.filter(entry => entry[INDEX_origin] === originQuery);
+		data = data.filter(entry => getOrigin(entry) === originQuery);
+	}
+
+	if (collectionQuery) {
+		data = data.filter(entry => getCollection(entry) === collectionQuery);
+	}
+
+	if (editorQuery) {
+		data = data.filter(entry => getEditor(entry) === editorQuery);
 	}
 
 	if (textCheckbox && textCheckbox.checked) {
@@ -868,12 +945,16 @@ function setEarliestSourceSelectMenu(input) {}
 function updateBrowseUrlDisplay() {
 	let url      = `${window.location.origin}${window.location.pathname}`;
 	let freetext = document.querySelector("input#input").value.trim();
-	let composerEl = document.querySelector("select.composer");
-	let originEl   = document.querySelector("select.origin");
-	let textChecked = document.querySelector("#text-checkbox") && document.querySelector("#text-checkbox").checked;
+	let composerEl    = document.querySelector("select.composer");
+	let originEl      = document.querySelector("select.origin");
+	let collectionEl  = document.querySelector("select.collection");
+	let editorEl      = document.querySelector("select.editor");
+	let textChecked   = document.querySelector("#text-checkbox") && document.querySelector("#text-checkbox").checked;
 
-	let composer = composerEl ? composerEl.value.trim() : "";
-	let origin   = originEl   ? originEl.value.trim()   : "";
+	let composer   = composerEl   ? composerEl.value.trim()   : "";
+	let origin     = originEl     ? originEl.value.trim()     : "";
+	let collection = collectionEl ? collectionEl.value.trim() : "";
+	let editor     = editorEl     ? editorEl.value.trim()     : "";
 
 	let cgi = "";
 
@@ -887,6 +968,14 @@ function updateBrowseUrlDisplay() {
 	if (origin) {
 		if (cgi) cgi += "&";
 		cgi += "o=" + encodeURIComponent(origin);
+	}
+	if (collection) {
+		if (cgi) cgi += "&";
+		cgi += "col=" + encodeURIComponent(collection);
+	}
+	if (editor) {
+		if (cgi) cgi += "&";
+		cgi += "ed=" + encodeURIComponent(editor);
 	}
 	if (textChecked) {
 		if (cgi) cgi += "&";
@@ -913,15 +1002,19 @@ function updateBrowseUrlDisplay() {
 //
 
 function clearSearchFields() {
-	let freetextElement  = document.querySelector("input#input");
-	let composerElement  = document.querySelector("select.composer");
-	let originElement    = document.querySelector("select.origin");
-	let textCheckbox     = document.querySelector("#text-checkbox");
+	let freetextElement    = document.querySelector("input#input");
+	let composerElement    = document.querySelector("select.composer");
+	let originElement      = document.querySelector("select.origin");
+	let collectionElement  = document.querySelector("select.collection");
+	let editorElement      = document.querySelector("select.editor");
+	let textCheckbox       = document.querySelector("#text-checkbox");
 
-	if (freetextElement) freetextElement.value = "";
-	if (composerElement) composerElement.value = "";
-	if (originElement)   originElement.value   = "";
-	if (textCheckbox)    textCheckbox.checked  = false;
+	if (freetextElement)   freetextElement.value   = "";
+	if (composerElement)   composerElement.value   = "";
+	if (originElement)     originElement.value     = "";
+	if (collectionElement) collectionElement.value = "";
+	if (editorElement)     editorElement.value     = "";
+	if (textCheckbox)      textCheckbox.checked    = false;
 
 	doSearch();
 }

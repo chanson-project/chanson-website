@@ -93,6 +93,20 @@ table.source-table thead th {
     border-bottom: 1px solid rgba(0,122,255,0.25);
 }
 
+table.source-table thead th.sortable {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+
+table.source-table thead th.sortable:hover {
+    background: linear-gradient(
+        to bottom,
+        rgba(0,122,255,0.22),
+        rgba(0,122,255,0.14)
+    );
+}
+
 table.source-table td:nth-child(4) {
     max-width: 220px;
     white-space: nowrap;

@@ -18,6 +18,10 @@ let INDEX_text            = "Text";
 function getTextStatus(entry) {
 	return entry["Text"] || entry["!!!EST-text"] || "";
 }
+
+function getOrigin(entry) {
+	return entry["!!!ARE"] || entry["Origin"] || "";
+}
 let INDEX_collection      = "Collection";
 let INDEX_editor          = "Editor";
 

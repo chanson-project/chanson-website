@@ -31,6 +31,8 @@ order: 3
         <div class="top-line">
           <div id="composer-container"></div>
           <div id="origin-container"></div>
+          <div id="collection-container"></div>
+          <div id="editor-container"></div>
         </div>
       </div>
       <div id="texted-container"></div>

@@ -3,6 +3,8 @@
 <script>
 
 let SELECTED_SOURCE = null;
+let SOURCE_CURRENT_WORKS = [];
+let SOURCE_SORT = { column: null, dir: 1 };
 
 
 //////////////////////////////
@@ -93,12 +95,25 @@ function selectSource(name) {
 //
 
 function renderWorksTable(works) {
+    SOURCE_CURRENT_WORKS = works;
+
     const container = document.getElementById("source-works-list");
     if (!container) return;
 
-    let html = "<table class=\"general source-table\">\n";
-    html += "<thead><tr>";
-    html += "<th>" + t('src.col_composer') + "</th><th>" + t('src.col_title') + "</th><th>" + t('src.col_pages') + "</th><th>" + t('src.col_origin') + "</th>";
+    const cols = [
+        { key: "composer", label: t('src.col_composer') },
+        { key: "title",    label: t('src.col_title') },
+        { key: "pages",    label: t('src.col_pages') },
+        { key: "origin",   label: t('src.col_origin') },
+    ];
+
+    let html = "<table class=\"general source-table\">\n<thead><tr>";
+    for (let c = 0; c < cols.length; c++) {
+        let arrow = SOURCE_SORT.column === cols[c].key
+            ? (SOURCE_SORT.dir === 1 ? " &#9650;" : " &#9660;")
+            : "";
+        html += "<th class=\"sortable\" onclick=\"sortSourceBy('" + cols[c].key + "')\">" + cols[c].label + arrow + "</th>";
+    }
     html += "</tr></thead>\n<tbody>\n";
 
     for (let i = 0; i < works.length; i++) {
@@ -106,7 +121,7 @@ function renderWorksTable(works) {
         const title  = getWorkTitle(e);
         const comp   = e["!!!COM"] || "";
         const pages  = e["Pages"]  || "";
-        const origin = e["Origin"] || "";
+        const origin = e["!!!ARE"] || e["Origin"] || "";
         const url    = "/work/?id=" + (e["ID"] || "");
         const search = [comp, title, pages, origin, e["ID"] || ""]
             .join(" ").toLowerCase()
@@ -123,6 +138,45 @@ function renderWorksTable(works) {
     html += "</tbody></table>\n";
     container.innerHTML = html;
     displaySourceCount(works.length);
+}
+
+
+//////////////////////////////
+//
+// sortSourceBy -- Sort the source works table by a column.
+//
+
+function sortSourceBy(column) {
+    if (SOURCE_SORT.column === column) {
+        SOURCE_SORT.dir *= -1;
+    } else {
+        SOURCE_SORT.column = column;
+        SOURCE_SORT.dir = 1;
+    }
+
+    const sorted = SOURCE_CURRENT_WORKS.slice().sort(function(a, b) {
+        let av = "", bv = "";
+        if (column === "composer") {
+            av = a["!!!COM"] || "";
+            bv = b["!!!COM"] || "";
+        } else if (column === "title") {
+            av = getWorkTitle(a);
+            bv = getWorkTitle(b);
+        } else if (column === "pages") {
+            const am = (a["Pages"] || "").match(/\d+/);
+            const bm = (b["Pages"] || "").match(/\d+/);
+            return ((am ? parseInt(am[0]) : Infinity) - (bm ? parseInt(bm[0]) : Infinity)) * SOURCE_SORT.dir;
+        } else if (column === "origin") {
+            av = a["!!!ARE"] || a["Origin"] || "";
+            bv = b["!!!ARE"] || b["Origin"] || "";
+        }
+        return av.localeCompare(bv) * SOURCE_SORT.dir;
+    });
+
+    renderWorksTable(sorted);
+
+    const input = document.getElementById("source-input");
+    if (input && input.value) sourceSearch(input.value);
 }
 
 

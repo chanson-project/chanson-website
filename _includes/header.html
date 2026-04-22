@@ -176,27 +176,20 @@
   display: block;
 }
 
-.banner img.desktop-banner {
-  display: block; /* Specified target class .desktop-banner */
-}
-
-.banner .banner-mobile {
-  display: none; /* Hidden by default (Desktop) */
-}
-
 /* Mobile view adjustments */
 @media (max-width: 768px) {
-  .banner img.desktop-banner {
-    display: none; /* Hide the full banner on mobile */
-  }
-
-  .banner .banner-mobile {
-    display: flex; /* Flexbox for stacking images vertically */
+  .banner-wrap {
     flex-direction: column;
   }
 
-  .banner .banner-mobile img {
-    width: 100%; /* Full width for mobile images */
+  .banner-wrap img.desktop-banner {
+    width: 100%;
+  }
+
+  .banner-tagline {
+    padding: 12px 6%;
+    justify-content: center;
+    text-align: center;
   }
 }
 

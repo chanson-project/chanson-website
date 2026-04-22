@@ -146,7 +146,7 @@ const KernPlayer = (function () {
   function scheduleNote(pitch, durSec, velocity, when) {
     const ctx  = getAC();
     const freq = 440 * Math.pow(2, (pitch - 69) / 12);
-    const vol  = (velocity / 127) * 0.12;
+    const vol  = (velocity / 127) * 0.14;
 
     [['triangle', 1.0], ['sine', 0.25]].forEach(([type, mul]) => {
       const osc = ctx.createOscillator();
