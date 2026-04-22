@@ -1,7 +1,7 @@
 @ Chanson Project — UI translations
 @ Format: ATON  https://aton.sapp.org/
 @ Two top-level sections: en / fr
-@ Keys with HTML content are marked (html)
+@ Keys with HTML content use data-i18n-html in the page skeleton
 
 @@START:en
 
@@ -85,13 +85,13 @@
 @about.role_director: Director
 @about.role_tech_director: Technical Director
 @about.role_ra: Research Assistant
+@about.project: This project aims—from an interdisciplinary perspective—to fill a large gap in research on minority Francophone community experience in British Columbia. By building bridges between research institutions, cultural organizations, artists, and Francophone schools, it seeks to foster a culture of community resilience through creative engagement with Francophone music. Research on music in socio-cultural context has shown that participatory music, that is, a musical event in which the audience takes an active part in music making, contributes to social cohesion, identity formation, and well-being. Furthermore, research has shown that music-based interventions contribute significantly to language development. This project proposes to harness innovative music technology to develop open-access, digital resources that have the potential to enhance intergenerational language transfer, music education, and community-based music making. Research activities include ethnographic research, development of music-based pedagogical interventions, and a series of workshops highlighting the ethnic diversity of Francophone musical practices (planned for 2027).
+@about.feedback: Do you see a mistake in a score? Do you disagree with our editorial choices? Would you like a particular score to be texted? <a href="mailto:The1520sProject@gmail.com">Let us know</a>.
+@about.support: This project has been generously supported by <a href="https://disa.arts.ubc.ca/" target="_blank">UBC Digital Scholarship in the Arts</a> and by <a href="https://languagesciences.ubc.ca/" target="_blank">UBC Language Sciences</a> through a Knowledge Mobilization and Dissemination Grant, and by the <a href="https://www.ccarh.org/" target="_blank">Stanford Center for Computer Assisted Research in the Humanities</a>.
 @about.bio_sam: TBC
 @about.bio_eve: I am an Associate Professor in music theory at the School of Music of the University of British Columbia, where I teach courses on compositional practice in the 18th- and 19th-century, techniques of graphic linear analysis, music psychology, Francophone music, and digital technology in music research and creation. My research has been presented at interdisciplinary conferences in North America, Europe, and the Middle East, and published in Music Perception, Empirical Musicology Review, Action, Perception &amp; Cognition, and the Journal of New Music Research. My current projects focus on empirical aesthetics, rhythmic polyphony, and folk music of French-Canada, combining methods of close study, computer-aided musicology, and behavioural experimentation.
 @about.bio_craig: Craig Sapp is a world expert in computer-based musical analysis who develops transformative digital-humanities projects in collaboration with colleagues and students. As consulting professor at Stanford University, Sapp teaches courses in computational music theory and digital musicology. He serves as technical director of not only the <a href="https://josquin.stanford.edu" target="_blank">Josquin Research Project</a>, but also the NEH-funded <a href="https://www.tassomusic.org/" target="_blank">Tasso in Music Project</a>, and as technical lead for the <a href="https://chopin.musicsources.pl/en/" target="_blank">Chopin Heritage in Open Access project</a> (2016–20), the <a href="https://polish.musicsources.pl/pl" target="_blank">Polish Music in Open Access project</a> (2019–22), and the <a href="https://polyrhythm.humdrum.org" target="_blank">Polyrhythm Project</a> (2018–present). He served as a consultant for the <a href="https://gaspar-van-weerbeke.eu" target="_blank">Gaspar Online Edition</a> (2021–22).
 @about.bio_isaac: Isaac is a UBC Computer Science student (BCS, 2027) with a BMus (2025) in Organ and Ancient Mediterranean and Near Eastern Studies. He has been part of the project since summer 2025 doing music encoding, and now <a href="https://github.com/zaxophone" target="_blank">technical work</a> on the website and other areas. He is also an organist and children's choir director for Holy Family Parish (FSSP).
-@about.project: This project aims—from an interdisciplinary perspective—to fill a large gap in research on minority Francophone community experience in British Columbia. By building bridges between research institutions, cultural organizations, artists, and Francophone schools, it seeks to foster a culture of community resilience through creative engagement with Francophone music. Research on music in socio-cultural context has shown that participatory music, that is, a musical event in which the audience takes an active part in music making, contributes to social cohesion, identity formation, and well-being. Furthermore, research has shown that music-based interventions contribute significantly to language development. This project proposes to harness innovative music technology to develop open-access, digital resources that have the potential to enhance intergenerational language transfer, music education, and community-based music making. Research activities include ethnographic research, development of music-based pedagogical interventions, and a series of workshops highlighting the ethnic diversity of Francophone musical practices (planned for 2027).
-@about.feedback: Do you see a mistake in a score? Do you disagree with our editorial choices? Would you like a particular score to be texted? <a href="mailto:The1520sProject@gmail.com">Let us know</a>.
-@about.support: This project has been generously supported by <a href="https://disa.arts.ubc.ca/" target="_blank">UBC Digital Scholarship in the Arts</a> and by <a href="https://languagesciences.ubc.ca/" target="_blank">UBC Language Sciences</a> through a Knowledge Mobilization and Dissemination Grant, and by the <a href="https://www.ccarh.org/" target="_blank">Stanford Center for Computer Assisted Research in the Humanities</a>.
 
 @ documentation page
 @doc.heading: documentation
@@ -102,6 +102,100 @@
 @doc.h_text_analysis: Text Analysis
 @doc.h_additional: Additional Notes
 @doc.h_formatting: Formatting
+@doc.intro: This repository contains Francophone folk songs encoded as <strong>Humdrum <code>**kern</code></strong> files. Encoding is <em>diplomatic</em> and includes the musical score, poetic text, phonemes, and rhyme analysis.
+@doc.content_general: <ol>
+<li><p><strong>Record comments</strong> (preceding each song). Example from "O Canada!" (note the space after each colon); for page numbers, add "t" for songs that end on a second page followed by another song on the same page; add "b" for songs preceded by the end of another song on the same page.</p>
+<pre><code>!!!id: BC001
+!!!page: 4-5
+!!!COM: Lavallée, Calixa
+!!!LYR: Routhier, juge A.-B.
+!!!PTL@@FR: Les 100 plus belles chansons
+!!!OTL@@FR: O Canada, terre de nos aïeux
+!!!PUB: La Bonne Chanson, inc.
+!!!YEM: On ne peut reproduire, enregistrer ou diffuser en tout ou en partie le présent ouvrage, sous quelque procédé que ce soit, électronique, mécanique, photographique, sonore, magnétique ou autre, sans avoir obtenu au préalable l'autorisation écrite de l'éditrice.
+!!!PDT: 2011
+!!!SMA: 2012 Bibliothèque nationale du Québec; Biblothèque nationale du Canada
+!!!AGN-Laforte: Chanson strophique (sans refrain), 8:10(4+6)
+!!!AGN-type: hymne national
+!!!AGN-rime: mixte, aabcbcbc</code></pre>
+<p>For a list of record comment types, consult: <a href="https://www.humdrum.org/reference-records">https://www.humdrum.org/reference-records</a></p></li>
+<li><p><strong>Spine structure</strong>:</p>
+<ul><li>Melody (Spine 1): <code>*</code></li>
+<li>Verse 1 (Spine 2): <code>*v:1</code></li>
+<li>Verse 2 (Spine 3): <code>*v:2</code></li></ul></li>
+<li><p><strong>To add an empty spine</strong> after the first is completed:</p>
+<pre><code>extract -s 1-$,0</code></pre></li>
+<li><p><strong>Preserve visual layout</strong> of original:</p>
+<ul><li>Insert <code>!!LO:PB:g=original</code> above the measure that appears on the next system.</li>
+<li>Use the alignment button to preserve layout.</li>
+<li>For longer songs (&gt;4 systems), switch to "continuous" view on the toolbar.</li></ul></li>
+<li><p><strong>Add editorial comments</strong> (e.g., pitch variants). Place above the relevant line with a <code>!</code>:</p>
+<pre><code>!pitch variant:b</code></pre>
+<p>Ensure each spine on the same row includes an exclamation mark.</p></li>
+<li><p><strong>Encoding completion info</strong>. Use "First Last" for name and "year/mm/dd" for date:</p>
+<pre><code>!!!EED: Ève Poudrier
+!!!EEV: 2025/05/06</code></pre></li>
+<li><p><strong>Encoding editorial comments</strong>:</p>
+<pre><code>!!!RNB (Representation note) — encode any modifications to the score representation, e.g. replacing dal segno symbols by repeats.
+!!!RWG (Representation warning) — point out unusual representations in the original score.</code></pre></li>
+</ol>
+@doc.content_text: <ol>
+<li><p><strong>Syllabification</strong>: Prefix all middle and end syllables with a hyphen (<code>-</code>).</p></li>
+<li><p><strong>Line numbering</strong> (across all verses): Use <code>*pline:n</code> (e.g., <code>*pline:1</code>). Refrains use <code>*pline:R1</code>, <code>*pline:R2</code>, etc.</p></li>
+<li><p><strong>Refrain formatting</strong> (italics): Encode with <code>*refrain</code> and <code>*italic</code> before the first refrain syllable, and <code>*Xitalic</code> and <code>*Xrefrain</code> after the last. Refrains repeated in alternation with verses are encoded once and marked with <code>*&gt;Refrain</code>. <em>Note: automatic italics via <code>*refrain</code> to be added.</em></p></li>
+<li><p><strong>Joint syllables</strong>: Notes set with two or more joined syllables (e.g., "il y a" as "ya") should be set with a space to add a slur joining the syllables.</p></li>
+<li><p><strong>Elisions</strong>: Final "e" (/ə/) elided without an apostrophe in the original should be put in square brackets, e.g. "dans[e]". Use the same procedure for plural endings "es" and "ent" pronounced as /ə/.</p></li>
+<li><p><strong>Repetitions</strong>: Full line repetitions are suffixed "r" (e.g., <code>*pline:1r</code>). Partial line repetitions:</p>
+<pre><code>*pline:1a    ← start
+*pline:1c    ← middle
+*pline:1b    ← end</code></pre>
+<p>Single-word repetitions: surround with <code>*bis</code> … <code>*Xbis</code>.</p></li>
+<li><p><strong>Text analysis</strong>: Mark line endings with three interpretations:</p>
+<pre><code>*rp:ø
+*rf:jø
+*rs:a</code></pre>
+<table><thead><tr><th>interpretation</th><th>meaning</th><th>example</th></tr></thead>
+<tbody>
+<tr><td><code>rp</code></td><td>phoneme</td><td>vowel of rhyme</td></tr>
+<tr><td><code>rf</code></td><td>phoneme group</td><td>full rhyme</td></tr>
+<tr><td><code>rs</code></td><td>structure label</td><td>lowercase letter</td></tr>
+</tbody></table>
+<p>When the same vowel appears with different consonants, append a number:</p>
+<table><thead><tr><th>ending</th><th>rhyme vowel</th><th>full rhyme</th><th>label</th></tr></thead>
+<tbody>
+<tr><td>vent</td><td><code>*rp:ɑ̃</code></td><td><code>*rf:vɑ̃</code></td><td><code>*rs:a1</code></td></tr>
+<tr><td>gens</td><td><code>*rp:ɑ̃</code></td><td><code>*rf:ʒɑ̃</code></td><td><code>*rs:a2</code></td></tr>
+<tr><td>ange</td><td><code>*rp:ɑ̃</code></td><td><code>*rf:ɑ̃ʒ,ə</code></td><td><code>*rs:a3</code></td></tr>
+</tbody></table>
+<p>Mute "e" are added to the full rhyme, set apart by a comma.</p></li>
+</ol>
+@doc.content_music: <ol>
+<li><p><strong>Melodic grouping</strong> (segmentation levels):</p>
+<ul><li>First: <code>{...}</code></li>
+<li>Second: <code>{{...}}</code></li>
+<li>Third: <code>{{{...}}}</code></li></ul></li>
+<li><p><strong>Segmentation guidance</strong>:</p>
+<ul><li>Segments = short units, often bounded by rests.</li>
+<li>Phrases = melodic contour or textual line ends.</li>
+<li>Periods = ≥2 phrases with cadences and structural relation.</li></ul></li>
+<li><p><strong>Tempo marking</strong>: Insert under first measure:</p>
+<pre><code>!!LO:TX:a:t=Majestueux et résolu</code></pre></li>
+<li><p><strong>Accidentals</strong>: To hide an accidental, add "y".</p></li>
+</ol>
+@doc.content_text_analysis: <ol>
+<li><p><strong>Rhyme marking</strong> (after final word of each line):</p>
+<ul><li>Phoneme (assonance): <code>*rp:ø</code></li>
+<li>Full rhyme group: <code>*rf:yø</code></li>
+<li>Structure label: <code>*rs:a</code>, <code>*rs:b</code>, …</li></ul>
+<blockquote><p>Note: Kern does not differentiate /a/ sounds (e.g., "orage" vs. "naufrage"). Add an editorial comment for clarity.</p></blockquote>
+<p>Use <a href="https://www.rimessolides.com">Dictionnaire de rimes</a> for guidance.</p></li>
+<li><p><strong>Repeated words</strong>: Surround with <code>*bis</code> … <code>*Xbis</code>.</p></li>
+</ol>
+@doc.content_formatting: <ul>
+<li>Ensure consistent use of tabs and columns in spines.</li>
+<li>Avoid trailing whitespace unless intentional.</li>
+<li>All metadata records (<code>!!!key: value</code>) should have a single space after the colon.</li>
+</ul>
 
 @@END:en
 
@@ -187,14 +281,14 @@
 @about.h_support: Soutien
 @about.role_director: Directrice
 @about.role_tech_director: Directeur technique
-@about.role_ra: Assistant de recherche
+@about.role_ra: Assistant·e de recherche
+@about.project: Ce projet vise—d'une perspective interdisciplinaire—à combler un manque important dans la recherche sur l'expérience des communautés francophones minoritaires en Colombie-Britannique. En créant des liens entre les institutions de recherche, les organismes culturels, les artistes et les écoles francophones, il cherche à favoriser une culture de résilience communautaire par un engagement créatif avec la musique francophone. La recherche sur la musique dans son contexte socioculturel a démontré que la musique participative, c'est-à-dire un événement musical où le public prend une part active à la création musicale, contribue à la cohésion sociale, à la formation identitaire et au bien-être. De plus, des recherches ont montré que les interventions fondées sur la musique contribuent de manière significative au développement linguistique. Ce projet propose d'exploiter une technologie musicale innovante pour développer des ressources numériques en libre accès susceptibles de favoriser le transfert linguistique intergénérationnel, l'éducation musicale et la pratique musicale communautaire. Les activités de recherche comprennent des recherches ethnographiques, le développement d'interventions pédagogiques fondées sur la musique et une série d'ateliers mettant en valeur la diversité ethnique des pratiques musicales francophones (prévus pour 2027).
+@about.feedback: Vous voyez une erreur dans une partition? Vous n'êtes pas d'accord avec nos choix éditoriaux? Vous aimeriez qu'une partition particulière soit textuée? <a href="mailto:The1520sProject@gmail.com">Faites-le nous savoir</a>.
+@about.support: Ce projet a été généreusement soutenu par <a href="https://disa.arts.ubc.ca/" target="_blank">UBC Digital Scholarship in the Arts</a> et par <a href="https://languagesciences.ubc.ca/" target="_blank">UBC Language Sciences</a> grâce à une subvention de mobilisation et de diffusion des connaissances, ainsi que par le <a href="https://www.ccarh.org/" target="_blank">Centre for Computer Assisted Research in the Humanities de l'Université Stanford</a>.
 @about.bio_sam: À venir
 @about.bio_eve: Je suis professeure agrégée en théorie musicale à l'École de musique de l'Université de la Colombie-Britannique, où j'enseigne des cours sur la pratique compositionnelle aux XVIIIe et XIXe siècles, les techniques d'analyse linéaire graphique, la psychologie de la musique, la musique francophone et la technologie numérique dans la recherche et la création musicales. Mes recherches ont été présentées lors de conférences interdisciplinaires en Amérique du Nord, en Europe et au Moyen-Orient, et publiées dans Music Perception, Empirical Musicology Review, Action, Perception &amp; Cognition, et le Journal of New Music Research. Mes projets actuels portent sur l'esthétique empirique, la polyrythmie et la musique folklorique du Canada français, en combinant des méthodes d'étude approfondie, de musicologie assistée par ordinateur et d'expérimentation comportementale.
 @about.bio_craig: Craig Sapp est un expert mondial en analyse musicale informatique qui développe des projets transformateurs en humanités numériques en collaboration avec ses collègues et ses étudiants. En tant que professeur consultant à l'Université Stanford, Sapp enseigne des cours en théorie musicale computationnelle et en musicologie numérique. Il est directeur technique non seulement du <a href="https://josquin.stanford.edu" target="_blank">Josquin Research Project</a>, mais aussi du projet <a href="https://www.tassomusic.org/" target="_blank">Tasso in Music</a> financé par le NEH, et responsable technique du <a href="https://chopin.musicsources.pl/en/" target="_blank">Chopin Heritage in Open Access project</a> (2016–20), du <a href="https://polish.musicsources.pl/pl" target="_blank">Polish Music in Open Access project</a> (2019–22), et du <a href="https://polyrhythm.humdrum.org" target="_blank">Polyrhythm Project</a> (2018–présent). Il a également été consultant pour l'<a href="https://gaspar-van-weerbeke.eu" target="_blank">édition en ligne Gaspar</a> (2021–22).
 @about.bio_isaac: Isaac est étudiant en informatique à l'UBC (BCS, 2027) avec un BMus (2025) en orgue et en études de la Méditerranée antique et du Proche-Orient. Il fait partie du projet depuis l'été 2025, d'abord pour l'encodage musical, et maintenant pour le <a href="https://github.com/zaxophone">travail technique</a> sur le site web et d'autres domaines. Il est également organiste et directeur de chorale pour enfants à la paroisse Holy Family (FSSP).
-@about.project: Ce projet vise—d'une perspective interdisciplinaire—à combler un manque important dans la recherche sur l'expérience des communautés francophones minoritaires en Colombie-Britannique. En créant des liens entre les institutions de recherche, les organismes culturels, les artistes et les écoles francophones, il cherche à favoriser une culture de résilience communautaire par un engagement créatif avec la musique francophone. La recherche sur la musique dans son contexte socioculturel a démontré que la musique participative, c'est-à-dire un événement musical où le public prend une part active à la création musicale, contribue à la cohésion sociale, à la formation identitaire et au bien-être. De plus, des recherches ont montré que les interventions fondées sur la musique contribuent de manière significative au développement linguistique. Ce projet propose d'exploiter une technologie musicale innovante pour développer des ressources numériques en libre accès susceptibles de favoriser le transfert linguistique intergénérationnel, l'éducation musicale et la pratique musicale communautaire. Les activités de recherche comprennent des recherches ethnographiques, le développement d'interventions pédagogiques fondées sur la musique et une série d'ateliers mettant en valeur la diversité ethnique des pratiques musicales francophones (prévus pour 2027).
-@about.feedback: Vous voyez une erreur dans une partition? Vous n'êtes pas d'accord avec nos choix éditoriaux? Vous aimeriez qu'une partition particulière soit textuée? <a href="mailto:The1520sProject@gmail.com">Faites-le nous savoir</a>.
-@about.support: Ce projet a été généreusement soutenu par <a href="https://disa.arts.ubc.ca/" target="_blank">UBC Digital Scholarship in the Arts</a> et par <a href="https://languagesciences.ubc.ca/" target="_blank">UBC Language Sciences</a> grâce à une subvention de mobilisation et de diffusion des connaissances, ainsi que par le <a href="https://www.ccarh.org/" target="_blank">Centre for Computer Assisted Research in the Humanities de l'Université Stanford</a>.
 
 @ page documentation
 @doc.heading: documentation
@@ -205,5 +299,99 @@
 @doc.h_text_analysis: Analyse textuelle
 @doc.h_additional: Notes supplémentaires
 @doc.h_formatting: Mise en forme
+@doc.intro: Ce dépôt contient des chansons folkloriques francophones encodées sous forme de fichiers Humdrum <strong><code>**kern</code></strong>. L'encodage est <em>diplomatique</em> et comprend la partition musicale, le texte poétique, les phonèmes et l'analyse des rimes.
+@doc.content_general: <ol>
+<li><p><strong>Commentaires de référence</strong> (précédant chaque chanson). Exemple tiré de « O Canada! » (noter l'espace après chaque deux-points) ; pour les numéros de page, ajouter « t » si la chanson se termine sur une deuxième page suivie d'une autre chanson, et « b » si elle est précédée de la fin d'une autre chanson sur la même page.</p>
+<pre><code>!!!id: BC001
+!!!page: 4-5
+!!!COM: Lavallée, Calixa
+!!!LYR: Routhier, juge A.-B.
+!!!PTL@@FR: Les 100 plus belles chansons
+!!!OTL@@FR: O Canada, terre de nos aïeux
+!!!PUB: La Bonne Chanson, inc.
+!!!YEM: On ne peut reproduire, enregistrer ou diffuser en tout ou en partie le présent ouvrage, sous quelque procédé que ce soit, électronique, mécanique, photographique, sonore, magnétique ou autre, sans avoir obtenu au préalable l'autorisation écrite de l'éditrice.
+!!!PDT: 2011
+!!!SMA: 2012 Bibliothèque nationale du Québec; Biblothèque nationale du Canada
+!!!AGN-Laforte: Chanson strophique (sans refrain), 8:10(4+6)
+!!!AGN-type: hymne national
+!!!AGN-rime: mixte, aabcbcbc</code></pre>
+<p>Pour la liste des types de commentaires de référence, consulter : <a href="https://www.humdrum.org/reference-records">https://www.humdrum.org/reference-records</a></p></li>
+<li><p><strong>Structure des spines</strong> :</p>
+<ul><li>Mélodie (spine 1) : <code>*</code></li>
+<li>Couplet 1 (spine 2) : <code>*v:1</code></li>
+<li>Couplet 2 (spine 3) : <code>*v:2</code></li></ul></li>
+<li><p><strong>Pour ajouter une spine vide</strong> après la première :</p>
+<pre><code>extract -s 1-$,0</code></pre></li>
+<li><p><strong>Préserver la mise en page visuelle</strong> de l'original :</p>
+<ul><li>Insérer <code>!!LO:PB:g=original</code> au-dessus de la mesure qui apparaît sur le système suivant.</li>
+<li>Utiliser le bouton d'alignement pour conserver la mise en page.</li>
+<li>Pour les chansons plus longues (&gt;4 systèmes), passer en vue « continue » dans la barre d'outils.</li></ul></li>
+<li><p><strong>Ajouter des commentaires éditoriaux</strong> (p. ex. variantes de hauteur). Placer au-dessus de la ligne concernée avec un <code>!</code> :</p>
+<pre><code>!pitch variant:b</code></pre>
+<p>S'assurer que chaque spine sur la même ligne comporte un point d'exclamation.</p></li>
+<li><p><strong>Informations d'encodage</strong>. Utiliser « Prénom Nom » et « année/mm/jj » :</p>
+<pre><code>!!!EED: Ève Poudrier
+!!!EEV: 2025/05/06</code></pre></li>
+<li><p><strong>Commentaires éditoriaux d'encodage</strong> :</p>
+<pre><code>!!!RNB (Representation note) — toute modification apportée à la représentation de la partition, p. ex. remplacement des symboles dal segno par des reprises.
+!!!RWG (Representation warning) — toute représentation inhabituelle dans la partition originale.</code></pre></li>
+</ol>
+@doc.content_text: <ol>
+<li><p><strong>Syllabification</strong> : préfixer toutes les syllabes médianes et finales d'un trait d'union (<code>-</code>).</p></li>
+<li><p><strong>Numérotation des vers</strong> (sur l'ensemble des couplets) : utiliser <code>*pline:n</code> (p. ex. <code>*pline:1</code>). Les refrains utilisent <code>*pline:R1</code>, <code>*pline:R2</code>, etc.</p></li>
+<li><p><strong>Formatage des refrains</strong> (italiques) : encoder avec <code>*refrain</code> et <code>*italic</code> avant la première syllabe du refrain, et <code>*Xitalic</code> et <code>*Xrefrain</code> après la dernière. Les refrains répétés en alternance avec des couplets sont encodés une seule fois et marqués <code>*&gt;Refrain</code>. <em>Note : l'italique automatique via <code>*refrain</code> sera ajouté ultérieurement.</em></p></li>
+<li><p><strong>Syllabes jointes</strong> : les notes associées à deux syllabes ou plus (p. ex. « il y a » formulé en « ya ») doivent être séparées par une espace pour ajouter une liaison entre les syllabes.</p></li>
+<li><p><strong>Élisions</strong> : le « e » final (/ə/) élidé sans apostrophe dans l'original doit être placé entre crochets, p. ex. « dans[e] ». Même procédure pour les terminaisons « es » et « ent » prononcées /ə/.</p></li>
+<li><p><strong>Répétitions</strong> : les répétitions de vers complets portent le suffixe « r » (p. ex. <code>*pline:1r</code>). Répétitions partielles :</p>
+<pre><code>*pline:1a    ← début
+*pline:1c    ← milieu
+*pline:1b    ← fin</code></pre>
+<p>Répétitions de mots simples : encadrer de <code>*bis</code> … <code>*Xbis</code>.</p></li>
+<li><p><strong>Analyse textuelle</strong> : marquer les fins de vers avec trois interprétations :</p>
+<pre><code>*rp:ø
+*rf:jø
+*rs:a</code></pre>
+<table><thead><tr><th>interprétation</th><th>signification</th><th>exemple</th></tr></thead>
+<tbody>
+<tr><td><code>rp</code></td><td>phonème</td><td>voyelle de rime</td></tr>
+<tr><td><code>rf</code></td><td>groupe phonémique</td><td>rime complète</td></tr>
+<tr><td><code>rs</code></td><td>étiquette structurelle</td><td>lettre minuscule</td></tr>
+</tbody></table>
+<p>Lorsque la même voyelle apparaît avec des consonnes différentes, ajouter un chiffre :</p>
+<table><thead><tr><th>terminaison</th><th>voyelle de rime</th><th>rime complète</th><th>étiquette</th></tr></thead>
+<tbody>
+<tr><td>vent</td><td><code>*rp:ɑ̃</code></td><td><code>*rf:vɑ̃</code></td><td><code>*rs:a1</code></td></tr>
+<tr><td>gens</td><td><code>*rp:ɑ̃</code></td><td><code>*rf:ʒɑ̃</code></td><td><code>*rs:a2</code></td></tr>
+<tr><td>ange</td><td><code>*rp:ɑ̃</code></td><td><code>*rf:ɑ̃ʒ,ə</code></td><td><code>*rs:a3</code></td></tr>
+</tbody></table>
+<p>Le « e » muet est ajouté à la rime complète, séparé par une virgule.</p></li>
+</ol>
+@doc.content_music: <ol>
+<li><p><strong>Groupement mélodique</strong> (niveaux de segmentation) :</p>
+<ul><li>Premier : <code>{...}</code></li>
+<li>Deuxième : <code>{{...}}</code></li>
+<li>Troisième : <code>{{{...}}}</code></li></ul></li>
+<li><p><strong>Guide de segmentation</strong> :</p>
+<ul><li>Segments = unités courtes, souvent délimitées par des silences.</li>
+<li>Phrases = contour mélodique ou fin de vers.</li>
+<li>Périodes = ≥2 phrases avec cadences et relation structurelle.</li></ul></li>
+<li><p><strong>Indication de tempo</strong> : insérer sous la première mesure :</p>
+<pre><code>!!LO:TX:a:t=Majestueux et résolu</code></pre></li>
+<li><p><strong>Accidents</strong> : pour masquer un accident, ajouter « y ».</p></li>
+</ol>
+@doc.content_text_analysis: <ol>
+<li><p><strong>Marquage des rimes</strong> (après le dernier mot de chaque vers) :</p>
+<ul><li>Phonème (assonance) : <code>*rp:ø</code></li>
+<li>Groupe rimique complet : <code>*rf:yø</code></li>
+<li>Étiquette structurelle : <code>*rs:a</code>, <code>*rs:b</code>, …</li></ul>
+<blockquote><p>Note : Kern ne différencie pas les sons /a/ (p. ex. « orage » vs « naufrage »). Ajouter un commentaire éditorial pour clarifier.</p></blockquote>
+<p>Consulter le <a href="https://www.rimessolides.com">Dictionnaire de rimes</a> pour référence.</p></li>
+<li><p><strong>Mots répétés</strong> : encadrer de <code>*bis</code> … <code>*Xbis</code>.</p></li>
+</ol>
+@doc.content_formatting: <ul>
+<li>Assurer une utilisation cohérente des tabulations et des colonnes dans les spines.</li>
+<li>Éviter les espaces en fin de ligne sauf si intentionnels.</li>
+<li>Tous les commentaires de référence (<code>!!!clé : valeur</code>) doivent comporter un espace simple après le deux-points.</li>
+</ul>
 
 @@END:fr
