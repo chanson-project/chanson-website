@@ -45,7 +45,7 @@ function displayWork(id) {
 	if (prefix === "BC" || prefix === "EG") {
 		let dir = prefix === "BC" ? "bc100" : "eg104";
 		let work = DATA1520.lookup.works[id];
-		let filename = work["!!!file-name"] || "";
+		let filename = work[FIELD.filename] || "";
 		fetch("https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main/" + dir + "/kern/" + filename)
 			.then(function(response) { return response.text(); })
 			.then(function(kern) {
@@ -79,7 +79,7 @@ function createLookup(dataArray) {
 	}
 	let output = {};
 	for (entry of dataArray) {
-		let id = entry["!!!id"]
+		let id = entry[FIELD.id]
 		output[id] = entry;
 	}
 	return output;
@@ -119,26 +119,26 @@ function displayWorkInfo(id) {
 	// Derive collection label and GitHub paths from ID prefix
 	const prefix = id.substring(0, 2);
 	const dir    = prefix === "BC" ? "bc100" : prefix === "EG" ? "eg104" : "";
-	const fname  = workinfo["!!!file-name"] || "";
+	const fname  = workinfo[FIELD.filename] || "";
 	const rawBase    = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main";
 	const githubBase = "https://github.com/chanson-project/chanson-encoding/blob/main";
 	const rawURL    = dir && fname ? `${rawBase}/${dir}/kern/${fname}` : "";
 	const githubURL = dir && fname ? `${githubBase}/${dir}/kern/${fname}` : "";
 
-	const sourceEntry   = DATA1520.lookup.sources[prefix] || {};
-	const collectionName = sourceEntry["!!!OPR"] || prefix;
+	const sourceEntry    = DATA1520.lookup.sources[prefix] || {};
+	const collectionName = sourceEntry[SOURCE_FIELD.title] || prefix;
 	const collectionLink = `/sources/?s=${encodeURIComponent(prefix)}`;
 
 	// ── Left column: bibliographic ─────────────────────────────────────────────
 
 	let titleoutput = "";
-	const titleText = workinfo.Title || workinfo["!!!OTL@@FR"] || "";
+	const titleText = workinfo[FIELD.title] || "";
 	if (titleText) {
 		titleoutput = `<div class="work-item"><b>${t('work.title')}:</b> ${titleText}</div>`;
 	}
 
 	let composeroutput = "";
-	const com = workinfo["!!!COM"] || "";
+	const com = workinfo[FIELD.composer] || "";
 	if (com) {
 		let display = com;
 		const m = com.match(/^(.*?)\s*,\s*(.*?)$/);
@@ -147,7 +147,7 @@ function displayWorkInfo(id) {
 	}
 
 	let lyricistoutput = "";
-	const lyr = workinfo["!!!LYR"] || "";
+	const lyr = workinfo[FIELD.lyricist] || "";
 	if (lyr) {
 		let display = lyr;
 		const m = lyr.match(/^(.*?)\s*,\s*(.*?)$/);
@@ -156,11 +156,11 @@ function displayWorkInfo(id) {
 	}
 
 	const collectionoutput = `<div class="work-item"><b>${t('work.collection')}:</b> <a href="${collectionLink}">${collectionName}</a></div>`;
-	const pagesoutput = workinfo["!!!page"] ? `<div class="work-item"><b>${t('work.pages')}:</b> ${workinfo["!!!page"]}</div>` : "";
+	const pagesoutput = workinfo[FIELD.pages] ? `<div class="work-item"><b>${t('work.pages')}:</b> ${workinfo[FIELD.pages]}</div>` : "";
 
 	// ── Middle column: origin and encoding status ──────────────────────────────
 
-	const originVal = workinfo["!!!ARE"] || workinfo.Origin || "";
+	const originVal = workinfo[FIELD.origin] || "";
 	const originoutput = originVal
 		? `<div class="work-item"><b>${t('work.origin')}:</b> ${originVal}</div>`
 		: "";
@@ -353,7 +353,7 @@ function displayText() {
 	if (!work) return;
 	let prefix = id.substring(0, 2);
 	let dir = prefix === "BC" ? "bc100" : prefix === "EG" ? "eg104" : "";
-	let fname = work["!!!file-name"] || "";
+	let fname = work[FIELD.filename] || "";
 	if (!dir || !fname) return;
 	let rawBase = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main";
 	let rawURL = rawBase + "/" + dir + "/kern/" + fname;

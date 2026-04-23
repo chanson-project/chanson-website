@@ -16,15 +16,15 @@ function buildHomeSourceCards() {
 
 	for (let i = 0; i < SOURCES_METADATA.length; i++) {
 		const src    = SOURCES_METADATA[i];
-		const name   = (src["!!!id"] || "").substring(0, 2);
-		const opr    = src["!!!OPR"] || name;
-		const pub    = src["!!!PDT"] || "";
+		const name   = (src[SOURCE_FIELD.id] || "").substring(0, 2);
+		const opr    = src[SOURCE_FIELD.title] || name;
+		const pub    = src[SOURCE_FIELD.date]  || "";
 		const editor = (function(raw) {
 			const m = raw.match(/^(.*?)\s*,\s*(.*?)$/);
 			return m ? m[2].trim() + " " + m[1].trim() : raw;
-		})(src["!!!PED"] || "");
+		})(src[SOURCE_FIELD.editor] || "");
 		const count  = METADATA.filter(function(e) {
-			return (e["!!!id"] || "").substring(0, 2) === name;
+			return (e[FIELD.id] || "").substring(0, 2) === name;
 		}).length;
 
 		const card = document.createElement("div");
@@ -70,7 +70,7 @@ function fillInCensusData(data) {
 	for (let i = 0; i < data.length; i++) {
 		let entry = data[i];
 
-		let com = entry["!!!COM"];
+		let com = entry[FIELD.composer];
 		if (com) composerSet.add(com);
 
 		for (let n = 1; n <= 3; n++) {
@@ -78,7 +78,7 @@ function fillInCensusData(data) {
 			if (enc) encoderSet.add(enc);
 		}
 
-		let pages = (entry["!!!page"] || "").toString().trim();
+		let pages = (entry[FIELD.pages] || "").toString().trim();
 		let rangeMatch = pages.match(/(\d+)\s*[-\u2013]\s*(\d+)/);
 		if (rangeMatch) {
 			pageCount += parseInt(rangeMatch[2]) - parseInt(rangeMatch[1]) + 1;
@@ -165,14 +165,11 @@ function displayMostRecent(metadata) {
 //
 
 function prepareTitle(entry) {
-	let output = entry.Title || entry["!!!OTL@@FR"] || "";
-	if (entry.Subtitle) {
-		output += `, <i>${entry.Subtitle}</i>`;
-	}
-	let id = entry["!!!id"] || "";
-	if (id) {
-		output = `<a target="_blank" href="/work?id=${id}">${output}</a>`;
-	}
+	let output = entry[FIELD.title] || "";
+	const sub  = entry[FIELD.title_sub] || "";
+	if (sub) output += `, <i>${sub}</i>`;
+	const id = entry[FIELD.id] || "";
+	if (id) output = `<a target="_blank" href="/work?id=${id}">${output}</a>`;
 	return output;
 }
 
@@ -426,7 +423,7 @@ function renderSuggestion(entry) {
 
   return `
     <div class="search-suggestion"
-         onclick="goToWork('${entry["!!!id"]}')">
+         onclick="goToWork('${entry[FIELD.id]}')">
       <div class="primary">${title}</div>
       <div class="secondary">
         ${composer}

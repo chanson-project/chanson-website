@@ -5,25 +5,28 @@ let SOURCES_METADATA      = {% include metadata/sources.json %};
 let SOURCES_LOOKUP        = {};
 for (let _si = 0; _si < SOURCES_METADATA.length; _si++) {
     let _s = SOURCES_METADATA[_si];
-    if (_s["!!!id"]) SOURCES_LOOKUP[_s["!!!id"].substring(0, 2)] = _s;
+    if (_s[SOURCE_FIELD.id]) SOURCES_LOOKUP[_s[SOURCE_FIELD.id].substring(0, 2)] = _s;
 }
 
-let INDEX_id              = "!!!id";
-let INDEX_composer        = "!!!COM";
-let INDEX_title           = "Title";
-let INDEX_pages           = "!!!page";
-let INDEX_origin          = "Origin";
-let INDEX_text            = "Text";
+// Column identifiers for the browse table.
+// Ones that match real field names use FIELD.* from _config.yml.
+// Synthetic ones ("title", "origin", etc.) are just branch keys in makeTableBody.
+let INDEX_id              = FIELD.id;
+let INDEX_composer        = FIELD.composer;
+let INDEX_title           = "title";
+let INDEX_pages           = FIELD.pages;
+let INDEX_origin          = "origin";
+let INDEX_text            = "text";
+let INDEX_collection      = "collection";
+let INDEX_editor          = "editor";
 
 function getTextStatus(entry) {
-	return entry["Text"] || entry["!!!EST-text"] || "";
+	return entry["!!!EST-text"] || "";
 }
 
 function getOrigin(entry) {
-	return entry["!!!ARE"] || entry["Origin"] || "";
+	return entry[FIELD.origin] || "";
 }
-let INDEX_collection      = "Collection";
-let INDEX_editor          = "Editor";
 
 //////////////////////////////
 //

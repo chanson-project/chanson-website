@@ -33,6 +33,26 @@ plugins:
 
 the1520sProject_data_url: https://data.1520s-project.org
 
+# Metadata field names (Humdrum reference record keys).
+# Update here when works.json or sources.json schema changes.
+fields:
+  works:
+    id:        "!!!id"
+    title:     "!!!OTL@@FR"
+    title_sub: "!!!OTL-sub"
+    composer:  "!!!COM"
+    lyricist:  "!!!LYR"
+    pages:     "!!!page"
+    origin:    "!!!ARE"
+    filename:  "!!!file-name"
+  sources:
+    id:        "!!!id"
+    title:     "!!!PTL"
+    date:      "!!!PDT"
+    editor:    "!!!PED"
+    publisher: "!!!PPR"
+    place:     "!!!PPP"
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to

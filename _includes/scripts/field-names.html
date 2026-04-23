@@ -1,0 +1,22 @@
+<script>
+// Metadata field name constants — sourced from _config.yml > fields:
+// To rename a field across the whole site, update _config.yml only.
+const FIELD = {
+  id:       "{{ site.fields.works.id }}",
+  title:    "{{ site.fields.works.title }}",
+  title_sub:"{{ site.fields.works.title_sub }}",
+  composer: "{{ site.fields.works.composer }}",
+  lyricist: "{{ site.fields.works.lyricist }}",
+  pages:    "{{ site.fields.works.pages }}",
+  origin:   "{{ site.fields.works.origin }}",
+  filename: "{{ site.fields.works.filename }}",
+};
+const SOURCE_FIELD = {
+  id:        "{{ site.fields.sources.id }}",
+  title:     "{{ site.fields.sources.title }}",
+  date:      "{{ site.fields.sources.date }}",
+  editor:    "{{ site.fields.sources.editor }}",
+  publisher: "{{ site.fields.sources.publisher }}",
+  place:     "{{ site.fields.sources.place }}",
+};
+</script>

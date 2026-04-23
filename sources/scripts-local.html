@@ -20,12 +20,12 @@ function buildSourceCards() {
 
     for (let i = 0; i < SOURCES_METADATA.length; i++) {
         const src    = SOURCES_METADATA[i];
-        const prefix = (src["!!!id"]  || "").substring(0, 2); // e.g. "BC" from "BC100"
-        const title  = src["!!!PTL"]  || prefix;              // !!!PTL  = publication title
-        const pub    = src["!!!PDT"]  || "";                  // !!!PDT  = publication date
-        const editor = formatEditor(src["!!!PED"] || "");     // !!!PED  = publication editor
+        const prefix = (src[SOURCE_FIELD.id]     || "").substring(0, 2);
+        const title  =  src[SOURCE_FIELD.title]  || prefix;
+        const pub    =  src[SOURCE_FIELD.date]   || "";
+        const editor = formatEditor(src[SOURCE_FIELD.editor] || "");
         const count  = METADATA.filter(function(e) {
-            return (e["!!!id"] || "").substring(0, 2) === prefix;
+            return (e[FIELD.id] || "").substring(0, 2) === prefix;
         }).length;
 
         const card = document.createElement("div");
@@ -61,9 +61,9 @@ function selectSource(prefix) {
     });
 
     const src    = SOURCES_LOOKUP[prefix];
-    const title  = src ? (src["!!!PTL"] || prefix) : prefix; // !!!PTL = publication title
+    const title  = src ? (src[SOURCE_FIELD.title] || prefix) : prefix;
     const works  = METADATA.filter(function(e) {
-        return (e["!!!id"] || "").substring(0, 2) === prefix;
+        return (e[FIELD.id] || "").substring(0, 2) === prefix;
     });
 
     // Update URL without reload
@@ -119,11 +119,11 @@ function renderWorksTable(works) {
     for (let i = 0; i < works.length; i++) {
         const e      = works[i];
         const title  = getWorkTitle(e);
-        const comp   = e["!!!COM"] || "";
-        const pages  = e["!!!page"]  || "";
-        const origin = e["!!!ARE"] || e["Origin"] || "";
-        const url    = "/work/?id=" + (e["!!!id"] || "");
-        const search = [comp, title, pages, origin, e["!!!id"] || ""]
+        const comp   = e[FIELD.composer] || "";
+        const pages  = e[FIELD.pages]    || "";
+        const origin = e[FIELD.origin]   || "";
+        const url    = "/work/?id=" + (e[FIELD.id] || "");
+        const search = [comp, title, pages, origin, e[FIELD.id] || ""]
             .join(" ").toLowerCase()
             .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
@@ -157,18 +157,18 @@ function sortSourceBy(column) {
     const sorted = SOURCE_CURRENT_WORKS.slice().sort(function(a, b) {
         let av = "", bv = "";
         if (column === "composer") {
-            av = a["!!!COM"] || "";
-            bv = b["!!!COM"] || "";
+            av = a[FIELD.composer] || "";
+            bv = b[FIELD.composer] || "";
         } else if (column === "title") {
             av = getWorkTitle(a);
             bv = getWorkTitle(b);
         } else if (column === "pages") {
-            const am = (a["!!!page"] || "").match(/\d+/);
-            const bm = (b["!!!page"] || "").match(/\d+/);
+            const am = (a[FIELD.pages] || "").match(/\d+/);
+            const bm = (b[FIELD.pages] || "").match(/\d+/);
             return ((am ? parseInt(am[0]) : Infinity) - (bm ? parseInt(bm[0]) : Infinity)) * SOURCE_SORT.dir;
         } else if (column === "origin") {
-            av = a["!!!ARE"] || a["Origin"] || "";
-            bv = b["!!!ARE"] || b["Origin"] || "";
+            av = a[FIELD.origin] || "";
+            bv = b[FIELD.origin] || "";
         }
         return av.localeCompare(bv) * SOURCE_SORT.dir;
     });
@@ -228,8 +228,8 @@ function displaySourceCount(count) {
 //
 
 function getWorkTitle(entry) {
-    const title    = entry["!!!OTL@@FR"] || ""; // !!!OTL@@FR = object title (French)
-    const subtitle = entry["!!!OTL-sub"] || ""; // !!!OTL-sub = subtitle
+    const title    = entry[FIELD.title]     || "";
+    const subtitle = entry[FIELD.title_sub] || "";
     if (subtitle) return title ? title + ", <i>" + subtitle + "</i>" : subtitle;
     return title;
 }
