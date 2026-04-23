@@ -22,7 +22,7 @@ title: Folklore vivant
 email: TBC
 description: "Exploring Francophone folk music with digital analysis"
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://folklore-vivant.humdrum.org" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  chanson-project/chanson-encoding
 
 # Build settings
