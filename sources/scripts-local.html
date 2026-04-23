@@ -20,18 +20,18 @@ function buildSourceCards() {
 
     for (let i = 0; i < SOURCES_METADATA.length; i++) {
         const src    = SOURCES_METADATA[i];
-        const name   = (src["!!!id"] || "").substring(0, 2);
-        const opr    = src["!!!OPR"] || name;
-        const pub    = src["!!!PDT"] || "";
-        const editor = formatEditor(src["!!!PED"] || "");
+        const prefix = (src["!!!id"]  || "").substring(0, 2); // e.g. "BC" from "BC100"
+        const title  = src["!!!PTL"]  || prefix;              // !!!PTL  = publication title
+        const pub    = src["!!!PDT"]  || "";                  // !!!PDT  = publication date
+        const editor = formatEditor(src["!!!PED"] || "");     // !!!PED  = publication editor
         const count  = METADATA.filter(function(e) {
-            return (e["!!!id"] || "").substring(0, 2) === name;
+            return (e["!!!id"] || "").substring(0, 2) === prefix;
         }).length;
 
         const card = document.createElement("div");
         card.className = "source-card";
-        card.dataset.name = name;
-        card.onclick = function() { selectSource(name); };
+        card.dataset.name = prefix;
+        card.onclick = function() { selectSource(prefix); };
 
         const metaParts = [];
         if (editor)  metaParts.push("<b>" + t('src.editor') + ":</b> " + editor);
@@ -39,7 +39,7 @@ function buildSourceCards() {
         if (count)   metaParts.push("<b>" + t('src.works') + ":</b> " + count);
 
         card.innerHTML =
-            "<div class=\"source-card-title\">" + opr + "</div>" +
+            "<div class=\"source-card-title\">" + title + "</div>" +
             "<div class=\"source-card-meta\">" + metaParts.join(" &ensp;·&ensp; ") + "</div>";
 
         container.appendChild(card);
@@ -52,28 +52,28 @@ function buildSourceCards() {
 // selectSource -- Show works for a given source Name (e.g. "BC").
 //
 
-function selectSource(name) {
-    SELECTED_SOURCE = name;
+function selectSource(prefix) {
+    SELECTED_SOURCE = prefix;
 
     // Highlight active card
     document.querySelectorAll(".source-card").forEach(function(c) {
-        c.classList.toggle("active", c.dataset.name === name);
+        c.classList.toggle("active", c.dataset.name === prefix);
     });
 
-    const src    = SOURCES_LOOKUP[name];
-    const opr    = src ? (src["!!!OPR"] || name) : name;
+    const src    = SOURCES_LOOKUP[prefix];
+    const title  = src ? (src["!!!PTL"] || prefix) : prefix; // !!!PTL = publication title
     const works  = METADATA.filter(function(e) {
-        return (e["!!!id"] || "").substring(0, 2) === name;
+        return (e["!!!id"] || "").substring(0, 2) === prefix;
     });
 
     // Update URL without reload
-    const url = window.location.pathname + "?s=" + encodeURIComponent(name);
+    const url = window.location.pathname + "?s=" + encodeURIComponent(prefix);
     window.history.pushState(null, null, url);
 
     // Header
     const header = document.getElementById("source-works-header");
     if (header) {
-        header.innerHTML = "<h5 class=\"source-works-title\">" + opr + "</h5>";
+        header.innerHTML = "<h5 class=\"source-works-title\">" + title + "</h5>";
     }
 
     // Clear search
@@ -228,8 +228,8 @@ function displaySourceCount(count) {
 //
 
 function getWorkTitle(entry) {
-    const title    = entry["Title"]       || entry["!!!OTL@@FR"] || "";
-    const subtitle = entry["Subtitle"]    || "";
+    const title    = entry["!!!OTL@@FR"] || ""; // !!!OTL@@FR = object title (French)
+    const subtitle = entry["!!!OTL-sub"] || ""; // !!!OTL-sub = subtitle
     if (subtitle) return title ? title + ", <i>" + subtitle + "</i>" : subtitle;
     return title;
 }

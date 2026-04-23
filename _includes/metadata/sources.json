@@ -1,17 +1,20 @@
 [
 	{
 		"!!!id": "BC100",
-		"!!!OPR": "Les cent plus belles chansons",
+		"!!!PTL": "Les cent plus belles chansons",
 		"!!!PDT": "1956; 2011",
 		"!!!PPR": "La Bonne Chanson, inc.",
-		"!!!PPP": "Saint-Hyacinthe, Québec, Canada",
+		"!!!PPP": "Saint-Hyacinthe",
 		"!!!PED": "Gadbois, Charles-Émile",
 		"!!!YEM": "On ne peut reproduire, enregistrer ou diffuser en tout ou en partie le présent ouvrage, sous quelque procédé que ce soit, électronique, mécanique, photographique, sonore, magnétique ou autre, sans avoir obtenu au préalable l'autorisation écrite de l'éditrice."
 	},
 	{
 		"!!!id": "EG104",
-		"!!!OPR": "Chansons populaires du Canada",
+		"!!!PTL": "Chansons populaires du Canada",
+		"!!!PTL-sub": "Recueillies et publiées avec annotations, etc | par | Ernest Gagnon",
 		"!!!PDT": "1865",
+		"!!!PPR": "G. E. Desbarats, Foyer Canadien",
+		"!!!PPP": "Bureau du \"Foyer Canadien\" | Coin des rues Sainte-Anne et des Jardins, Québec",
 		"!!!PED": "Gagnon,Ernest"
 	}
 ]
