@@ -24,6 +24,7 @@ order: 3
   <div class="row">
     <div class="left-group">
       <input type="text" id="input" onkeyup="FreeTextSearch()" placeholder="Enter title, composer, etc." data-i18n-placeholder="rep.search_placeholder">
+      <input type="text" id="melodic-input" onkeyup="handleMelodicInput()" placeholder="Melodic: G A G F# E …" data-i18n-placeholder="rep.melodic_placeholder">
       <span id="search-count"></span>
     </div>
     <div class="right-group">

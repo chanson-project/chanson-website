@@ -259,8 +259,10 @@ function getEditor(entry) {
 
 function getScoreURL(entry) {
 	const id = entry[FIELD.id];
-	if (id) return `"/work/?id=${id}"`;
-	return "";
+	if (!id) return "";
+	let url = `/work/?id=${id}`;
+	if (MELODIC_QUERY) url += `&melody=${encodeURIComponent(MELODIC_QUERY)}`;
+	return `"${url}"`;
 }
 
 
@@ -583,6 +585,11 @@ function buildYearSelect(data) { return ""; }
 function doSearch(data) {
 	if (!Array.isArray(data)) {
 		data = METADATA;
+	}
+
+	// Apply melodic filter if active
+	if (MELODIC_MATCH_IDS !== null) {
+		data = data.filter(entry => MELODIC_MATCH_IDS.has(entry[FIELD.id]));
 	}
 
 	let searchInterface = document.querySelector("#search-interface");
@@ -987,12 +994,17 @@ function clearSearchFields() {
 	let editorElement      = document.querySelector("select.editor");
 	let textCheckbox       = document.querySelector("#text-checkbox");
 
+	const melodicElement = document.getElementById("melodic-input");
+
 	if (freetextElement)   freetextElement.value   = "";
 	if (composerElement)   composerElement.value   = "";
 	if (originElement)     originElement.value     = "";
 	if (collectionElement) collectionElement.value = "";
 	if (editorElement)     editorElement.value     = "";
 	if (textCheckbox)      textCheckbox.checked    = false;
+	if (melodicElement)    melodicElement.value    = "";
+	MELODIC_MATCH_IDS = null;
+	MELODIC_QUERY     = null;
 
 	doSearch();
 }
@@ -1001,6 +1013,82 @@ function createElementFromHTML(html) {
   const template = document.createElement("template");
   template.innerHTML = html.trim();
   return template.content.firstChild;
+}
+
+
+//////////////////////////////
+//
+// Melodic search — filters table to works whose melody contains
+// the queried pitch sequence (exact pitch classes, ignoring octave).
+//
+// Index format: { "BC001": "G A Bb D G ...", ... }
+// Query format: space-separated note names, e.g. "G A G F# Eb"
+//
+
+let MELODIC_MATCH_IDS  = null;   // null = inactive; Set<id> = active filter
+let MELODIC_QUERY      = null;   // normalized query string, e.g. "G A F# E"
+let _melodicIndexCache = null;   // lazy-loaded from /assets/melodic-index.json
+let _melodicTimer      = null;
+
+async function _loadMelodicIndex() {
+	if (_melodicIndexCache !== null) return _melodicIndexCache;
+	try {
+		const resp = await fetch('/assets/melodic-index.json');
+		if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+		_melodicIndexCache = await resp.json();
+	} catch (e) {
+		console.warn('Melodic index unavailable — run "make melodic-index" to build it.', e);
+		_melodicIndexCache = {};
+	}
+	return _melodicIndexCache;
+}
+
+function _normalizeMelodicQuery(raw) {
+	// Accepts space-separated note names like "G A G F# Eb".
+	// Returns the normalized query string, or null if fewer than 2 valid notes.
+	const tokens = raw.trim().split(/\s+/);
+	if (tokens.length < 2) return null;
+	const out = [];
+	for (const tok of tokens) {
+		const m = tok.match(/^([A-Ga-g])([#b]?)$/i);
+		if (!m) return null;
+		out.push(m[1].toUpperCase() + (m[2] === 'b' ? 'b' : m[2] === '#' ? '#' : ''));
+	}
+	return out.join(' ');
+}
+
+function handleMelodicInput() {
+	clearTimeout(_melodicTimer);
+	_melodicTimer = setTimeout(_runMelodicSearch, 350);
+}
+
+async function _runMelodicSearch() {
+	const input = document.getElementById('melodic-input');
+	const raw   = input ? input.value.trim() : '';
+
+	if (!raw) {
+		if (MELODIC_MATCH_IDS !== null) {
+			MELODIC_MATCH_IDS = null;
+			MELODIC_QUERY     = null;
+			doSearch();
+		}
+		return;
+	}
+
+	const normalized = _normalizeMelodicQuery(raw);
+	if (!normalized) return;   // query incomplete — wait for more input
+
+	const index  = await _loadMelodicIndex();
+	const needle = normalized;
+	const ids    = new Set();
+
+	for (const [id, pitches] of Object.entries(index)) {
+		if ((' ' + pitches + ' ').includes(' ' + needle + ' ')) ids.add(id);
+	}
+
+	MELODIC_MATCH_IDS = ids;
+	MELODIC_QUERY     = normalized;
+	doSearch();
 }
 
 </script>

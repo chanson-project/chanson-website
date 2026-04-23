@@ -31,6 +31,7 @@
 @ repertoire page
 @rep.heading: Repertoire
 @rep.search_placeholder: Enter title, composer, etc.
+@rep.melodic_placeholder: Melody: G A G F# E …
 @rep.texted_only: Texted scores only
 @rep.col_title: Title
 @rep.col_composer: Composer
@@ -228,6 +229,7 @@
 @ page répertoire
 @rep.heading: Répertoire
 @rep.search_placeholder: Entrer titre, compositeur, etc.
+@rep.melodic_placeholder: Mélodie : G A G F# E …
 @rep.texted_only: Partitions avec texte uniquement
 @rep.col_title: Titre
 @rep.col_composer: Compositeur

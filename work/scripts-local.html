@@ -49,9 +49,11 @@ function displayWork(id) {
 		fetch("https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main/" + dir + "/kern/" + filename)
 			.then(function(response) { return response.text(); })
 			.then(function(kern) {
-				document.getElementById("my-score").textContent = kern;
+				const melodyParam = DATA1520.cgi.melody || "";
+				const displayKern = melodyParam ? markMelodicMatches(kern, melodyParam) : kern;
+				document.getElementById("my-score").textContent = displayKern;
 				displayHumdrum(hnpOptions);
-				KernPlayer.load(kern);
+				KernPlayer.load(kern);  // player uses original (unmarked) kern
 			});
 	} else {
 		displayHumdrum(hnpOptions);
@@ -62,6 +64,80 @@ function displayWork(id) {
 	displayWorkFooter(id);
 }
 
+
+
+//////////////////////////////
+//
+// markMelodicMatches -- Append '@' to kern note tokens that match the query
+//    pitch sequence, and append an RDF colour declaration.  The HNP/Verovio
+//    will render '@'-marked notes in the highlight colour.
+//
+//    queryStr: space-separated pitch-class names, e.g. "G A G F# E"
+//              (same format produced by the repertoire melodic search)
+//
+
+function markMelodicMatches(kernText, queryStr) {
+	// Parse query into an array of pitch-class strings
+	const queryPitches = queryStr.trim().split(/\s+/).map(function(tok) {
+		const m = tok.match(/^([A-Ga-g])([#b]?)$/i);
+		if (!m) return null;
+		return m[1].toUpperCase() + (m[2] === 'b' ? 'b' : m[2] === '#' ? '#' : '');
+	}).filter(Boolean);
+
+	if (queryPitches.length < 2) return kernText;
+
+	const lines   = kernText.split('\n');
+	let   inKern  = false;
+	const pitchLines = [];   // {idx, pitch}
+
+	for (let i = 0; i < lines.length; i++) {
+		const line = lines[i];
+		if (line.startsWith('**')) {
+			inKern = line.split('\t')[0] === '**kern';
+			continue;
+		}
+		if (line.startsWith('*-'))  { inKern = false; break; }
+		if (!inKern)                  continue;
+		if (/^[!*=]/.test(line))      continue;
+
+		const token = line.split('\t')[0].trim();
+		if (!token || token === '.' || token[0] === '_') continue;
+
+		const m = token.match(/([A-Ga-g]+)([#\-]*)/);
+		if (!m) continue;
+
+		const letter = m[1][0].toUpperCase();
+		const acc    = m[2].includes('#') ? '#' : m[2].includes('-') ? 'b' : '';
+		pitchLines.push({ idx: i, pitch: letter + acc });
+	}
+
+	// Collect indices of lines that are part of a matching run
+	const matchedIdx = new Set();
+	for (let i = 0; i <= pitchLines.length - queryPitches.length; i++) {
+		let hit = true;
+		for (let j = 0; j < queryPitches.length; j++) {
+			if (pitchLines[i + j].pitch !== queryPitches[j]) { hit = false; break; }
+		}
+		if (hit) {
+			for (let j = 0; j < queryPitches.length; j++) matchedIdx.add(pitchLines[i + j].idx);
+		}
+	}
+
+	if (matchedIdx.size === 0) return kernText;
+
+	// Append '@' to the first-spine token on each matched line
+	const newLines = lines.map(function(line, i) {
+		if (!matchedIdx.has(i)) return line;
+		const fields = line.split('\t');
+		fields[0] = fields[0] + '@';
+		return fields.join('\t');
+	});
+
+	// RDF declaration so Verovio knows what '@' means
+	newLines.push('!!RDF**kern: @ = matched note color="#e05a00"');
+
+	return newLines.join('\n');
+}
 
 
 //////////////////////////////

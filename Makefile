@@ -15,7 +15,10 @@
 ##              metadata into the _includes/metadata directory.
 ##
 
-all: download
+all: download melodic-index
 
 download:
 	(cd _includes/metadata && make download)
+
+melodic-index:
+	python3 bin/build-melodic-index.py
