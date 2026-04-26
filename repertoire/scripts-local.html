@@ -65,7 +65,7 @@ function displayBrowseTable(data, selector) {
 	}
 	CURRENT_DATA = data;
 	SORT_STATE = { column: null, dir: 1 };
-	let headings = [INDEX_title, INDEX_composer, INDEX_pages, INDEX_origin, INDEX_collection, INDEX_editor];
+	let headings = [INDEX_id, INDEX_title, INDEX_composer, INDEX_pages, INDEX_origin, INDEX_collection, INDEX_editor];
 	let contents = "";
 	contents += "<table class='general'>\n";
 	contents += "<thead>\n";
@@ -115,7 +115,7 @@ function sortBy(column) {
 		return av.localeCompare(bv) * SORT_STATE.dir;
 	});
 
-	let headings = [INDEX_title, INDEX_composer, INDEX_pages, INDEX_origin, INDEX_collection, INDEX_editor];
+	let headings = [INDEX_id, INDEX_title, INDEX_composer, INDEX_pages, INDEX_origin, INDEX_collection, INDEX_editor];
 	let tbody = document.querySelector("#list tbody");
 	if (tbody) {
 		tbody.innerHTML = makeTableBody(headings, sorted);
@@ -134,6 +134,7 @@ function sortBy(column) {
 //
 
 const HEADING_LABELS = {
+	[INDEX_id]:         "ID",
 	[INDEX_collection]: "Collection",
 	[INDEX_editor]:     "Editor",
 	[INDEX_composer]:   "Composer",
@@ -143,6 +144,7 @@ const HEADING_LABELS = {
 };
 
 const HEADING_I18N = {
+	[INDEX_id]:         "rep.col_id",
 	[INDEX_collection]: "rep.col_collection",
 	[INDEX_editor]:     "rep.col_editor",
 	[INDEX_composer]:   "rep.col_composer",

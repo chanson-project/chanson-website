@@ -33,6 +33,7 @@
 @rep.search_placeholder: Enter title, composer, etc.
 @rep.melodic_placeholder: Melody: G A G F# E …
 @rep.texted_only: Texted scores only
+@rep.col_id: ID
 @rep.col_title: Title
 @rep.col_composer: Composer
 @rep.col_pages: Pages
@@ -49,6 +50,7 @@
 @ sources page
 @src.heading: Sources
 @src.search_placeholder: Filter by title, composer…
+@src.col_id: ID
 @src.col_composer: Composer
 @src.col_title: Title
 @src.col_pages: Pages
@@ -231,6 +233,7 @@
 @rep.search_placeholder: Entrer titre, compositeur, etc.
 @rep.melodic_placeholder: Mélodie : G A G F# E …
 @rep.texted_only: Partitions avec texte uniquement
+@rep.col_id: ID
 @rep.col_title: Titre
 @rep.col_composer: Compositeur
 @rep.col_pages: Pages
@@ -247,6 +250,7 @@
 @ page sources
 @src.heading: Sources
 @src.search_placeholder: Filtrer par titre, compositeur…
+@src.col_id: Identifiant
 @src.col_composer: Compositeur
 @src.col_title: Titre
 @src.col_pages: Pages

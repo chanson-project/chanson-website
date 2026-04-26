@@ -134,7 +134,7 @@ function markMelodicMatches(kernText, queryStr) {
 	});
 
 	// RDF declaration so Verovio knows what '@' means
-	newLines.push('!!RDF**kern: @ = matched note color="#e05a00"');
+	newLines.push('!!!RDF**kern: @ = marked note color=#e05a00');
 
 	return newLines.join('\n');
 }

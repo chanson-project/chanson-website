@@ -101,6 +101,7 @@ function renderWorksTable(works) {
     if (!container) return;
 
     const cols = [
+        { key: "id",       label: t('src.col_id') },
         { key: "composer", label: t('src.col_composer') },
         { key: "title",    label: t('src.col_title') },
         { key: "pages",    label: t('src.col_pages') },
@@ -118,16 +119,18 @@ function renderWorksTable(works) {
 
     for (let i = 0; i < works.length; i++) {
         const e      = works[i];
+        const id     = e[FIELD.id]       || "";
         const title  = getWorkTitle(e);
         const comp   = e[FIELD.composer] || "";
         const pages  = e[FIELD.pages]    || "";
         const origin = e[FIELD.origin]   || "";
-        const url    = "/work/?id=" + (e[FIELD.id] || "");
-        const search = [comp, title, pages, origin, e[FIELD.id] || ""]
+        const url    = "/work/?id=" + id;
+        const search = [id, comp, title, pages, origin]
             .join(" ").toLowerCase()
             .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         html += "<tr data-search=\"" + search.replace(/"/g, "&quot;") + "\">\n";
+        html += "<td><a href=\"" + url + "\">" + id + "</a></td>\n";
         html += "<td>" + comp + "</td>\n";
         html += "<td><a href=\"" + url + "\">" + title + "</a></td>\n";
         html += "<td>" + pages + "</td>\n";
@@ -156,7 +159,10 @@ function sortSourceBy(column) {
 
     const sorted = SOURCE_CURRENT_WORKS.slice().sort(function(a, b) {
         let av = "", bv = "";
-        if (column === "composer") {
+        if (column === "id") {
+            av = a[FIELD.id] || "";
+            bv = b[FIELD.id] || "";
+        } else if (column === "composer") {
             av = a[FIELD.composer] || "";
             bv = b[FIELD.composer] || "";
         } else if (column === "title") {
