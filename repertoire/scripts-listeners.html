@@ -37,10 +37,9 @@ function getOrigin(entry) {
 
 document.addEventListener("DOMContentLoaded", function () {
 	buildSearchInterface(METADATA, "#search-interface");
-	displayBrowseTable(METADATA, "#list");
 
 	let cgi = getCgiParameters();
-	let runSearch = false;
+	let runSearch = true;
 
 	// Set the composer select menu:
 	if (cgi.c) {
@@ -57,6 +56,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		runSearch = true;
 	} else if (cgi.origin) {
 		setOriginSelectMenu(cgi.origin);
+		runSearch = true;
+	}
+
+	// Show all variants if requested:
+	if (cgi.v === "yes") {
+		let variantsEl = document.querySelector("#variants-checkbox");
+		if (variantsEl) variantsEl.checked = true;
 		runSearch = true;
 	}
 

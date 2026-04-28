@@ -30,11 +30,11 @@ function buildSearchInterface(data) {
 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  checkbox.id = "text-checkbox";
+  checkbox.id = "variants-checkbox";
   checkbox.onchange = doSearch;
 
   label.appendChild(checkbox);
-  label.appendChild(document.createTextNode(t('rep.texted_only')));
+  label.appendChild(document.createTextNode(t('rep.show_variants')));
 
   const textedContainer = document.getElementById("texted-container");
   if (textedContainer) {
@@ -612,7 +612,7 @@ function doSearch(data) {
 	let editorField = searchInterface.querySelector("select.editor");
 	let editorQuery = editorField ? editorField.value : "";
 
-	let textCheckbox = document.querySelector("#text-checkbox");
+	let variantsCheckbox = document.querySelector("#variants-checkbox");
 
 	if (composerQuery) {
 		data = data.filter(entry => entry[INDEX_composer] === composerQuery);
@@ -630,8 +630,8 @@ function doSearch(data) {
 		data = data.filter(entry => getEditor(entry) === editorQuery);
 	}
 
-	if (textCheckbox && textCheckbox.checked) {
-		data = data.filter(entry => { let t = getTextStatus(entry).toLowerCase(); return t === "done" || t === "complete"; });
+	if (!variantsCheckbox || !variantsCheckbox.checked) {
+		data = data.filter(entry => !/[c-z]$/i.test(entry[FIELD.id] || ""));
 	}
 
 	displayBrowseTable(data);
@@ -936,7 +936,7 @@ function updateBrowseUrlDisplay() {
 	let originEl      = document.querySelector("select.origin");
 	let collectionEl  = document.querySelector("select.collection");
 	let editorEl      = document.querySelector("select.editor");
-	let textChecked   = document.querySelector("#text-checkbox") && document.querySelector("#text-checkbox").checked;
+	let variantsChecked = document.querySelector("#variants-checkbox") && document.querySelector("#variants-checkbox").checked;
 
 	let composer   = composerEl   ? composerEl.value.trim()   : "";
 	let origin     = originEl     ? originEl.value.trim()     : "";
@@ -964,9 +964,9 @@ function updateBrowseUrlDisplay() {
 		if (cgi) cgi += "&";
 		cgi += "ed=" + encodeURIComponent(editor);
 	}
-	if (textChecked) {
+	if (variantsChecked) {
 		if (cgi) cgi += "&";
-		cgi += "x=yes";
+		cgi += "v=yes";
 	}
 
 	if (cgi) {
@@ -994,7 +994,7 @@ function clearSearchFields() {
 	let originElement      = document.querySelector("select.origin");
 	let collectionElement  = document.querySelector("select.collection");
 	let editorElement      = document.querySelector("select.editor");
-	let textCheckbox       = document.querySelector("#text-checkbox");
+	let variantsCheckbox   = document.querySelector("#variants-checkbox");
 
 	const melodicElement = document.getElementById("melodic-input");
 
@@ -1003,7 +1003,7 @@ function clearSearchFields() {
 	if (originElement)     originElement.value     = "";
 	if (collectionElement) collectionElement.value = "";
 	if (editorElement)     editorElement.value     = "";
-	if (textCheckbox)      textCheckbox.checked    = false;
+	if (variantsCheckbox)  variantsCheckbox.checked = false;
 	if (melodicElement)    melodicElement.value    = "";
 	MELODIC_MATCH_IDS = null;
 	MELODIC_QUERY     = null;

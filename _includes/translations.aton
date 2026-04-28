@@ -32,7 +32,7 @@
 @rep.heading: Repertoire
 @rep.search_placeholder: Enter title, composer, etc.
 @rep.melodic_placeholder: Melody: G A G F# E …
-@rep.texted_only: Texted scores only
+@rep.show_variants: Show variants
 @rep.col_id: ID
 @rep.col_title: Title
 @rep.col_composer: Composer
@@ -232,7 +232,7 @@
 @rep.heading: Répertoire
 @rep.search_placeholder: Entrer titre, compositeur, etc.
 @rep.melodic_placeholder: Mélodie : G A G F# E …
-@rep.texted_only: Partitions avec texte uniquement
+@rep.show_variants: Afficher les variantes
 @rep.col_id: ID
 @rep.col_title: Titre
 @rep.col_composer: Compositeur
