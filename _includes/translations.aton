@@ -46,6 +46,8 @@
 @rep.origin_label: Origin
 @rep.collection_label: Collection
 @rep.editor_label: Editor
+@rep.lyricist_label: Lyricists
+@rep.clear_all: Clear All
 
 @ sources page
 @src.heading: Sources
@@ -247,6 +249,8 @@
 @rep.origin_label: Origine
 @rep.collection_label: Collection
 @rep.editor_label: Éditeur
+@rep.lyricist_label: Auteurs
+@rep.clear_all: Tout effacer
 
 @ page sources
 @src.heading: Sources

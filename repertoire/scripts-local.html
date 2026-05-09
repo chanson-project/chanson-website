@@ -16,11 +16,13 @@ function buildSearchInterface(data) {
   if (!Dropdowns) return;
 
   document.getElementById("composer-container").innerHTML = "";
+  document.getElementById("lyricist-container").innerHTML = "";
   document.getElementById("origin-container").innerHTML = "";
   document.getElementById("collection-container").innerHTML = "";
   document.getElementById("editor-container").innerHTML = "";
 
   document.getElementById("composer-container").appendChild(createElementFromHTML(buildComposerSelect(data)));
+  document.getElementById("lyricist-container").appendChild(createElementFromHTML(buildLyricistSelect(data)));
   document.getElementById("origin-container").appendChild(createElementFromHTML(buildOriginSelect(data)));
   document.getElementById("collection-container").appendChild(createElementFromHTML(buildCollectionSelect(data)));
   document.getElementById("editor-container").appendChild(createElementFromHTML(buildEditorSelect(data)));
@@ -181,7 +183,7 @@ function makeTableBody(headings, data) {
 	for (let i = 0; i < data.length; i++) {
 		let entry = data[i];
 		let searchText = [
-			entry[FIELD.composer], getTitle(entry), getOrigin(entry), entry[FIELD.pages], entry[FIELD.id], getCollection(entry), getEditor(entry)
+			entry[FIELD.composer], getTitle(entry), entry[FIELD.lyricist]
 		].filter(Boolean).join(" ").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 		output += `<tr data-search="${searchText.replace(/"/g, "&quot;")}" data-id="${entry[FIELD.id]}">\n`;
 		for (let j = 0; j < headings.length; j++) {
@@ -413,6 +415,31 @@ function buildCollectionSelect(data) {
 
 //////////////////////////////
 //
+// buildLyricistSelect --
+//
+
+function buildLyricistSelect(data) {
+	let counter = {};
+	for (let i = 0; i < data.length; i++) {
+		let lyr = (data[i][FIELD.lyricist] || "").trim();
+		if (!lyr) continue;
+		counter[lyr] = (counter[lyr] === undefined) ? 1 : counter[lyr] + 1;
+	}
+	let llist = Object.keys(counter).sort((a, b) => a.localeCompare(b));
+	let output = "<select class='lyricist' onchange='doSearch()'>\n";
+	output += `<option value="">${t('rep.lyricist_label')} (${llist.length})</option>`;
+	for (let i = 0; i < llist.length; i++) {
+		let name = llist[i];
+		output += `<option value="${name}">${name} (${counter[name]})</option>`;
+	}
+	output += "</select>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
 // buildEditorSelect --
 //
 
@@ -610,6 +637,9 @@ function doSearch(data) {
 	let collectionField = searchInterface.querySelector("select.collection");
 	let collectionQuery = collectionField ? collectionField.value : "";
 
+	let lyricistField = searchInterface.querySelector("select.lyricist");
+	let lyricistQuery = lyricistField ? lyricistField.value : "";
+
 	let editorField = searchInterface.querySelector("select.editor");
 	let editorQuery = editorField ? editorField.value : "";
 
@@ -625,6 +655,10 @@ function doSearch(data) {
 
 	if (collectionQuery) {
 		data = data.filter(entry => getCollection(entry) === collectionQuery);
+	}
+
+	if (lyricistQuery) {
+		data = data.filter(entry => (entry[FIELD.lyricist] || "").trim() === lyricistQuery);
 	}
 
 	if (editorQuery) {
@@ -1040,6 +1074,7 @@ function updateBrowseUrlDisplay() {
 function clearSearchFields() {
 	let freetextElement    = document.querySelector("input#input");
 	let composerElement    = document.querySelector("select.composer");
+	let lyricistElement    = document.querySelector("select.lyricist");
 	let originElement      = document.querySelector("select.origin");
 	let collectionElement  = document.querySelector("select.collection");
 	let editorElement      = document.querySelector("select.editor");
@@ -1049,6 +1084,7 @@ function clearSearchFields() {
 
 	if (freetextElement)   freetextElement.value   = "";
 	if (composerElement)   composerElement.value   = "";
+	if (lyricistElement)   lyricistElement.value   = "";
 	if (originElement)     originElement.value     = "";
 	if (collectionElement) collectionElement.value = "";
 	if (editorElement)     editorElement.value     = "";

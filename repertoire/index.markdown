@@ -31,12 +31,14 @@ order: 3
       <div id="dropdowns">
         <div class="top-line">
           <div id="composer-container"></div>
+          <div id="lyricist-container"></div>
           <div id="origin-container"></div>
           <div id="collection-container"></div>
           <div id="editor-container"></div>
         </div>
       </div>
       <div id="texted-container"></div>
+      <button onclick="clearSearchFields()" data-i18n="rep.clear_all">Clear All</button>
     </div>
   </div>
 </div>
