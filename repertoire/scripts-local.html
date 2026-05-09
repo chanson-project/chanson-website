@@ -1095,10 +1095,19 @@ async function _loadMelodicIndex() {
 }
 
 function _normalizeMelodicQuery(raw) {
-	// Accepts space-separated note names like "G A G F# Eb".
-	// Returns the normalized query string, or null if fewer than 2 valid notes.
+	// Accepts two input formats (all tokens must be the same type):
+	//   Pitch names:   "G A G F# Eb"   → normalized to "G A G F# Eb"
+	//   Scale degrees: "1 2 3 b7 5"    → returned as-is after validation
+	// Returns the normalized string, or null if the query is invalid/incomplete.
 	const tokens = raw.trim().split(/\s+/);
 	if (tokens.length < 2) return null;
+
+	// Scale degree query: every token is [#b]?[1-7]
+	if (tokens.every(t => /^[#b]?[1-7]$/.test(t))) {
+		return tokens.join(' ');
+	}
+
+	// Pitch name query
 	const out = [];
 	for (const tok of tokens) {
 		const m = tok.match(/^([A-Ga-g])([#b]?)$/i);
@@ -1129,16 +1138,25 @@ async function _runMelodicSearch() {
 	const normalized = _normalizeMelodicQuery(raw);
 	if (!normalized) return;   // query incomplete — wait for more input
 
+	// Detect query type by checking the first token.
+	// Degree tokens are [#b]?[1-7]; pitch tokens start with a letter.
+	const isDegreeQuery = /^[#b]?[1-7]$/.test(normalized.split(' ')[0]);
+
 	const index  = await _loadMelodicIndex();
 	const needle = normalized;
 	const ids    = new Set();
 
-	for (const [id, pitches] of Object.entries(index)) {
-		if ((' ' + pitches + ' ').includes(' ' + needle + ' ')) ids.add(id);
+	for (const [id, entry] of Object.entries(index)) {
+		// Support both new format ({p, d, key}) and legacy format (plain string).
+		const sequence = isDegreeQuery
+			? (typeof entry === 'object' ? entry.d : null)
+			: (typeof entry === 'object' ? entry.p : entry);
+		if (!sequence) continue;
+		if ((' ' + sequence + ' ').includes(' ' + needle + ' ')) ids.add(id);
 	}
 
 	MELODIC_MATCH_IDS = ids;
-	MELODIC_QUERY     = normalized;
+	MELODIC_QUERY = normalized;
 	doSearch();
 }
 

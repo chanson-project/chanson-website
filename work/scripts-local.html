@@ -133,27 +133,86 @@ function displayWork(id) {
 
 //////////////////////////////
 //
-// markMelodicMatches -- Append '@' to kern note tokens that match the query
-//    pitch sequence, and append an RDF colour declaration.  The HNP/Verovio
-//    will render '@'-marked notes in the highlight colour.
+// _kernKey -- Extract key (tonic semitone + mode) from a kern string.
+//    Looks for interpretations like *F: (F major) or *d: (d minor).
+//    Kern uses '-' for flat, '#' for sharp.  Returns C major as default.
 //
-//    queryStr: space-separated pitch-class names, e.g. "G A G F# E"
-//              (same format produced by the repertoire melodic search)
+
+const _PITCH_SEMITONES = {
+	C:0,'C#':1,Db:1,D:2,'D#':3,Eb:3,E:4,F:5,'F#':6,Gb:6,G:7,'G#':8,Ab:8,A:9,'A#':10,Bb:10,B:11
+};
+const _MAJOR_DEGREES = {
+	0:'1',1:'#1',2:'2',3:'b3',4:'3',5:'4',6:'#4',7:'5',8:'b6',9:'6',10:'b7',11:'7'
+};
+const _MINOR_DEGREES = {
+	0:'1',1:'#1',2:'2',3:'3',4:'#3',5:'4',6:'#4',7:'5',8:'6',9:'#6',10:'7',11:'#7'
+};
+
+function _kernKey(kernText) {
+	const base = {C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+	for (const line of kernText.split('\n')) {
+		if (!line.startsWith('*') || line.startsWith('**') || line.startsWith('*-')) continue;
+		const m = line.split('\t')[0].match(/^\*([A-Ga-g])([#-]?):$/);
+		if (!m) continue;
+		const isMinor = m[1] !== m[1].toUpperCase();
+		let tonic = base[m[1].toUpperCase()];
+		if (m[2] === '#') tonic = (tonic + 1) % 12;
+		if (m[2] === '-') tonic = (tonic + 11) % 12;
+		return { tonic, isMinor };
+	}
+	return { tonic: 0, isMinor: false };
+}
+
+
+//////////////////////////////
+//
+// _pitchToDegree -- Convert a pitch-class string (e.g. 'F#', 'Bb') to a
+//    scale-degree string (e.g. '#4', 'b7') given tonic semitone and mode.
+//
+
+function _pitchToDegree(pitch, tonic, isMinor) {
+	const semitone = _PITCH_SEMITONES[pitch];
+	if (semitone === undefined) return null;
+	const interval = (semitone - tonic + 12) % 12;
+	return (isMinor ? _MINOR_DEGREES : _MAJOR_DEGREES)[interval] || null;
+}
+
+
+//////////////////////////////
+//
+// markMelodicMatches -- Append '@' to kern note tokens that match the query,
+//    and append an RDF colour declaration.  HNP/Verovio renders '@'-marked
+//    notes in the highlight colour.
+//
+//    queryStr accepts two formats (matching the repertoire melodic search):
+//      Pitch names:   "G A G F# E"
+//      Scale degrees: "1 2 1 7 5"  (with optional # / b prefix per token)
 //
 
 function markMelodicMatches(kernText, queryStr) {
-	// Parse query into an array of pitch-class strings
-	const queryPitches = queryStr.trim().split(/\s+/).map(function(tok) {
-		const m = tok.match(/^([A-Ga-g])([#b]?)$/i);
-		if (!m) return null;
-		return m[1].toUpperCase() + (m[2] === 'b' ? 'b' : m[2] === '#' ? '#' : '');
-	}).filter(Boolean);
+	const tokens = queryStr.trim().split(/\s+/);
+	if (tokens.length < 2) return kernText;
 
-	if (queryPitches.length < 2) return kernText;
+	// Detect query type and build the list of values to match against.
+	const isDegreeQuery = tokens.every(t => /^[#b]?[1-7]$/.test(t));
+	let queryItems;
+	if (isDegreeQuery) {
+		queryItems = tokens;
+	} else {
+		queryItems = tokens.map(function(tok) {
+			const m = tok.match(/^([A-Ga-g])([#b]?)$/i);
+			if (!m) return null;
+			return m[1].toUpperCase() + (m[2] === 'b' ? 'b' : m[2] === '#' ? '#' : '');
+		}).filter(Boolean);
+		if (queryItems.length < 2) return kernText;
+	}
 
-	const lines   = kernText.split('\n');
-	let   inKern  = false;
-	const pitchLines = [];   // {idx, pitch}
+	// Extract key once (only used for degree queries, cheap for pitch queries).
+	const { tonic, isMinor } = isDegreeQuery ? _kernKey(kernText) : { tonic: 0, isMinor: false };
+
+	const lines    = kernText.split('\n');
+	let   inKern   = false;
+	const noteLines = [];   // { idx, pitch, degree }
 
 	for (let i = 0; i < lines.length; i++) {
 		const line = lines[i];
@@ -173,24 +232,30 @@ function markMelodicMatches(kernText, queryStr) {
 
 		const letter = m[1][0].toUpperCase();
 		const acc    = m[2].includes('#') ? '#' : m[2].includes('-') ? 'b' : '';
-		pitchLines.push({ idx: i, pitch: letter + acc });
+		const pitch  = letter + acc;
+		noteLines.push({
+			idx:    i,
+			pitch,
+			degree: isDegreeQuery ? _pitchToDegree(pitch, tonic, isMinor) : null,
+		});
 	}
 
-	// Collect indices of lines that are part of a matching run
+	// Find all runs of notes matching the query (pitch or degree).
+	const field      = isDegreeQuery ? 'degree' : 'pitch';
 	const matchedIdx = new Set();
-	for (let i = 0; i <= pitchLines.length - queryPitches.length; i++) {
+	for (let i = 0; i <= noteLines.length - queryItems.length; i++) {
 		let hit = true;
-		for (let j = 0; j < queryPitches.length; j++) {
-			if (pitchLines[i + j].pitch !== queryPitches[j]) { hit = false; break; }
+		for (let j = 0; j < queryItems.length; j++) {
+			if (noteLines[i + j][field] !== queryItems[j]) { hit = false; break; }
 		}
 		if (hit) {
-			for (let j = 0; j < queryPitches.length; j++) matchedIdx.add(pitchLines[i + j].idx);
+			for (let j = 0; j < queryItems.length; j++) matchedIdx.add(noteLines[i + j].idx);
 		}
 	}
 
 	if (matchedIdx.size === 0) return kernText;
 
-	// Append '@' to the first-spine token on each matched line
+	// Append '@' to the first-spine token on each matched line.
 	const newLines = lines.map(function(line, i) {
 		if (!matchedIdx.has(i)) return line;
 		const fields = line.split('\t');
@@ -198,9 +263,7 @@ function markMelodicMatches(kernText, queryStr) {
 		return fields.join('\t');
 	});
 
-	// RDF declaration so Verovio knows what '@' means
 	newLines.push('!!!RDF**kern: @ = marked note color=#e05a00');
-
 	return newLines.join('\n');
 }
 
@@ -497,11 +560,7 @@ function displayText() {
 	TEXT_FILTER_ACTIVE = !TEXT_FILTER_ACTIVE;
 	window.localStorage.TextFilterState = TEXT_FILTER_ACTIVE ? "show" : "hide";
 
-	if (TEXT_FILTER_ACTIVE) {
-		displayWork(DATA1520.workid);
-	} else {
-		injectHtmlBlock("POSTHTML", null);
-	}
+	displayWork(DATA1520.workid);
 
 	const btn = document.querySelector(".show-text");
 	if (btn) {
