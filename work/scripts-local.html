@@ -9,6 +9,56 @@
 // displayWork -- Given the input work ID, display the work.
 //
 
+//////////////////////////////
+//
+// extractHtmlBlock -- Parse a @@BEGIN:<blockName> / @@END:<blockName> ATON block
+//    from Humdrum text (!! comment lines) and return the @CONTENT value as a
+//    string, or null if the block is absent.  Works on both the raw kern source
+//    and on the filtered humdrumOutput returned by Verovio after a filter run.
+//
+
+function extractHtmlBlock(humdrum, blockName) {
+	const beginRe = new RegExp("^@@BEGIN:\\s*" + blockName + "\\s*$");
+	const endRe   = new RegExp("^@@END:\\s*"   + blockName + "\\s*$");
+	const lines = humdrum.split("\n");
+	let inBlock   = false;
+	let inContent = false;
+	const htmlLines = [];
+	for (let i = 0; i < lines.length; i++) {
+		const line = lines[i];
+		if (!line.startsWith("!!") || line.startsWith("!!!")) continue;
+		const inner = line.slice(2);            // strip leading !!
+		if (inner.match(beginRe))  { inBlock = true; continue; }
+		if (inner.match(endRe))    { break; }
+		if (!inBlock)              continue;
+		if (inner.match(/^@CONTENT:/)) { inContent = true; continue; }
+		if (inContent) {
+			htmlLines.push(inner.startsWith(" ") ? inner.slice(1) : inner);
+		}
+	}
+	return htmlLines.length ? htmlLines.join("\n") : null;
+}
+
+
+//////////////////////////////
+//
+// injectHtmlBlock -- Write html into div.POSTHTML (or div.PREHTML) and show it.
+//    Pass null/empty to hide and clear the element.
+//
+
+function injectHtmlBlock(className, html) {
+	const el = document.querySelector("div." + className);
+	if (!el) return;
+	if (html) {
+		el.innerHTML = html;
+		el.style.display = "block";
+	} else {
+		el.innerHTML = "";
+		el.style.display = "none";
+	}
+}
+
+
 function displayWork(id) {
 	if (!id) {
 		id = DATA1520.workid;
@@ -23,15 +73,12 @@ function displayWork(id) {
 		return;
 	}
 
+	// Clear POSTHTML from any previous work immediately.
+	injectHtmlBlock("POSTHTML", null);
+
 	// See https://plugin.humdrum.org/options/#list for more display options.
 	// Copying default options from DATA1520.hnp_options:
 	let hnpOptions = JSON.parse(JSON.stringify(DATA1520.hnp_options));
-
-	hnpOptions.postFunction = function() {
-		// callback function to run after SVG score has been displayed.
-		removeWait();
-		prepareQEvents(id);
-	};
 
 	// Set display options:
 	hnpOptions.filter = [];
@@ -41,6 +88,16 @@ function displayWork(id) {
 	if (window.localStorage.AccidentalState === "hide") {
 		hnpOptions.filter.push("shed -ke s/X?i/y/g");
 	}
+	// When text display is active, ask Verovio to run the `text` filter.
+	// The filter embeds a @@BEGIN: POSTHTML block in the filtered output,
+	// which postFunctionHumdrum then extracts and injects into div.POSTHTML.
+	if (TEXT_FILTER_ACTIVE) {
+		hnpOptions.filter.push("text");
+		hnpOptions.postFunctionHumdrum = function(humdrumOutput) {
+			const html = extractHtmlBlock(humdrumOutput, "POSTHTML");
+			injectHtmlBlock("POSTHTML", html);
+		};
+	}
 	let prefix = id.substring(0, 2);
 	if (prefix === "BC" || prefix === "EG") {
 		let dir = prefix === "BC" ? "bc100" : "eg104";
@@ -49,6 +106,10 @@ function displayWork(id) {
 		fetch("https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main/" + dir + "/kern/" + filename)
 			.then(function(response) { return response.text(); })
 			.then(function(kern) {
+				hnpOptions.postFunction = function() {
+					removeWait();
+					prepareQEvents(id);
+				};
 				const melodyParam = DATA1520.cgi.melody || "";
 				const displayKern = melodyParam ? markMelodicMatches(kern, melodyParam) : kern;
 				document.getElementById("my-score").textContent = displayKern;
@@ -56,6 +117,10 @@ function displayWork(id) {
 				KernPlayer.load(kern);  // player uses original (unmarked) kern
 			});
 	} else {
+		hnpOptions.postFunction = function() {
+			removeWait();
+			prepareQEvents(id);
+		};
 		displayHumdrum(hnpOptions);
 	}
 
@@ -420,21 +485,29 @@ function displayAccidentals() {
 
 //////////////////////////////
 //
-// displayText -- Open VHV in a new tab with text -a filter applied.
+// displayText -- Toggle lyric text display.  Toggling ON re-renders the score
+//     with the `text` Verovio filter active; the filter produces a
+//     @@BEGIN: POSTHTML block in its output which postFunctionHumdrum injects
+//     into div.POSTHTML.  Toggling OFF hides that div without re-rendering.
 //
 
+let TEXT_FILTER_ACTIVE = false;
+
 function displayText() {
-	let id = DATA1520.workid;
-	let work = DATA1520.lookup.works[id];
-	if (!work) return;
-	let prefix = id.substring(0, 2);
-	let dir = prefix === "BC" ? "bc100" : prefix === "EG" ? "eg104" : "";
-	let fname = work[FIELD.filename] || "";
-	if (!dir || !fname) return;
-	let rawBase = "https://raw.githubusercontent.com/chanson-project/chanson-encoding/refs/heads/main";
-	let rawURL = rawBase + "/" + dir + "/kern/" + fname;
-	let vhvURL = "https://verovio.humdrum.org/?k=e&file=" + encodeURIComponent(rawURL) + "&filter=text%20-a";
-	window.open(vhvURL, "_blank");
+	TEXT_FILTER_ACTIVE = !TEXT_FILTER_ACTIVE;
+	window.localStorage.TextFilterState = TEXT_FILTER_ACTIVE ? "show" : "hide";
+
+	if (TEXT_FILTER_ACTIVE) {
+		displayWork(DATA1520.workid);
+	} else {
+		injectHtmlBlock("POSTHTML", null);
+	}
+
+	const btn = document.querySelector(".show-text");
+	if (btn) {
+		btn.setAttribute("data-i18n", TEXT_FILTER_ACTIVE ? "work.hide_text" : "work.show_text");
+		btn.textContent = TEXT_FILTER_ACTIVE ? t("work.hide_text") : t("work.show_text");
+	}
 }
 
 

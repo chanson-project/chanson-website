@@ -65,6 +65,14 @@ order: 1
             <p data-i18n-html="about.bio_isaac"></p>
         </div>
     </div>
+    <div class="team-member">
+        <img src="/images/headshots/Tang.jpg" alt="Karissa Tang">
+        <div class="bio">
+            <h3>Karissa Tang</h3>
+            <p class="role" data-i18n="about.role_ra">Research Assistant</p>
+            <p data-i18n-html="about.bio_karissa"></p>
+        </div>
+    </div>
 </div>
 
 <h2 data-i18n="about.h_support">Support</h2>

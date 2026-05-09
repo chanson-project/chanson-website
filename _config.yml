@@ -33,6 +33,11 @@ plugins:
 
 the1520sProject_data_url: https://data.1520s-project.org
 
+header_pages:
+  - about/index.markdown
+  - documentation/index.markdown
+  - repertoire/index.markdown
+
 # Metadata field names (Humdrum reference record keys).
 # Update here when works.json or sources.json schema changes.
 fields:

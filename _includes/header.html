@@ -230,6 +230,15 @@
 
             {%- endif -%}
           {%- endfor -%}
+
+          <div class="dropdown">
+            <span class="page-link" data-i18n="nav.sources" style="cursor:pointer">sources ▾</span>
+            <div class="dropdown-content">
+              <a href="/repertoire/?col=Les%20cent%20plus%20belles%20chansons">Les cent plus belles chansons</a>
+              <a href="/repertoire/?col=Chansons%20populaires%20du%20Canada">Chansons populaires du Canada</a>
+            </div>
+          </div>
+
           <button id="lang-toggle" onclick="setLang(window.LANG === 'en' ? 'fr' : 'en')">FR</button>
         </div>
       </nav>

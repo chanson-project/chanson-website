@@ -34,6 +34,13 @@ layout: work
 	<div id="prange-duration-display" class="analysis-plot hidden"></div>   
 </div>
 
+<div id="search-nav" class="hidden">
+  <button class="button nav-btn" id="nav-prev" onclick="navigateSearchResult(-1)">&#9664;</button>
+  <span id="nav-position"></span>
+  <button class="button nav-btn" id="nav-next" onclick="navigateSearchResult(1)">&#9654;</button>
+  <a id="nav-back-link" href="/repertoire/" class="button nav-btn">&#8592; Search</a>
+</div>
+
 <div id="button-container" class="button-container">
     <div id="audiobutton-container">
         <span id="audiobutton-play" class="play">play</span>

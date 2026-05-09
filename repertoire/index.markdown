@@ -1,6 +1,6 @@
 ---
 layout: page
-title: repertoire
+title: chansons
 order: 3
 
 ---

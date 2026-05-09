@@ -124,6 +124,7 @@ function sortBy(column) {
 	if (thead) {
 		thead.innerHTML = makeTableHeader(headings);
 	}
+	saveSearchResultIds();
 }
 
 
@@ -182,7 +183,7 @@ function makeTableBody(headings, data) {
 		let searchText = [
 			entry[FIELD.composer], getTitle(entry), getOrigin(entry), entry[FIELD.pages], entry[FIELD.id], getCollection(entry), getEditor(entry)
 		].filter(Boolean).join(" ").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-		output += `<tr data-search="${searchText.replace(/"/g, "&quot;")}">\n`;
+		output += `<tr data-search="${searchText.replace(/"/g, "&quot;")}" data-id="${entry[FIELD.id]}">\n`;
 		for (let j = 0; j < headings.length; j++) {
 			let h = headings[j];
 			let value = (typeof entry[h] !== "undefined") ? entry[h] : "";
@@ -643,6 +644,25 @@ function doSearch(data) {
 
 //////////////////////////////
 //
+// saveSearchResultIds -- Persist the ordered list of currently-visible work IDs
+//    to sessionStorage so the work detail page can offer prev/next navigation.
+//
+
+function saveSearchResultIds() {
+  const rows = document.querySelectorAll("#list tbody tr");
+  const ids = [];
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i].style.display !== "none" && rows[i].dataset.id) {
+      ids.push(rows[i].dataset.id);
+    }
+  }
+  sessionStorage.setItem("1520_search_ids", JSON.stringify(ids));
+  sessionStorage.setItem("1520_search_url", window.location.href);
+}
+
+
+//////////////////////////////
+//
 // FreeTextSearch --  Search for any text within the browse table and hide
 //    rows that do not have the searched text.
 //
@@ -661,6 +681,7 @@ function FreeTextSearch(query) {
     displaySearchCount(tr.length);
     showAllBrowseRows();
     updateBrowseUrlDisplay();
+    saveSearchResultIds();
     return;
   }
 
@@ -686,6 +707,7 @@ function FreeTextSearch(query) {
 
   displaySearchCount(searchCount);
   updateBrowseUrlDisplay();
+  saveSearchResultIds();
 }
 
 
@@ -855,6 +877,33 @@ function setOriginSelectMenu(input) {
 	let options = originSelect.querySelectorAll("option");
 	let regex = new RegExp(input, "i");
 	for (let i=0; i<options.length; i++) {
+		if (options[i].value.match(regex)) {
+			options[i].selected = true;
+			return;
+		}
+	}
+}
+
+
+
+//////////////////////////////
+//
+// setCollectionSelectMenu -- Set the collection dropdown from the "col" CGI parameter.
+//
+
+function setCollectionSelectMenu(input) {
+	if (!input) return;
+	let collectionSelect = document.querySelector("select.collection");
+	if (!collectionSelect) return;
+	let options = collectionSelect.querySelectorAll("option");
+	for (let i = 0; i < options.length; i++) {
+		if (options[i].value === input) {
+			options[i].selected = true;
+			return;
+		}
+	}
+	let regex = new RegExp(input, "i");
+	for (let i = 0; i < options.length; i++) {
 		if (options[i].value.match(regex)) {
 			options[i].selected = true;
 			return;

@@ -59,6 +59,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		runSearch = true;
 	}
 
+	// Set the collection select menu:
+	if (cgi.col) {
+		setCollectionSelectMenu(cgi.col);
+		runSearch = true;
+	} else if (cgi.collection) {
+		setCollectionSelectMenu(cgi.collection);
+		runSearch = true;
+	}
+
 	// Show all variants if requested:
 	if (cgi.v === "yes") {
 		let variantsEl = document.querySelector("#variants-checkbox");

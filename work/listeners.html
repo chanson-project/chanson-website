@@ -45,6 +45,7 @@ DATA1520.workid = DATA1520.cgi.id || "BC001";
 
 document.addEventListener("DOMContentLoaded", function (event) {
 	initializeAccidentalStateButton();
+	TEXT_FILTER_ACTIVE = window.localStorage.TextFilterState === "show";
 
 	// Create lookup tables for metadata:
 	DATA1520.lookup.works           = createLookup(DATA1520.metadata.works);
@@ -54,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 	});
 
 	displayWork(DATA1520.workid);
+	initializeSearchNav();
 	//initializeAudio(DATA1520.workid);
 });
 
@@ -296,13 +298,83 @@ window.addEventListener("click", function(event) {
 
 //////////////////////////////
 //
+// initializeSearchNav -- Show prev/next navigation if the current work is part
+//    of a saved search result set (stored in sessionStorage by the repertoire page).
+//
+
+function initializeSearchNav() {
+	let ids;
+	try {
+		ids = JSON.parse(sessionStorage.getItem("1520_search_ids") || "null");
+	} catch(e) { return; }
+	if (!Array.isArray(ids) || ids.length === 0) return;
+
+	const currentId = DATA1520.workid;
+	const idx = ids.indexOf(currentId);
+	if (idx === -1) return;
+
+	const nav = document.getElementById("search-nav");
+	if (nav) nav.classList.remove("hidden");
+
+	const pos = document.getElementById("nav-position");
+	if (pos) pos.textContent = `${idx + 1} / ${ids.length}`;
+
+	const prevBtn = document.getElementById("nav-prev");
+	const nextBtn = document.getElementById("nav-next");
+	if (prevBtn) prevBtn.disabled = (idx === 0);
+	if (nextBtn) nextBtn.disabled = (idx === ids.length - 1);
+
+	const backLink = document.getElementById("nav-back-link");
+	const searchUrl = sessionStorage.getItem("1520_search_url");
+	if (backLink && searchUrl) backLink.href = searchUrl;
+}
+
+
+//////////////////////////////
+//
+// navigateSearchResult -- Navigate to the previous (direction=-1) or next
+//    (direction=+1) work in the saved search result list.
+//
+
+function navigateSearchResult(direction) {
+	let ids;
+	try {
+		ids = JSON.parse(sessionStorage.getItem("1520_search_ids") || "null");
+	} catch(e) { return; }
+	if (!Array.isArray(ids)) return;
+
+	const currentId = DATA1520.workid;
+	const idx = ids.indexOf(currentId);
+	if (idx === -1) return;
+
+	const newIdx = idx + direction;
+	if (newIdx < 0 || newIdx >= ids.length) return;
+
+	const melody = DATA1520.cgi.melody;
+	let url = `/work/?id=${ids[newIdx]}`;
+	if (melody) url += `&melody=${encodeURIComponent(melody)}`;
+	window.location.href = url;
+}
+
+
+//////////////////////////////
+//
 // keydown event listener -- For keyboard shortcuts.
 //
 
 document.addEventListener('keydown', function(event) {
+	const active = document.activeElement;
+	const inInput = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable);
+
     if (event.code === 'Space' || event.keyCode === 32) {
         event.preventDefault();
         togglePlayPauseOfAudio();
+    } else if (!inInput && (event.code === 'ArrowLeft' || event.keyCode === 37)) {
+        event.preventDefault();
+        navigateSearchResult(-1);
+    } else if (!inInput && (event.code === 'ArrowRight' || event.keyCode === 39)) {
+        event.preventDefault();
+        navigateSearchResult(1);
     }
 });
 
