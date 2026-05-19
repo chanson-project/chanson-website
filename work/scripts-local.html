@@ -92,7 +92,7 @@ function displayWork(id) {
 	// The filter embeds a @@BEGIN: POSTHTML block in the filtered output,
 	// which postFunctionHumdrum then extracts and injects into div.POSTHTML.
 	if (TEXT_FILTER_ACTIVE) {
-		hnpOptions.filter.push("text -a");
+		hnpOptions.filter.push("text");
 		hnpOptions.postFunctionHumdrum = function(humdrumOutput) {
 			const html = extractHtmlBlock(humdrumOutput, "POSTHTML");
 			injectHtmlBlock("POSTHTML", html);
