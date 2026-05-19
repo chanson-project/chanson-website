@@ -394,9 +394,10 @@ select:focus {
 
 
 #search-count {
-  font-size: 13px;
-  color: #6e6e73;         
-  padding-left: 6px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-top: 6px;
 }
 
 /* Standard size for all four top dropdowns */
@@ -480,6 +481,36 @@ select:focus {
 .text-checkbox-wrapper {
   font-size: 13px;
   color: #6e6e73;
+}
+
+.bottom-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.help-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid #999;
+  color: #555;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.help-btn:hover {
+  background: #1d1d1f;
+  color: #fff;
+  border-color: #1d1d1f;
+  text-decoration: none;
 }
 
 </style>

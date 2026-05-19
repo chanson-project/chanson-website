@@ -17,12 +17,16 @@ function buildSearchInterface(data) {
 
   document.getElementById("composer-container").innerHTML = "";
   document.getElementById("lyricist-container").innerHTML = "";
+  document.getElementById("genre-container").innerHTML = "";
+  document.getElementById("topic-container").innerHTML = "";
   document.getElementById("origin-container").innerHTML = "";
   document.getElementById("collection-container").innerHTML = "";
   document.getElementById("editor-container").innerHTML = "";
 
   document.getElementById("composer-container").appendChild(createElementFromHTML(buildComposerSelect(data)));
   document.getElementById("lyricist-container").appendChild(createElementFromHTML(buildLyricistSelect(data)));
+  document.getElementById("genre-container").appendChild(createElementFromHTML(buildGenreSelect(data)));
+  document.getElementById("topic-container").appendChild(createElementFromHTML(buildTopicSelect(data)));
   document.getElementById("origin-container").appendChild(createElementFromHTML(buildOriginSelect(data)));
   document.getElementById("collection-container").appendChild(createElementFromHTML(buildCollectionSelect(data)));
   document.getElementById("editor-container").appendChild(createElementFromHTML(buildEditorSelect(data)));
@@ -67,7 +71,7 @@ function displayBrowseTable(data, selector) {
 	}
 	CURRENT_DATA = data;
 	SORT_STATE = { column: null, dir: 1 };
-	let headings = [INDEX_id, INDEX_title, INDEX_composer, INDEX_pages, INDEX_origin, INDEX_collection, INDEX_editor];
+	let headings = [INDEX_id, INDEX_title, INDEX_composer, INDEX_pages, INDEX_genre, INDEX_laforte, INDEX_origin, INDEX_collection, INDEX_editor];
 	let contents = "";
 	contents += "<table class='general'>\n";
 	contents += "<thead>\n";
@@ -117,7 +121,7 @@ function sortBy(column) {
 		return av.localeCompare(bv) * SORT_STATE.dir;
 	});
 
-	let headings = [INDEX_id, INDEX_title, INDEX_composer, INDEX_pages, INDEX_origin, INDEX_collection, INDEX_editor];
+	let headings = [INDEX_id, INDEX_title, INDEX_composer, INDEX_pages, INDEX_genre, INDEX_laforte, INDEX_origin, INDEX_collection, INDEX_editor];
 	let tbody = document.querySelector("#list tbody");
 	if (tbody) {
 		tbody.innerHTML = makeTableBody(headings, sorted);
@@ -144,6 +148,9 @@ const HEADING_LABELS = {
 	[INDEX_title]:      "Title",
 	[INDEX_pages]:      "Pages",
 	[INDEX_origin]:     "Origin",
+	[INDEX_genre]:      "Genre",
+	[INDEX_topic]:      "Topic",
+	[INDEX_laforte]:    "Laforte",
 };
 
 const HEADING_I18N = {
@@ -154,6 +161,8 @@ const HEADING_I18N = {
 	[INDEX_title]:      "rep.col_title",
 	[INDEX_pages]:      "rep.col_pages",
 	[INDEX_origin]:     "rep.col_origin",
+	[INDEX_genre]:      "rep.col_genre",
+	[INDEX_laforte]:    "rep.col_laforte",
 };
 
 function makeTableHeader(headings) {
@@ -440,6 +449,56 @@ function buildLyricistSelect(data) {
 
 //////////////////////////////
 //
+// buildGenreSelect --
+//
+
+function buildGenreSelect(data) {
+	let counter = {};
+	for (let i = 0; i < data.length; i++) {
+		let g = (data[i][FIELD.genre] || "").trim();
+		if (!g) continue;
+		counter[g] = (counter[g] === undefined) ? 1 : counter[g] + 1;
+	}
+	let glist = Object.keys(counter).sort((a, b) => a.localeCompare(b));
+	let output = "<select class='genre' onchange='doSearch()'>\n";
+	output += `<option value="">${t('rep.genre_label')} (${glist.length})</option>`;
+	for (let i = 0; i < glist.length; i++) {
+		let name = glist[i];
+		output += `<option value="${name}">${name} (${counter[name]})</option>`;
+	}
+	output += "</select>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// buildTopicSelect --
+//
+
+function buildTopicSelect(data) {
+	let counter = {};
+	for (let i = 0; i < data.length; i++) {
+		let tp = (data[i][FIELD.topic] || "").trim();
+		if (!tp) continue;
+		counter[tp] = (counter[tp] === undefined) ? 1 : counter[tp] + 1;
+	}
+	let tlist = Object.keys(counter).sort((a, b) => a.localeCompare(b));
+	let output = "<select class='topic' onchange='doSearch()'>\n";
+	output += `<option value="">${t('rep.topic_label')} (${tlist.length})</option>`;
+	for (let i = 0; i < tlist.length; i++) {
+		let name = tlist[i];
+		output += `<option value="${name}">${name} (${counter[name]})</option>`;
+	}
+	output += "</select>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
 // buildEditorSelect --
 //
 
@@ -640,6 +699,12 @@ function doSearch(data) {
 	let lyricistField = searchInterface.querySelector("select.lyricist");
 	let lyricistQuery = lyricistField ? lyricistField.value : "";
 
+	let genreField = searchInterface.querySelector("select.genre");
+	let genreQuery = genreField ? genreField.value : "";
+
+	let topicField = searchInterface.querySelector("select.topic");
+	let topicQuery = topicField ? topicField.value : "";
+
 	let editorField = searchInterface.querySelector("select.editor");
 	let editorQuery = editorField ? editorField.value : "";
 
@@ -659,6 +724,14 @@ function doSearch(data) {
 
 	if (lyricistQuery) {
 		data = data.filter(entry => (entry[FIELD.lyricist] || "").trim() === lyricistQuery);
+	}
+
+	if (genreQuery) {
+		data = data.filter(entry => (entry[FIELD.genre] || "").trim() === genreQuery);
+	}
+
+	if (topicQuery) {
+		data = data.filter(entry => (entry[FIELD.topic] || "").trim() === topicQuery);
 	}
 
 	if (editorQuery) {
@@ -769,9 +842,9 @@ function showAllBrowseRows() {
 function displaySearchCount(count) {
 	let output = "";
 	if (count == 1) {
-		output = `[${count} ${t('rep.result')}]`;
+		output = `${count} ${t('rep.result')}`;
 	} else {
-		output = `[${count} ${t('rep.results')}]`;
+		output = `${count} ${t('rep.results')}`;
 	}
 	let searchCountElement = document.querySelector("#search-count");
 	if (searchCountElement) {
@@ -1075,6 +1148,8 @@ function clearSearchFields() {
 	let freetextElement    = document.querySelector("input#input");
 	let composerElement    = document.querySelector("select.composer");
 	let lyricistElement    = document.querySelector("select.lyricist");
+	let genreElement       = document.querySelector("select.genre");
+	let topicElement       = document.querySelector("select.topic");
 	let originElement      = document.querySelector("select.origin");
 	let collectionElement  = document.querySelector("select.collection");
 	let editorElement      = document.querySelector("select.editor");
@@ -1085,6 +1160,8 @@ function clearSearchFields() {
 	if (freetextElement)   freetextElement.value   = "";
 	if (composerElement)   composerElement.value   = "";
 	if (lyricistElement)   lyricistElement.value   = "";
+	if (genreElement)      genreElement.value      = "";
+	if (topicElement)      topicElement.value      = "";
 	if (originElement)     originElement.value     = "";
 	if (collectionElement) collectionElement.value = "";
 	if (editorElement)     editorElement.value     = "";

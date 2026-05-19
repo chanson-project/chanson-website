@@ -25,7 +25,7 @@ order: 3
     <div class="left-group">
       <input type="text" id="input" onkeyup="FreeTextSearch()" placeholder="Enter title, composer, etc." data-i18n-placeholder="rep.search_placeholder">
       <input type="text" id="melodic-input" onkeyup="handleMelodicInput()" placeholder="Melodic: G A G F# E …" data-i18n-placeholder="rep.melodic_placeholder">
-      <span id="search-count"></span>
+      <div id="search-count"></div>
     </div>
     <div class="right-group">
       <div id="dropdowns">
@@ -36,9 +36,16 @@ order: 3
           <div id="collection-container"></div>
           <div id="editor-container"></div>
         </div>
+        <div class="top-line">
+          <div id="genre-container"></div>
+          <div id="topic-container"></div>
+        </div>
       </div>
       <div id="texted-container"></div>
-      <button onclick="clearSearchFields()" data-i18n="rep.clear_all">Clear All</button>
+      <div class="bottom-controls">
+        <button onclick="clearSearchFields()" data-i18n="rep.clear_all">Clear All</button>
+        <a href="/guide/" class="help-btn" data-i18n-title="rep.user_guide" title="User Guide">?</a>
+      </div>
     </div>
   </div>
 </div>

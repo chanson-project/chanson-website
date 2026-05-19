@@ -9,10 +9,10 @@
 @banner.subtitle: Exploring Francophone folk music in digital format
 
 @ navigation
-@nav.about: about
-@nav.chansons: chansons
-@nav.sources: sources
-@nav.documentation: documentation
+@nav.about: About
+@nav.chansons: Chansons
+@nav.sources: Sources
+@nav.documentation: Documentation
 
 @ home page
 @home.browse: Browse
@@ -42,12 +42,20 @@
 @rep.col_editor: Editor
 @rep.result: result
 @rep.results: results
-@rep.composers_label: Composers
-@rep.origin_label: Origin
-@rep.collection_label: Collection
-@rep.editor_label: Editor
-@rep.lyricist_label: Lyricists
+@rep.composers_label: All Composers
+@rep.origin_label: All Origins
+@rep.collection_label: All Collections
+@rep.editor_label: All Editors
+@rep.lyricist_label: All Lyricists
+@rep.genre_label: All Genres
+@rep.topic_label: All Topics
+@rep.col_genre: Genre
+@rep.col_laforte: Laforte
 @rep.clear_all: Clear All
+@rep.user_guide: User Guide
+
+@ guide page
+@guide.heading: User Guide
 
 @ sources page
 @src.heading: Sources
@@ -212,10 +220,10 @@
 @banner.subtitle: Explorer la musique folklorique francophone en format numérique
 
 @ navigation
-@nav.about: à propos
-@nav.repertoire: répertoire
-@nav.sources: sources
-@nav.documentation: documentation
+@nav.about: À propos
+@nav.repertoire: Répertoire
+@nav.sources: Sources
+@nav.documentation: Documentation
 
 @ page d'accueil
 @home.browse: Parcourir
@@ -245,12 +253,20 @@
 @rep.col_editor: Éditeur
 @rep.result: résultat
 @rep.results: résultats
-@rep.composers_label: Compositeurs
-@rep.origin_label: Origine
-@rep.collection_label: Collection
-@rep.editor_label: Éditeur
-@rep.lyricist_label: Auteurs
+@rep.composers_label: Tous les compositeurs
+@rep.origin_label: Toutes les origines
+@rep.collection_label: Toutes les collections
+@rep.editor_label: Tous les éditeurs
+@rep.lyricist_label: Tous les auteurs
+@rep.genre_label: Tous les genres
+@rep.topic_label: Tous les thèmes
+@rep.col_genre: Genre
+@rep.col_laforte: Laforte
 @rep.clear_all: Tout effacer
+@rep.user_guide: Guide d'utilisation
+
+@ page guide
+@guide.heading: Guide d'utilisation
 
 @ page sources
 @src.heading: Sources

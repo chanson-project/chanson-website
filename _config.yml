@@ -50,6 +50,10 @@ fields:
     pages:     "!!!page"
     origin:    "!!!ARE"
     filename:  "!!!file-name"
+    genre:     "!!!AGN"
+    topic:     "!!!AGN-topic"
+    laforte:   "Laforte"
+    chamberland: "Chamberland"
   sources:
     id:        "!!!id"
     title:     "!!!PTL"
